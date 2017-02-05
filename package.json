@@ -1,0 +1,29 @@
+{
+  "name": "wagtail-dev-tooling",
+  "version": "1.0.0",
+  "description": "",
+  "main": "backstop.js",
+  "keywords": [],
+  "author": "Thibaud Colas",
+  "license": "MIT",
+  "engines": {
+    "node": "^6.9.4",
+    "npm": "^3.10.10"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "backstopjs": "^2.3.7",
+    "dotenv": "^4.0.0",
+    "sitespeed.io": "^4.3.9",
+    "slimerjs": "^0.10.2"
+  },
+  "scripts": {
+    "backstop": "backstop --configPath=backstop.js",
+    "sitespeed": "sitespeed.io --config sitespeedio.json",
+    "regression:reference": "npm run backstop -s -- reference",
+    "regression:test": "npm run backstop -s -- test",
+    "regression:open": "npm run backstop -s -- openReport",
+    "performance:test": "npm run sitespeed -s -- urls.txt",
+    "performance:open": ""
+  }
+}
