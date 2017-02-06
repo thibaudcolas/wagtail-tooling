@@ -1,6 +1,6 @@
 {
   "browsertime": {
-    "iterations": 2,
+    "iterations": 3,
     "browser": "chrome",
     "preScript": "./scripts/driverLogin.js"
   },

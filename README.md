@@ -41,9 +41,8 @@ docker-compose up -d
 # 2. Run the performance tests.
 npm run performance:test
 # 3. Open UI performance report.
-# npm run performance:open
-# http://localhost:3000
-# Tear down the containers
+npm run performance:open
+# 4. Tear down the containers when you've had enough.
 docker-compose stop
 ```
 
