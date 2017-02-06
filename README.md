@@ -1,6 +1,6 @@
 # wagtail-dev-tooling
 
-> Advanced tooling for [Wagtail](https://github.com/wagtail/wagtail) development.
+> Advanced tooling for [Wagtail](https://github.com/wagtail/wagtail) development. See [example reports](https://springload.github.io/wagtail-dev-tooling/)
 
 ## Installation
 
@@ -45,6 +45,28 @@ npm run performance:open
 # 4. Tear down the containers when you've had enough.
 docker-compose stop
 ```
+
+## Examples
+
+### BackstopJS UI regression report
+
+![BackstopJS UI regression report](examples/backstop-regression-report.png)
+
+### Grafana dashboard displaying web performance metrics
+
+![Grafana dashboard displaying web performance metrics](examples/grafana-performance-dashboard.png)
+
+### Sitespeed performance budget output
+
+![Sitespeed performance budget output](examples/sitespeed-performance-budget.png)
+
+### Sitespeed performance metrics
+
+![Sitespeed performance metrics](examples/sitespeed-performance-report.png)
+
+### Sitespeed page load waterfall chart
+
+![Sitespeed page load waterfall chart](examples/sitespeed-waterfall-chart.png)
 
 ## Documentation
 
