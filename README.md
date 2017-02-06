@@ -1,6 +1,6 @@
 # wagtail-dev-tooling
 
-> Advanced tooling for [Wagtail](https://github.com/wagtail/wagtail) development. See [example reports](https://springload.github.io/wagtail-dev-tooling/)
+> Advanced tooling for [Wagtail](https://github.com/wagtail/wagtail) development. See [example reports](https://springload.github.io/wagtail-dev-tooling/).
 
 ## Installation
 
