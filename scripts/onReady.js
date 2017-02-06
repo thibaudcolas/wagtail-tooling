@@ -8,13 +8,16 @@ module.exports = function(casper, scenario, vp) {
   casper.then(function() {
     this.evaluate(function() {
       // Would be cool to prevent inadvertant interactions.
-      // document.body.style = 'pointer-events: none; user-select: none; -moz-user-select: none;';
-      // var css = '* { pointer-events: none !important; user-select: none !important; -moz-user-select: none !important; }';
-      // var head = document.head;
-      // var style = document.createElement('style');
-      // style.type = 'text/css';
-      // style.appendChild(document.createTextNode(css));
-      // head.appendChild(style);
+      var style = document.createElement('style');
+      style.innerHTML = '* {' + [
+        'cursor: none !important;',
+        'pointer-events: none !important;',
+        'user-select: none !important; -moz-user-select: none !important;',
+        'user-select: none !important; -moz-user-select: none !important;',
+        'animation-delay: 0.01s !important; -webkit-animation-delay: 0.01s !important;',
+        'animation-duration: 0.01s !important; -webkit-animation-duration: 0.01s !important;'
+      ].join('') + '};';
+      document.body.appendChild(style);
 
       // TODO Break the tests if the user is not logged in – no point in testing.
 
