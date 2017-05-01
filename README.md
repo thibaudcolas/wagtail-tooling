@@ -8,7 +8,7 @@
 
 ```sh
 # Get the code from the repository.
-git clone git@github.com:thibaudcolas/wagtail-dev-tooling.git
+git clone git@github.com:springload/wagtail-dev-tooling.git
 cd wagtail-dev-tooling
 # Install dependencies.
 nvm install
