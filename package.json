@@ -4,7 +4,7 @@
   "description": "",
   "main": "backstop.js",
   "keywords": [],
-  "author": "Springload",
+  "author": "Thibaud Colas",
   "license": "MIT",
   "engines": {
     "node": "^6.9.4",

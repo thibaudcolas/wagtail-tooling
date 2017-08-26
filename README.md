@@ -1,6 +1,6 @@
 # wagtail-dev-tooling
 
-> Advanced tooling for [Wagtail](https://github.com/wagtail/wagtail) development. See [example reports](https://springload.github.io/wagtail-dev-tooling/).
+> Advanced tooling for [Wagtail](https://github.com/wagtail/wagtail) development. See [example reports](https://thibaudcolas.github.io/wagtail-dev-tooling/).
 
 *Check out [Awesome Wagtail](https://github.com/springload/awesome-wagtail) for more awesome packages and resources from the Wagtail community.*
 
@@ -8,7 +8,7 @@
 
 ```sh
 # Get the code from the repository.
-git clone git@github.com:springload/wagtail-dev-tooling.git
+git clone git@github.com:thibaudcolas/wagtail-dev-tooling.git
 cd wagtail-dev-tooling
 # Install dependencies.
 nvm install
