@@ -14,14 +14,11 @@ cd wagtail-dev-tooling
 nvm install
 npm install
 # Configure environment variables.
-touch .env
-# Point to the location of your Firefox binary.
-# See https://docs.slimerjs.org/0.8/installation.html#configuring-slimerjs.
-echo "SLIMERJSLAUNCHER=/Applications/Firefox.app/Contents/MacOS/firefox" >> .env
+# touch .env
 # Configure Wagtail user session ID to use.
 # Get this value by logging into the Wagtail admin of your site, then
 # use the developer tools to insect the cookies, to find "sessionid".
-echo "WAGTAIL_SESSIONID=yoursessionid" >> .env
+# echo "WAGTAIL_SESSIONID=yoursessionid" >> .env
 ```
 
 ## UI regression tests

@@ -1,28 +1,19 @@
 /**
- * This is evaluated in the CasperJS/PhantomJS/SlimerJS environment, not Node.
+ * This is evaluated in the Chrome environment, not Node.
  * Caution is advised.
  */
-var env = require('system').env;
+// var env = require('system').env;
 
-var sessionid = env.WAGTAIL_SESSIONID;
+var sessionid = 'zo818rce57oblizvanxu3hbc1n1mgpod';
 
-module.exports = function(casper, scenario, vp) {
-  casper.echo(`run onBefore for ${scenario.label}, ${vp.name}`);
-  // casper.page.addCookie does not seem to work in SlimerJS (PhantomJS is ok).
-  casper.then(function() {
-    phantom.addCookie({
-      name: 'sessionid',
-      value: sessionid,
-      domain: 'localhost',
-      path: '/',
-      httponly: true,
-      secure: false,
-      expires: null,
-      expiry: null,
-    });
-
-    casper.page.settings = {
-      javascriptEnabled: true,
-    };
+module.exports = function(chromy, scenario, vp) {
+  console.log(`run onBefore for ${scenario.label}, ${vp.name}`);
+  chromy.setCookie({
+    name: 'sessionid',
+    value: sessionid,
+    url: 'http://localhost:8000/',
+    httponly: true,
   });
+
+  chromy.ignoreCertificateErrors();
 };

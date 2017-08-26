@@ -9,10 +9,9 @@
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
-    "backstopjs": "^2.3.7",
+    "backstopjs": "3.0.14",
     "dotenv": "^4.0.0",
-    "sitespeed.io": "^4.3.9",
-    "slimerjs": "^0.10.2"
+    "sitespeed.io": "^4.3.9"
   },
   "scripts": {
     "backstop": "backstop --configPath=backstop.js",
