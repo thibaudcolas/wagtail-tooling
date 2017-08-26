@@ -1,15 +1,12 @@
 {
   "name": "wagtail-dev-tooling",
   "version": "1.0.0",
+  "private": true,
   "description": "",
   "main": "backstop.js",
   "keywords": [],
   "author": "Thibaud Colas",
   "license": "MIT",
-  "engines": {
-    "node": "^6.9.4",
-    "npm": "^3.10.10"
-  },
   "dependencies": {},
   "devDependencies": {
     "backstopjs": "^2.3.7",
