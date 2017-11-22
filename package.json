@@ -9,7 +9,7 @@
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
-    "backstopjs": "3.0.14",
+    "backstopjs": "^3.0.32",
     "dotenv": "^4.0.0",
     "sitespeed.io": "4.3.9"
   },
