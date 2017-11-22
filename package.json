@@ -11,7 +11,7 @@
   "devDependencies": {
     "backstopjs": "3.0.14",
     "dotenv": "^4.0.0",
-    "sitespeed.io": "^4.3.9"
+    "sitespeed.io": "4.3.9"
   },
   "scripts": {
     "backstop": "backstop --configPath=backstop.js",
