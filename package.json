@@ -20,13 +20,13 @@
     "sitespeed.io": "4.3.9"
   },
   "scripts": {
-    "backstop": "backstop --config=backstop.js",
+    "backstop": "backstop --config=backstop/config.js",
     "sitespeed": "sitespeed.io --config sitespeedio.json",
     "regression:test": "npm run backstop -s -- test",
     "regression:approve": "npm run backstop -s -- approve",
-    "report:regression": "npm run backstop -s -- openReport",
+    "regression:open": "npm run backstop -s -- openReport",
     "performance:test": "npm run sitespeed -s -- sitespeed-urls.txt",
-    "report:performance": "open http://localhost:3000",
+    "performance:open": "open http://localhost:3000",
     "linter:js": "eslint",
     "formatter:js": "prettier --write",
     "lint": "npm run linter:js -s -- backstop",

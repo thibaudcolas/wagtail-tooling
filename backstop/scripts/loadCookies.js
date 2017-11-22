@@ -1,0 +1,30 @@
+/**
+ * This is evaluated in the Chrome environment, not Node.
+ * Caution is advised.
+ */
+
+const getCookiesArray = scenario => {
+    const url = scenario.url
+        .split('/')
+        .slice(0, 3)
+        .join('/');
+
+    return Object.keys(scenario.cookies).map(name => {
+        const value = scenario.cookies[name];
+
+        return {
+            httponly: true,
+            url,
+            name,
+            value,
+        };
+    });
+};
+
+module.exports = (chromy, scenario, viewport) => {
+    console.log(`run loadCookies for ${scenario.label}, ${viewport.label}`);
+
+    chromy.setCookie(getCookiesArray(scenario));
+
+    chromy.ignoreCertificateErrors();
+};
