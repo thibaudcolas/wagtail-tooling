@@ -22,7 +22,7 @@ const getCookiesArray = scenario => {
 };
 
 module.exports = (chromy, scenario, viewport) => {
-    console.log(`run loadCookies for ${scenario.label}, ${viewport.label}`);
+    console.log(`loadCookies: ${scenario.label} @${viewport.label}`);
 
     chromy.setCookie(getCookiesArray(scenario));
 

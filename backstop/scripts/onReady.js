@@ -2,9 +2,10 @@
  * This is evaluated in the Chrome environment, not Node.
  * Caution is advised.
  */
+const clickSelector = require('./clickSelector');
 
 module.exports = (chromy, scenario, viewport) => {
-    console.log(`run onReady for ${scenario.label}, ${viewport.label}`);
+    console.log(`onReady: ${scenario.label} @${viewport.label}`);
 
     chromy.evaluate(() => {
         const preventInteractionStyles = `
@@ -29,4 +30,8 @@ module.exports = (chromy, scenario, viewport) => {
                 date.innerHTML = '16&nbsp;hours, 55&nbsp;minutes ago';
             });
     });
+
+    if (scenario.clickSelector) {
+        clickSelector(chromy, scenario, viewport);
+    }
 };
