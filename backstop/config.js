@@ -11,14 +11,16 @@ if (!process.env.WAGTAIL_SESSIONID) {
     );
 }
 
-const FILTER = null; // /.*role.*/;
+const FILTER = null; // /.*title=.*/;
 
 module.exports = {
     debug: false,
     debugWindow: false,
     id: 'bakerydemo_master',
     viewports: viewports,
-    scenarios: FILTER ? scenarios.filter(s => s.path.match(FILTER)) : scenarios,
+    scenarios: FILTER
+        ? scenarios.filter(s => s.label.match(FILTER))
+        : scenarios,
     paths: {
         bitmaps_reference: path.join(__dirname, 'data', 'bitmaps_reference'),
         bitmaps_test: path.join(__dirname, 'data', 'bitmaps_test'),

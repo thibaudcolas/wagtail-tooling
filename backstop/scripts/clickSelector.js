@@ -8,7 +8,7 @@ module.exports = (chromy, scenario, viewport) => {
     let clickSelector = scenario.clickSelector;
 
     if (!Array.isArray(clickSelector)) {
-        clickSelector = [scenario.clickSelector];
+        clickSelector = [clickSelector];
     }
 
     const isMobile = viewport.width < 800;
@@ -17,6 +17,18 @@ module.exports = (chromy, scenario, viewport) => {
     if (isMobile && isInSidebar) {
         chromy.click('#nav-toggle');
         chromy.wait(100);
+    }
+
+    let typeSelector = scenario.typeSelector;
+    if (typeSelector) {
+        if (!Array.isArray(typeSelector)) {
+            typeSelector = [typeSelector];
+        }
+
+        typeSelector.forEach(selector => {
+            chromy.type(selector, 'test');
+            chromy.wait(500);
+        });
     }
 
     clickSelector.forEach(selector => {
