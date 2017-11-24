@@ -97,6 +97,7 @@ const pages = [
     }),
     contentOnly({
         path: `/pages/${PAGE_ID}/`,
+        // TODO Privacy type select not working.
         clickSelector: ['.action-set-privacy', '[for="id_restriction_type_2"]'],
     }),
     contentOnly({ path: `/pages/${PAGE_ID}/?ordering=ord` }),
@@ -109,27 +110,29 @@ const pages = [
         path: `/pages/${PAGE_ID}/edit/`,
         clickSelector: '#id_image-chooser li:nth-child(2) button',
     }),
-    contentOnly({
-        path: `/pages/${PAGE_ID}/edit/`,
-        clickSelector: [
-            '#id_image-chooser li:nth-child(2) button',
-            '[href="#upload"]',
-        ],
-    }),
+    // TODO Does not seem to work for the second selector?
+    // contentOnly({
+    //     path: `/pages/${PAGE_ID}/edit/`,
+    //     clickSelector: [
+    //         '#id_image-chooser li:nth-child(2) button',
+    //         '[href="#upload"]',
+    //     ],
+    // }),
     contentOnly({
         path: `/pages/${PAGE_ID}/edit/`,
         clickSelector: '#id_hero_cta_link-chooser li:nth-child(2) button',
     }),
+    // Does not seem to work for the second selector?
+    // contentOnly({
+    //     path: `/pages/${PAGE_ID}/edit/`,
+    //     clickSelector: [
+    //         '#id_hero_cta_link-chooser li:nth-child(2) button',
+    //         '[href="/admin/choose-page/3/?page_type=wagtailcore.page"]',
+    //     ],
+    // }),
     contentOnly({
         path: `/pages/${PAGE_ID}/edit/`,
-        clickSelector: [
-            '#id_hero_cta_link-chooser li:nth-child(2) button',
-            '[href="/admin/choose-page/3/?page_type=wagtailcore.page"]',
-        ],
-    }),
-    contentOnly({
-        path: `/pages/${PAGE_ID}/edit/`,
-        clickSelector: ['.action-clear', '.dropdown-toggle', '.action-save'],
+        clickSelector: ['.action-clear', '.dropdown-toggle'],
     }),
     contentOnly({ path: `/pages/${PAGE_ID}/revisions/` }),
     contentOnly({ path: `/pages/${PAGE_ID}/unpublish/` }),
@@ -195,20 +198,49 @@ const richtext = [
         typeSelector: '[for="id_promo_text"] + div .richtext',
         clickSelector: '[title="Add/Edit Link"]',
     }),
+    // TODO Investigate.
+    // contentOnly({
+    //     path: `/pages/${PAGE_ID}/edit/`,
+    //     typeSelector: '[for="id_promo_text"] + div .richtext',
+    //     clickSelector: [
+    //         '[title="Add/Edit Link"]',
+    //         '[href*="/admin/choose-external-link/"]',
+    //     ],
+    // }),
+    // contentOnly({
+    //     path: `/pages/${PAGE_ID}/edit/`,
+    //     typeSelector: '[for="id_promo_text"] + div .richtext',
+    //     clickSelector: [
+    //         '[title="Add/Edit Link"]',
+    //         '[href*="/admin/choose-email-link/"]',
+    //     ],
+    // }),
+];
+
+const streamfield = [
     contentOnly({
         path: `/pages/${PAGE_ID}/edit/`,
-        typeSelector: '[for="id_promo_text"] + div .richtext',
         clickSelector: [
-            '[title="Add/Edit Link"]',
-            '[href*="/admin/choose-external-link/"]',
+            '#body-0-appendmenu .toggle',
+            '#body-0-appendmenu .action-add-block-heading_block',
+            '#body-0-appendmenu .toggle',
+            '#body-0-appendmenu .action-add-block-image_block',
+            '#body-0-appendmenu .toggle',
+            '#body-0-appendmenu .action-add-block-block_quote',
+            '#body-0-appendmenu .toggle',
+            '#body-0-appendmenu .action-add-block-embed_block',
         ],
     }),
     contentOnly({
         path: `/pages/${PAGE_ID}/edit/`,
-        typeSelector: '[for="id_promo_text"] + div .richtext',
         clickSelector: [
-            '[title="Add/Edit Link"]',
-            '[href*="/admin/choose-email-link/"]',
+            '#body-0-appendmenu .toggle',
+            '#body-0-appendmenu .action-add-block-heading_block',
+            '#body-0-appendmenu .toggle',
+            '#body-0-appendmenu .action-add-block-image_block',
+            '#body-0-movedown',
+            // TODO Investigate.
+            // '#body-9-delete',
         ],
     }),
 ];
@@ -249,14 +281,15 @@ const forms = [
     contentOnly({ path: '/forms/submissions/69/' }),
     contentOnly({
         path: '/forms/submissions/69/',
-        clickSelector: [
-            '[for="id_date_to"]',
-            '[data-date="9"][data-month="0"][data-year="2050"]',
-        ],
+        clickSelector: '[for="id_date_to"]',
     }),
     contentOnly({
         path:
             '/forms/submissions/69/?date_from=2017-01-01&date_to=2050-01-01&action=filter',
+        clickSelector: [
+            '[for="id_date_to"]',
+            '[data-date="9"][data-month="0"][data-year="2050"]',
+        ],
     }),
     contentOnly({
         path: '/forms/submissions/69/',
@@ -304,6 +337,7 @@ const settings = [
     contentOnly({ path: '/collections/2/' }),
     contentOnly({
         path: '/collections/2/',
+        // TODO Privacy type click not working
         clickSelector: ['.action-set-privacy', '[for="id_restriction_type_3"]'],
     }),
     contentOnly({ path: '/collections/2/delete/' }),
@@ -327,6 +361,7 @@ const account = [
     contentOnly({ path: '/account/change_password/' }),
     contentOnly({ path: '/account/notification_preferences/' }),
     contentOnly({ path: '/account/language_preferences/' }),
+    { path: '/password_reset/' },
 ];
 
 const scenarios = [
@@ -334,6 +369,7 @@ const scenarios = [
     ...nav,
     ...pages,
     ...richtext,
+    ...streamfield,
     ...modeladmin,
     ...images,
     ...documents,

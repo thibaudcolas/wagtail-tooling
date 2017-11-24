@@ -1,5 +1,7 @@
 require('dotenv').config();
 
+process.setMaxListeners(0);
+
 const path = require('path');
 
 const viewports = require('./viewports');
