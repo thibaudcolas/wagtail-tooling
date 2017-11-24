@@ -5,8 +5,8 @@ const contentOnly = composeScenario.bind(null, {
     selectors: ['.content-wrapper'],
 });
 
-const generateScenario = (scenario, i) => {
-    let label = `${scenario.path} ${i}`;
+const generateScenario = scenario => {
+    let label = scenario.path;
 
     if (scenario.typeSelector) {
         if (Array.isArray(scenario.typeSelector)) {
@@ -98,7 +98,8 @@ const pages = [
     contentOnly({
         path: `/pages/${PAGE_ID}/`,
         // TODO Privacy type select not working.
-        clickSelector: ['.action-set-privacy', '[for="id_restriction_type_2"]'],
+        // clickSelector: ['.action-set-privacy', '[for="id_restriction_type_2"]'],
+        clickSelector: ['.action-set-privacy'],
     }),
     contentOnly({ path: `/pages/${PAGE_ID}/?ordering=ord` }),
     contentOnly({ path: `/pages/${PAGE_ID}/edit/` }),
@@ -109,6 +110,7 @@ const pages = [
     contentOnly({
         path: `/pages/${PAGE_ID}/edit/`,
         clickSelector: '#id_image-chooser li:nth-child(2) button',
+        readySelector: '.images.chooser',
     }),
     // TODO Does not seem to work for the second selector?
     // contentOnly({
@@ -121,6 +123,7 @@ const pages = [
     contentOnly({
         path: `/pages/${PAGE_ID}/edit/`,
         clickSelector: '#id_hero_cta_link-chooser li:nth-child(2) button',
+        readySelector: '.page-results',
     }),
     // Does not seem to work for the second selector?
     // contentOnly({
@@ -146,7 +149,9 @@ const pages = [
     }),
     contentOnly({
         path: `/pages/add/base/homepage/60/`,
-        clickSelector: ['[href="#tab-settings"]', '[for="id_go_live_at"]'],
+        // TODO Point to a specific, stable date.
+        // clickSelector: ['[href="#tab-settings"]', '[for="id_go_live_at"]'],
+        clickSelector: ['[href="#tab-settings"]'],
     }),
     contentOnly({ path: `/pages/69/move/60/` }),
     // TODO Test lock
@@ -182,21 +187,26 @@ const richtext = [
         path: `/pages/${PAGE_ID}/edit/`,
         typeSelector: '[for="id_promo_text"] + div .richtext',
         clickSelector: '[title="Embed"]',
+        readySelector: '[action="/admin/embeds/chooser/upload/"]',
     }),
     contentOnly({
         path: `/pages/${PAGE_ID}/edit/`,
         typeSelector: '[for="id_promo_text"] + div .richtext',
         clickSelector: '[title="Documents"]',
+        readySelector: '[action="/admin/documents/chooser/"]',
     }),
     contentOnly({
         path: `/pages/${PAGE_ID}/edit/`,
         typeSelector: '[for="id_promo_text"] + div .richtext',
         clickSelector: '[title="Images"]',
+        readySelector: '[action="/admin/images/chooser/?select_format=true"]',
+        hideSelectors: ['.show-transparency'],
     }),
     contentOnly({
         path: `/pages/${PAGE_ID}/edit/`,
         typeSelector: '[for="id_promo_text"] + div .richtext',
         clickSelector: '[title="Add/Edit Link"]',
+        readySelector: '.page-results',
     }),
     // TODO Investigate.
     // contentOnly({
@@ -253,7 +263,7 @@ const modeladmin = [
 ];
 
 const images = [
-    contentOnly({ path: '/images/' }),
+    contentOnly({ path: '/images/', hideSelectors: ['.show-transparency'] }),
     contentOnly({ path: '/images/?q=bread' }),
     contentOnly({ path: '/images/?collection_id=2' }),
     contentOnly({ path: '/images/47/' }),
@@ -279,10 +289,11 @@ const snippets = [
 const forms = [
     contentOnly({ path: '/forms/' }),
     contentOnly({ path: '/forms/submissions/69/' }),
-    contentOnly({
-        path: '/forms/submissions/69/',
-        clickSelector: '[for="id_date_to"]',
-    }),
+    // TODO Point to a specific, stable date.
+    // contentOnly({
+    //     path: '/forms/submissions/69/',
+    //     clickSelector: '[for="id_date_to"]',
+    // }),
     contentOnly({
         path:
             '/forms/submissions/69/?date_from=2017-01-01&date_to=2050-01-01&action=filter',
@@ -337,8 +348,9 @@ const settings = [
     contentOnly({ path: '/collections/2/' }),
     contentOnly({
         path: '/collections/2/',
-        // TODO Privacy type click not working
-        clickSelector: ['.action-set-privacy', '[for="id_restriction_type_3"]'],
+        // TODO Privacy type click not always working
+        // clickSelector: ['.action-set-privacy', '[for="id_restriction_type_3"]'],
+        clickSelector: ['.action-set-privacy'],
     }),
     contentOnly({ path: '/collections/2/delete/' }),
     contentOnly({ path: '/collections/add/' }),
