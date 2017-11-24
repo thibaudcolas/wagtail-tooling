@@ -4,7 +4,7 @@
  */
 
 module.exports = (chromy, scenario, viewport) => {
-    console.log(`clickSelector: ${scenario.label} @${viewport.label}`);
+    // console.log(`clickSelector: ${scenario.label} @${viewport.label}`);
     let clickSelector = scenario.clickSelector;
 
     if (!Array.isArray(clickSelector)) {

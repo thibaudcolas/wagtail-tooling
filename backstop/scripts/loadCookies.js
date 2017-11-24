@@ -21,8 +21,9 @@ const getCookiesArray = scenario => {
     });
 };
 
+// eslint-disable-next-line no-unused-vars
 module.exports = (chromy, scenario, viewport) => {
-    console.log(`loadCookies: ${scenario.label} @${viewport.label}`);
+    // console.log(`loadCookies: ${scenario.label} @${viewport.label}`);
 
     chromy.setCookie(getCookiesArray(scenario));
 
