@@ -5,7 +5,7 @@ const contentOnly = composeScenario.bind(null, {
     selectors: ['.content-wrapper'],
 });
 
-const generateLabels = scenario => {
+const generateLabels = (scenario, index) => {
     let fullLabel = scenario.path;
 
     if (scenario.typeSelector) {
@@ -27,6 +27,7 @@ const generateLabels = scenario => {
     const label = fullLabel.substring(0, 100);
 
     return {
+        index,
         label,
         fullLabel,
     };
@@ -36,7 +37,7 @@ const generateScenario = (scenario, index) => {
     return Object.assign(
         {
             url: `http://${DOMAIN}/admin${scenario.path}`,
-            misMatchThreshold: 0.01,
+            misMatchThreshold: 0.05,
             hideSelectors: [
                 // Relative dates are dynamic, thus likely to break tests.
                 // '.human-readable-date'
@@ -53,6 +54,15 @@ const generateScenario = (scenario, index) => {
 };
 
 const PAGE_ID = 60;
+
+const empty = [
+    { label: 'Empty 1', path: '/empty', selectors: ['.page404__button'] },
+    { label: 'Empty 2', path: '/empty', selectors: ['.page404__button'] },
+    { label: 'Empty 3', path: '/empty', selectors: ['.page404__button'] },
+    { label: 'Empty 4', path: '/empty', selectors: ['.page404__button'] },
+    { label: 'Empty 5', path: '/empty', selectors: ['.page404__button'] },
+    { label: 'Empty 6', path: '/empty', selectors: ['.page404__button'] },
+];
 
 const base = [
     { path: '/login', onBeforeScript: null },
@@ -91,6 +101,7 @@ const nav = [
             '[data-explorer-menu-item] > a',
             '.c-explorer__item__action:last-of-type',
         ],
+        onReadySelector: '.c-explorer__item:nth-child(2)',
     },
 ];
 
@@ -128,19 +139,20 @@ const pages = [
     //         '[href="#upload"]',
     //     ],
     // }),
-    contentOnly({
-        path: `/pages/${PAGE_ID}/edit/`,
-        clickSelector: '#id_hero_cta_link-chooser li:nth-child(2) button',
-        onReadySelector: '.page-results',
-    }),
-    // Does not seem to work for the second selector?
     // contentOnly({
     //     path: `/pages/${PAGE_ID}/edit/`,
-    //     clickSelector: [
-    //         '#id_hero_cta_link-chooser li:nth-child(2) button',
-    //         '[href="/admin/choose-page/3/?page_type=wagtailcore.page"]',
-    //     ],
+    //     clickSelector: '#id_hero_cta_link-chooser li:nth-child(2) button',
+    //     onReadySelector: '.page-results',
     // }),
+    // TODO Does not seem to work for the second selector?
+    contentOnly({
+        path: `/pages/${PAGE_ID}/edit/`,
+        clickSelector: [
+            '#id_hero_cta_link-chooser li:nth-child(2) button',
+            '[href="/admin/choose-page/3/?page_type=wagtailcore.page"]',
+        ],
+        onReadySelector: '.page-results',
+    }),
     contentOnly({
         path: `/pages/${PAGE_ID}/edit/`,
         clickSelector: ['.action-clear', '.dropdown-toggle'],
@@ -223,13 +235,13 @@ const richtext = [
     }),
     // TODO Investigate.
     // {
+    //     label: 'Hallo.js - External link chooser',
     //     path: `/pages/${PAGE_ID}/edit/`,
     //     typeSelector: '[for="id_promo_text"] + div .richtext',
     //     clickSelector: [
     //         '[title="Add/Edit Link"]',
     //         '[href*="/admin/choose-external-link/"]',
     //     ],
-    //     selectors: ['.hallo_rich_text_area'],
     // },
     // {
     //     path: `/pages/${PAGE_ID}/edit/`,
@@ -238,7 +250,6 @@ const richtext = [
     //         '[title="Add/Edit Link"]',
     //         '[href*="/admin/choose-email-link/"]',
     //     ],
-    //     selectors: ['.hallo_rich_text_area'],
     // },
 ];
 
@@ -268,7 +279,7 @@ const streamfield = [
             '#body-0-appendmenu .action-add-block-image_block',
             '#body-0-movedown',
             // TODO Investigate.
-            // '#body-9-delete',
+            '#body-9-delete',
         ],
         selectors: ['.stream-field'],
     },
@@ -397,6 +408,7 @@ const account = [
 ];
 
 const scenarios = [
+    ...empty,
     ...base,
     ...nav,
     ...pages,
