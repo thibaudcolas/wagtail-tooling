@@ -5,30 +5,32 @@ const contentOnly = composeScenario.bind(null, {
     selectors: ['.content-wrapper'],
 });
 
-const generateScenario = scenario => {
-    let label = scenario.path;
+const generateScenario = (scenario, index) => {
+    let fullLabel = scenario.path;
 
     if (scenario.typeSelector) {
         if (Array.isArray(scenario.typeSelector)) {
-            label += ` ${scenario.typeSelector.join(', ')}`;
+            fullLabel += ` ${scenario.typeSelector.join(', ')}`;
         } else {
-            label += ` ${scenario.typeSelector}`;
+            fullLabel += ` ${scenario.typeSelector}`;
         }
     }
 
     if (scenario.clickSelector) {
         if (Array.isArray(scenario.clickSelector)) {
-            label += ` ${scenario.clickSelector.join(', ')}`;
+            fullLabel += ` ${scenario.clickSelector.join(', ')}`;
         } else {
-            label += ` ${scenario.clickSelector}`;
+            fullLabel += ` ${scenario.clickSelector}`;
         }
     }
 
-    label = label.substring(0, 50);
+    const label = fullLabel.substring(0, 50);
 
     return Object.assign(
         {
+            index,
             label,
+            fullLabel,
             url: `http://${DOMAIN}/admin${scenario.path}`,
             misMatchThreshold: 0.01,
             hideSelectors: [
@@ -110,7 +112,8 @@ const pages = [
     contentOnly({
         path: `/pages/${PAGE_ID}/edit/`,
         clickSelector: '#id_image-chooser li:nth-child(2) button',
-        readySelector: '.images.chooser',
+        onReadySelector: '.images.chooser',
+        hideSelectors: ['.show-transparency'],
     }),
     // TODO Does not seem to work for the second selector?
     // contentOnly({
@@ -123,7 +126,7 @@ const pages = [
     contentOnly({
         path: `/pages/${PAGE_ID}/edit/`,
         clickSelector: '#id_hero_cta_link-chooser li:nth-child(2) button',
-        readySelector: '.page-results',
+        onReadySelector: '.page-results',
     }),
     // Does not seem to work for the second selector?
     // contentOnly({
@@ -158,77 +161,84 @@ const pages = [
 ];
 
 const richtext = [
-    contentOnly({
+    {
         path: `/pages/${PAGE_ID}/edit/`,
         typeSelector: '[for="id_promo_text"] + div .richtext',
         clickSelector: '[title="h2"]',
-    }),
-    contentOnly({
+        selectors: ['.hallo_rich_text_area'],
+    },
+    {
         path: `/pages/${PAGE_ID}/edit/`,
         typeSelector: '[for="id_promo_text"] + div .richtext',
         clickSelector: '[title="OL"]',
-    }),
-    contentOnly({
+        selectors: ['.hallo_rich_text_area'],
+    },
+    {
         path: `/pages/${PAGE_ID}/edit/`,
         typeSelector: '[for="id_promo_text"] + div .richtext',
         clickSelector: '[title="UL"]',
-    }),
-    contentOnly({
+        selectors: ['.hallo_rich_text_area'],
+    },
+    {
         path: `/pages/${PAGE_ID}/edit/`,
         typeSelector: '[for="id_promo_text"] + div .richtext',
         clickSelector: '[title="Horizontal rule"]',
-    }),
-    contentOnly({
+        selectors: ['.hallo_rich_text_area'],
+    },
+    {
         path: `/pages/${PAGE_ID}/edit/`,
         typeSelector: '[for="id_promo_text"] + div .richtext',
         clickSelector: ['[title="Horizontal rule"]', '[title="Undo"]'],
-    }),
+        selectors: ['.hallo_rich_text_area'],
+    },
     contentOnly({
         path: `/pages/${PAGE_ID}/edit/`,
         typeSelector: '[for="id_promo_text"] + div .richtext',
         clickSelector: '[title="Embed"]',
-        readySelector: '[action="/admin/embeds/chooser/upload/"]',
+        onReadySelector: '[action="/admin/embeds/chooser/upload/"]',
     }),
     contentOnly({
         path: `/pages/${PAGE_ID}/edit/`,
         typeSelector: '[for="id_promo_text"] + div .richtext',
         clickSelector: '[title="Documents"]',
-        readySelector: '[action="/admin/documents/chooser/"]',
+        onReadySelector: '[action="/admin/documents/chooser/"]',
     }),
     contentOnly({
         path: `/pages/${PAGE_ID}/edit/`,
         typeSelector: '[for="id_promo_text"] + div .richtext',
         clickSelector: '[title="Images"]',
-        readySelector: '[action="/admin/images/chooser/?select_format=true"]',
+        onReadySelector: '[action="/admin/images/chooser/?select_format=true"]',
         hideSelectors: ['.show-transparency'],
     }),
     contentOnly({
         path: `/pages/${PAGE_ID}/edit/`,
         typeSelector: '[for="id_promo_text"] + div .richtext',
         clickSelector: '[title="Add/Edit Link"]',
-        readySelector: '.page-results',
+        onReadySelector: '.page-results',
     }),
     // TODO Investigate.
-    // contentOnly({
+    // {
     //     path: `/pages/${PAGE_ID}/edit/`,
     //     typeSelector: '[for="id_promo_text"] + div .richtext',
     //     clickSelector: [
     //         '[title="Add/Edit Link"]',
     //         '[href*="/admin/choose-external-link/"]',
     //     ],
-    // }),
-    // contentOnly({
+    //     selectors: ['.hallo_rich_text_area'],
+    // },
+    // {
     //     path: `/pages/${PAGE_ID}/edit/`,
     //     typeSelector: '[for="id_promo_text"] + div .richtext',
     //     clickSelector: [
     //         '[title="Add/Edit Link"]',
     //         '[href*="/admin/choose-email-link/"]',
     //     ],
-    // }),
+    //     selectors: ['.hallo_rich_text_area'],
+    // },
 ];
 
 const streamfield = [
-    contentOnly({
+    {
         path: `/pages/${PAGE_ID}/edit/`,
         clickSelector: [
             '#body-0-appendmenu .toggle',
@@ -240,8 +250,9 @@ const streamfield = [
             '#body-0-appendmenu .toggle',
             '#body-0-appendmenu .action-add-block-embed_block',
         ],
-    }),
-    contentOnly({
+        selectors: ['.stream-field'],
+    },
+    {
         path: `/pages/${PAGE_ID}/edit/`,
         clickSelector: [
             '#body-0-appendmenu .toggle',
@@ -252,7 +263,8 @@ const streamfield = [
             // TODO Investigate.
             // '#body-9-delete',
         ],
-    }),
+        selectors: ['.stream-field'],
+    },
 ];
 
 const modeladmin = [
@@ -365,6 +377,7 @@ const settings = [
     contentOnly({
         path: '/searchpicks/add/',
         clickSelector: '#id_query_string-chooser',
+        onReadySelector: '[action="/admin/search/queries/chooser/results/"]',
     }),
 ];
 

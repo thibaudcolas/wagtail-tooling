@@ -13,7 +13,7 @@ if (!process.env.WAGTAIL_SESSIONID) {
     );
 }
 
-const FILTER = null; // /.*title=.*/;
+const FILTER = null; // /.*rich.*/;
 
 module.exports = {
     debug: false,

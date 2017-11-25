@@ -5,7 +5,9 @@
 const clickSelector = require('./clickSelector');
 
 module.exports = (chromy, scenario, viewport) => {
-    console.log(`onReady: ${scenario.label} @${viewport.label}`);
+    console.log(
+        `onReady: ${scenario.index} ${scenario.fullLabel} @${viewport.label}`,
+    );
 
     chromy.evaluate(() => {
         const preventInteractionStyles = `

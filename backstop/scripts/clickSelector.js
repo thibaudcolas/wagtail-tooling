@@ -35,4 +35,8 @@ module.exports = (chromy, scenario, viewport) => {
         chromy.click(selector);
         chromy.wait(500);
     });
+
+    if (scenario.onReadySelector) {
+        chromy.wait(scenario.onReadySelector);
+    }
 };
