@@ -75,6 +75,7 @@ const base = [
     // { path: '/logout' },
     // Loading spinner always makes the test fail.
     // { path: '/pages/preview' },
+    // TODO Add edit bird.
 ];
 
 const nav = [
