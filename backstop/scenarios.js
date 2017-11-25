@@ -1,4 +1,4 @@
-const DOMAIN = 'localhost:8000';
+const DOMAIN = process.env.DOMAIN || 'localhost:8000';
 
 const composeScenario = (...args) => Object.assign({}, ...args);
 const contentOnly = composeScenario.bind(null, {
