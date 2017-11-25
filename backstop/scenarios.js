@@ -5,7 +5,7 @@ const contentOnly = composeScenario.bind(null, {
     selectors: ['.content-wrapper'],
 });
 
-const generateScenario = (scenario, index) => {
+const generateLabels = scenario => {
     let fullLabel = scenario.path;
 
     if (scenario.typeSelector) {
@@ -24,13 +24,17 @@ const generateScenario = (scenario, index) => {
         }
     }
 
-    const label = fullLabel.substring(0, 50);
+    const label = fullLabel.substring(0, 100);
 
+    return {
+        label,
+        fullLabel,
+    };
+};
+
+const generateScenario = (scenario, index) => {
     return Object.assign(
         {
-            index,
-            label,
-            fullLabel,
             url: `http://${DOMAIN}/admin${scenario.path}`,
             misMatchThreshold: 0.01,
             hideSelectors: [
@@ -43,6 +47,7 @@ const generateScenario = (scenario, index) => {
                 sessionid: process.env.WAGTAIL_SESSIONID,
             },
         },
+        generateLabels(scenario, index),
         scenario,
     );
 };
@@ -239,6 +244,7 @@ const richtext = [
 
 const streamfield = [
     {
+        label: 'Streamfield - All blocks',
         path: `/pages/${PAGE_ID}/edit/`,
         clickSelector: [
             '#body-0-appendmenu .toggle',
@@ -253,6 +259,7 @@ const streamfield = [
         selectors: ['.stream-field'],
     },
     {
+        label: 'Streamfield - Move blocks',
         path: `/pages/${PAGE_ID}/edit/`,
         clickSelector: [
             '#body-0-appendmenu .toggle',

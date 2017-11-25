@@ -13,12 +13,22 @@ if (!process.env.WAGTAIL_SESSIONID) {
     );
 }
 
+const scenarioLabels = scenarios.map(s => s.label);
+const duplicateScenarioLabels = scenarioLabels.filter(
+    (l, i) => scenarioLabels.indexOf(l) !== i,
+);
+
+if (duplicateScenarioLabels.length !== 0) {
+    console.log(duplicateScenarioLabels);
+    throw new Error('Two scenarios cannot use the same label');
+}
+
 const FILTER = null; // /.*rich.*/;
 
 module.exports = {
     debug: false,
     debugWindow: false,
-    id: 'bakerydemo_master',
+    id: 'bakerydemo',
     viewports: viewports,
     scenarios: FILTER
         ? scenarios.filter(s => s.label.match(FILTER))
