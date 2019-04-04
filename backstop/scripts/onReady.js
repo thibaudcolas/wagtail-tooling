@@ -2,15 +2,15 @@
  * This is evaluated in the Chrome environment, not Node.
  * Caution is advised.
  */
-const clickSelector = require('./clickSelector');
+const clickSelector = require("./clickSelector");
 
 module.exports = (chromy, scenario, viewport) => {
-    console.log(
-        `onReady: ${scenario.index} ${scenario.fullLabel} @${viewport.label}`,
-    );
+  console.log(
+    `onReady: ${scenario.index} ${scenario.fullLabel} @${viewport.label}`,
+  );
 
-    chromy.evaluate(() => {
-        const preventInteractionStyles = `
+  chromy.evaluate(() => {
+    const preventInteractionStyles = `
         * {
             cursor: none !important;
             pointer-events: none !important;
@@ -19,31 +19,31 @@ module.exports = (chromy, scenario, viewport) => {
             animation-duration: 0.01s !important; -webkit-animation-duration: 0.01s !important;
         }`;
 
-        const preventAnimationStyles = `
+    const preventAnimationStyles = `
         * {
             transition-property: none !important;
             transform: none !important;
             animation: none !important;
         }`;
 
-        const style = document.createElement('style');
-        style.innerHTML = `
+    const style = document.createElement("style");
+    style.innerHTML = `
         ${preventInteractionStyles}
         ${preventAnimationStyles}
         `;
-        document.body.appendChild(style);
+    document.body.appendChild(style);
 
-        // TODO Break the tests if the user is not logged in – no point in testing.
+    // TODO Break the tests if the user is not logged in – no point in testing.
 
-        // Makes dates ("time since") static.
-        [].slice
-            .call(document.querySelectorAll('.human-readable-date'))
-            .forEach(date => {
-                date.innerHTML = '16&nbsp;hours, 55&nbsp;minutes ago';
-            });
-    });
+    // Makes dates ("time since") static.
+    [].slice
+      .call(document.querySelectorAll(".human-readable-date"))
+      .forEach((date) => {
+        date.innerHTML = "16&nbsp;hours, 55&nbsp;minutes ago";
+      });
+  });
 
-    if (scenario.clickSelector) {
-        clickSelector(chromy, scenario, viewport);
-    }
+  if (scenario.clickSelector) {
+    clickSelector(chromy, scenario, viewport);
+  }
 };

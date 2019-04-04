@@ -1,2 +1,13 @@
-// Use the Prettier config that comes with eslint-plugin-springload.
-module.exports = require('eslint-plugin-springload/prettier.config');
+// See https://prettier.io/docs/en/options.html.
+module.exports = {
+  printWidth: 80,
+  tabWidth: 2,
+  useTabs: false,
+  semi: true,
+  singleQuote: false,
+  trailingComma: "all",
+  bracketSpacing: true,
+  jsxBracketSameLine: false,
+  arrowParens: "always",
+  proseWrap: "preserve",
+};
