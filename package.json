@@ -16,7 +16,7 @@
     "dotenv": "^4.0.0",
     "eslint": "^3.19.0",
     "eslint-plugin-springload": "^2.2.0",
-    "prettier": "^1.8.2",
+    "prettier": "^1.16.4",
     "sitespeed.io": "4.3.9"
   },
   "scripts": {
