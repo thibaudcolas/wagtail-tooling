@@ -1,8 +1,8 @@
-# wagtail-dev-tooling
+# Wagtail dev tooling
 
 > Advanced tooling for [Wagtail](https://github.com/wagtail/wagtail) development. See [example reports](https://thibaudcolas.github.io/wagtail-dev-tooling/).
 
-*Check out [Awesome Wagtail](https://github.com/springload/awesome-wagtail) for more awesome packages and resources from the Wagtail community.*
+_Check out [Awesome Wagtail](https://github.com/springload/awesome-wagtail) for more awesome packages and resources from the Wagtail community._
 
 ## Installation
 
@@ -130,10 +130,10 @@ fi
 
 ## Documentation
 
-- https://github.com/garris/BackstopJS
-- http://docs.casperjs.org/en/latest/
-- http://phantomjs.org/api/webpage/
-- https://docs.slimerjs.org/current/api/webpage.html
-- https://www.sitespeed.io/
-- http://docs.grafana.org/
-- https://docs.docker.com/
+-   https://github.com/garris/BackstopJS
+-   http://docs.casperjs.org/en/latest/
+-   http://phantomjs.org/api/webpage/
+-   https://docs.slimerjs.org/current/api/webpage.html
+-   https://www.sitespeed.io/
+-   http://docs.grafana.org/
+-   https://docs.docker.com/
