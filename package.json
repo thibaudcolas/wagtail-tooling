@@ -1,5 +1,5 @@
 {
-  "name": "wagtail-dev-tooling",
+  "name": "wagtail-tooling",
   "version": "1.0.0",
   "private": true,
   "description": "",
@@ -7,15 +7,11 @@
   "keywords": [],
   "author": "Thibaud Colas",
   "license": "MIT",
-  "eslintConfig": {
-    "extends": "plugin:springload/prettier"
-  },
   "dependencies": {},
   "devDependencies": {
     "backstopjs": "^3.0.32",
     "dotenv": "^4.0.0",
-    "eslint": "^3.19.0",
-    "eslint-plugin-springload": "^2.2.0",
+    "eslint": "^5.16.0",
     "prettier": "^1.16.4",
     "sitespeed.io": "4.3.9"
   },
@@ -28,7 +24,7 @@
     "regression:open": "npm run backstop -s -- openReport",
     "performance:test": "npm run sitespeed -s -- sitespeed-urls.txt",
     "performance:open": "open http://localhost:3000",
-    "lint": "eslint .",
-    "format": "prettier --write backstop/**/*.js"
+    "lint": "eslint . && prettier --check '**/*.{js,css,md,html,json,yaml,yml}",
+    "format": "prettier --write '**/*.{js,css,md,html,json,yaml,yml}'"
   }
 }
