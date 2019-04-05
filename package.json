@@ -10,6 +10,7 @@
   "dependencies": {},
   "devDependencies": {
     "backstopjs": "^3.0.32",
+    "convert-array-to-csv": "^1.0.6",
     "dotenv": "^4.0.0",
     "eslint": "^5.16.0",
     "prettier": "^1.16.4",
