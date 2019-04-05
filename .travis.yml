@@ -4,15 +4,15 @@ addons:
 language: node_js
 cache:
   directories:
-  - node_modules
+    - node_modules
 install:
-- npm install
+  - npm install
 script:
-- npm run regression:test || true
-- mv backstop/data/* examples || true
+  - npm run regression:test || true
+  - mv backstop/data/* examples || true
 branches:
   except:
-  - gh-pages
+    - gh-pages
 deploy:
   provider: pages
   skip_cleanup: true
