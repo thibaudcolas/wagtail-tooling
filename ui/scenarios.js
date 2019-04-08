@@ -157,7 +157,7 @@ const pages = [
     label: "View all revisions",
     path: `/pages/${PAGE_ID}/revisions/`,
     category: "Pages",
-    states: ["Sort by revision date", "Pagination"],
+    states: ["Sort by <column>", "Pagination"],
   }),
   contentOnly({
     label: "Compare revisions",
@@ -494,12 +494,52 @@ const images = [
   }),
 ];
 
+// wagtailmedia
+const media = [
+  {
+    label: "View all",
+    path: "/media/",
+    category: "Media",
+    states: ["Empty", "Pagination", "Sort by <column>"],
+  },
+  contentOnly({
+    label: "Search",
+    path: "/media/?q=bread",
+    category: "Media",
+    states: ["No results", "Pagination"],
+  }),
+  contentOnly({
+    label: "Edit",
+    path: "/media/edit/1/",
+    category: "Media",
+    states: ["Validation error", "Success"],
+  }),
+  contentOnly({
+    label: "Add audio",
+    path: "/media/audio/add/",
+    category: "Media",
+    states: ["Validation error", "Uploading", "Success"],
+  }),
+  contentOnly({
+    label: "Add video",
+    path: "/media/video/add/",
+    category: "Media",
+    states: ["Validation error", "Uploading", "Success"],
+  }),
+  contentOnly({
+    label: "Delete",
+    path: "/images/delete/1/",
+    category: "Media",
+    states: ["Success"],
+  }),
+];
+
 const documents = [
   contentOnly({
     label: "View all",
     path: "/documents/",
     category: "Documents",
-    states: ["Empty", "Pagination", "Sort by title"],
+    states: ["Empty", "Pagination", "Sort by <column>"],
   }),
   contentOnly({
     label: "Search",
@@ -584,7 +624,7 @@ const forms = [
     label: "View submissions",
     path: "/forms/submissions/69/",
     category: "Forms",
-    states: ["Sort by date", "Delete selected"],
+    states: ["Sort by <column>", "Delete selected"],
   }),
   contentOnly({
     label: "Submissions date picker",
@@ -616,7 +656,7 @@ const userSettings = [
     label: "View all",
     path: "/users/",
     category: "Users",
-    states: ["Sort by name", "Sort by username", "Pagination"],
+    states: ["Sort by <column>", "Pagination"],
   }),
   contentOnly({
     label: "Search",
@@ -650,7 +690,7 @@ const userSettings = [
   }),
   contentOnly({
     label: "Delete",
-    path: "/users/3/delete/",
+    path: "/users/4/delete/",
     category: "Users",
     states: ["Success"],
   }),
@@ -714,7 +754,7 @@ const siteSettings = [
     label: "View all",
     path: "/sites/",
     category: "Sites",
-    states: ["Sort by site"],
+    states: ["Sort by <column>"],
   }),
   contentOnly({
     label: "Edit",
@@ -777,7 +817,7 @@ const redirectsSettings = [
     label: "View all",
     path: "/redirects/",
     category: "Redirects",
-    states: ["Empty", "Sort by from", "Pagination"],
+    states: ["Empty", "Sort by <column>", "Pagination"],
   }),
   contentOnly({
     label: "Search",
@@ -936,6 +976,7 @@ const scenarios = [
   ...inlinepanel,
   ...modeladmin,
   ...images,
+  ...media,
   ...documents,
   ...snippets,
   ...forms,
