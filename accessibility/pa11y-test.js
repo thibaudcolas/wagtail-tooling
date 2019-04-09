@@ -57,6 +57,13 @@ const getAuthCookie = async (browser) => {
     return document.cookie.match(/sessionid=(.+);/)[1];
   });
 
+  // We will be setting the cookie manually per-page. Do not want it to be stored for the whole browser.
+  await page.deleteCookie({
+    name: "sessionid",
+    domain: "localhost",
+    path: "/",
+  });
+
   return {
     name: "sessionid",
     domain: "localhost",
@@ -83,7 +90,16 @@ const run = async () => {
       console.log(scenario.label, scenario.path);
 
       const page = await browser.newPage();
-      await page.setCookie(sharedCookie);
+
+      await page.deleteCookie({
+        name: "sessionid",
+        domain: "localhost",
+        path: "/",
+      });
+
+      if (!scenario.unauthenticated) {
+        await page.setCookie(sharedCookie);
+      }
 
       const pa11yOptions = {
         standard: "WCAG2AAA",
@@ -95,7 +111,9 @@ const run = async () => {
         runners: ["axe", "htmlcs"],
         actions: scenario.actions || [],
         headers: {
-          Cookie: `sessionid=${sharedCookie.value};`,
+          Cookie: `sessionid=${
+            scenario.unauthenticated ? "test" : sharedCookie.value
+          };`,
         },
         browser,
         page,

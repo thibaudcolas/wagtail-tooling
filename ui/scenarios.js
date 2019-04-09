@@ -9,6 +9,7 @@ const dashboard = [
     category: "Dashboard",
     selectors: [".nav-wrapper", ".content-wrapper"],
     states: [
+      // TODO Implement these or convert to another format. Needs fixtures.
       "Wagtail upgrade",
       "Most recent edits",
       "Pages awaiting moderation",
@@ -19,11 +20,18 @@ const dashboard = [
 const auth = [
   {
     label: "Login",
-    path: "/login",
+    path: "/login/?next=/admin/login",
     category: "Auth",
-    cookies: false,
-    skip: "Cookieless not implemented yet",
-    states: ["Validation error"],
+    unauthenticated: true,
+    states: [
+      {
+        label: "Validation error",
+        actions: [
+          'click element [type="submit"]',
+          "wait for element .error to be visible",
+        ],
+      },
+    ],
   },
   {
     label: "Logout",
@@ -36,12 +44,22 @@ const auth = [
     label: "Password reset",
     path: "/password_reset/",
     category: "Auth",
-    states: ["Validation error"],
+    unauthenticated: true,
+    states: [
+      {
+        label: "Validation error",
+        actions: [
+          'click element [type="submit"]',
+          "wait for element .error to be visible",
+        ],
+      },
+    ],
   },
   {
     label: "Password reset done",
     path: "/password_reset/done/",
     category: "Auth",
+    unauthenticated: true,
   },
 ];
 
@@ -92,6 +110,8 @@ const navigation = [
     label: "Mobile menu toggle",
     path: "/",
     category: "Navigation",
+    // TODO
+    skip: "Needs to configure the viewport",
   },
   {
     label: "Edit bird",
