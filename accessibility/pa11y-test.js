@@ -20,13 +20,15 @@ scenarios.forEach((scenario) => {
 
   const states = scenario.states || [];
 
-  states.forEach((state) => {
-    views.push(
-      Object.assign({}, scenario, state, {
-        label: `${scenario.label}: ${state.label}`,
-      }),
-    );
-  });
+  states
+    .filter((s) => typeof s === "object")
+    .forEach((state) => {
+      views.push(
+        Object.assign({}, scenario, state, {
+          label: `${scenario.label}: ${state.label}`,
+        }),
+      );
+    });
 });
 
 const shouldTest = (s) => {

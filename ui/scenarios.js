@@ -906,7 +906,6 @@ const settingsContrib = [
     path: "/",
     category: "Site settings",
     skip: "Left out for now",
-    notes: "Left out for now",
   },
 ];
 
@@ -931,13 +930,36 @@ const account = [
     label: "Change profile picture",
     path: "/account/change_avatar/",
     category: "User account",
-    states: ["Validation error"],
+    states: [
+      {
+        label: "Validation error",
+        actions: [
+          'click element [action="/admin/account/change_avatar/"] button',
+        ],
+      },
+    ],
   }),
   contentOnly({
     label: "Change email",
     path: "/account/change_email/",
     category: "User account",
-    states: ["Validation error", "Success"],
+    states: [
+      {
+        label: "Validation error",
+        actions: [
+          "set field #id_email to invalid@mail",
+          'click element [value="Change email"]',
+          "wait for element .error-message to be visible",
+        ],
+      },
+      {
+        label: "Success",
+        actions: [
+          'click element [value="Change email"]',
+          "wait for element .success to be visible",
+        ],
+      },
+    ],
   }),
   contentOnly({
     label: "Change password",
