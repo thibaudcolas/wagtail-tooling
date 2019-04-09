@@ -26,23 +26,33 @@ scenarios
     });
   });
 
-const sessionid = "sbzq8bzn0xsw15vlpbhqki7uhrgj7fqm";
-
-const pa11yOptions = {
-  standard: "WCAG2AAA",
-  headers: {
-    Cookie: `sessionid=${sessionid};`,
-  },
-  log: {
-    debug: console.log,
-    error: console.error,
-    info: console.log,
-  },
-  runners: ["axe", "htmlcs"],
-};
-
 const run = async () => {
   const browser = await puppeteer.launch();
+
+  let page = await browser.newPage();
+  await page.goto(`http://localhost:8000/admin/login`);
+  await page.type("#id_username", "admin");
+  await page.type("#id_password", "changeme");
+  await page.keyboard.press("Enter");
+  await page.waitFor(".page404__header");
+  const sessionid = await page.evaluate(() => {
+    return document.cookie.match(/sessionid=(.+);/)[1];
+  });
+
+  const pa11yOptions = {
+    standard: "WCAG2AAA",
+    headers: {
+      Cookie: `sessionid=${sessionid};`,
+    },
+    log: {
+      debug: console.log,
+      error: console.error,
+      info: console.log,
+    },
+    runners: ["axe", "htmlcs"],
+  };
+
+  console.log(sessionid);
 
   try {
     let issues = [];
@@ -50,7 +60,7 @@ const run = async () => {
     for (const scenario of views) {
       console.log(scenario.path);
 
-      const page = await browser.newPage();
+      page = await browser.newPage();
       await page.setCookie({
         name: "sessionid",
         domain: "localhost",
