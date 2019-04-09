@@ -1,19 +1,37 @@
 const fs = require("fs");
 const pa11y = require("pa11y");
+const puppeteer = require("puppeteer");
 
 const scenarios = require("../ui/scenarios");
 
-const views = {};
+const views = [];
 
-scenarios.forEach((scenario) => {
-  if (!views[scenario.path]) {
-    views[scenario.path] = `${scenario.category} – ${scenario.label}`;
-  }
-});
+const hasOnly = scenarios.find((s) => s.only);
+
+scenarios
+  .filter((s) => (hasOnly ? s.only : true))
+  .forEach((scenario) => {
+    if (!views.find((v) => v.path === scenario.path)) {
+      views.push(scenario);
+    }
+
+    const states = scenario.states || [];
+
+    states.forEach((state) => {
+      views.push(
+        Object.assign({}, scenario, state, {
+          label: `${scenario.label}: ${state.label}`,
+        }),
+      );
+    });
+  });
+
+const sessionid = "789wzgu4awghfr4wmuno65z3kz5hcmcq";
 
 const pa11yOptions = {
+  standard: "WCAG2AAA",
   headers: {
-    Cookie: "sessionid=grdhyy5v829zi6h8hdyoib3cfb8fm18d",
+    Cookie: `sessionid=${sessionid};`,
   },
   log: {
     debug: console.log,
@@ -24,23 +42,47 @@ const pa11yOptions = {
 };
 
 const run = async () => {
+  const browser = await puppeteer.launch();
+
   try {
     let issues = [];
 
-    for (const path of Object.keys(views)) {
-      const label = views[path];
-      console.log(path);
+    for (const scenario of views) {
+      console.log(scenario.path);
+
+      const page = await browser.newPage();
+      await page.setCookie({
+        name: "sessionid",
+        domain: "localhost",
+        path: "/",
+        value: sessionid,
+        expirationDate: 1798790400,
+        hostOnly: false,
+        httpOnly: false,
+        secure: false,
+        session: false,
+        sameSite: "no_restriction",
+      });
+
+      const options = Object.assign({}, pa11yOptions, {
+        actions: scenario.actions || [],
+        browser: browser,
+        page,
+      });
+
       const result = await pa11y(
-        `http://localhost:8000/admin${path}`,
-        pa11yOptions,
+        `http://localhost:8000/admin${scenario.path}`,
+        options,
       );
-      // Output the raw result object
-      // console.log(result);
+
+      if (hasOnly) {
+        console.log(result);
+      }
 
       issues = issues.concat(
         result.issues.map((issue) => {
           return {
-            label: label,
+            label: `${scenario.category} – ${scenario.label}`,
             documentTitle: result.documentTitle,
             pageUrl: result.pageUrl,
             code: issue.code,
@@ -59,6 +101,8 @@ const run = async () => {
     // Output an error if it occurred
     console.error(error.message);
   }
+
+  browser.close();
 };
 
 run();
