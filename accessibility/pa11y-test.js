@@ -4,6 +4,8 @@ const puppeteer = require("puppeteer");
 
 const scenarios = require("../ui/scenarios");
 
+const ADMIN_ROOT = "http://localhost:8000/admin";
+
 let views = [];
 
 const hasOnlyFlag = (s) =>
@@ -27,13 +29,24 @@ scenarios.forEach((scenario) => {
   });
 });
 
-views = views.filter((s) => (HAS_ONLY_FILTER ? s.only : true));
+const shouldTest = (s) => {
+  if (HAS_ONLY_FILTER) {
+    return s.only;
+  }
 
-const run = async () => {
-  const browser = await puppeteer.launch();
+  return !s.skip;
+};
 
+views = views.filter(shouldTest);
+
+const getAuthCookie = async (browser) => {
   let page = await browser.newPage();
-  await page.goto(`http://localhost:8000/admin/login`);
+  await page.deleteCookie({
+    name: "sessionid",
+    domain: "localhost",
+    path: "/",
+  });
+  await page.goto(`${ADMIN_ROOT}/login`);
   await page.type("#id_username", "admin");
   await page.type("#id_password", "changeme");
   await page.keyboard.press("Enter");
@@ -42,49 +55,51 @@ const run = async () => {
     return document.cookie.match(/sessionid=(.+);/)[1];
   });
 
-  const pa11yOptions = {
-    standard: "WCAG2AAA",
-    headers: {
-      Cookie: `sessionid=${sessionid};`,
-    },
-    log: {
-      debug: console.log,
-      error: console.error,
-      info: console.log,
-    },
-    runners: ["axe", "htmlcs"],
+  return {
+    name: "sessionid",
+    domain: "localhost",
+    path: "/",
+    value: sessionid,
+    expirationDate: 1798790400,
+    hostOnly: false,
+    httpOnly: false,
+    secure: false,
+    session: false,
+    sameSite: "no_restriction",
   };
+};
+
+const run = async () => {
+  const browser = await puppeteer.launch();
 
   try {
     let issues = [];
 
+    const sharedCookie = await getAuthCookie(browser);
+
     for (const scenario of views) {
       console.log(scenario.label, scenario.path);
 
-      page = await browser.newPage();
-      await page.setCookie({
-        name: "sessionid",
-        domain: "localhost",
-        path: "/",
-        value: sessionid,
-        expirationDate: 1798790400,
-        hostOnly: false,
-        httpOnly: false,
-        secure: false,
-        session: false,
-        sameSite: "no_restriction",
-      });
+      const page = await browser.newPage();
+      await page.setCookie(sharedCookie);
 
-      const options = Object.assign({}, pa11yOptions, {
+      const pa11yOptions = {
+        standard: "WCAG2AAA",
+        log: {
+          debug: console.log,
+          error: console.error,
+          info: console.log,
+        },
+        runners: ["axe", "htmlcs"],
         actions: scenario.actions || [],
-        browser: browser,
+        headers: {
+          Cookie: `sessionid=${sharedCookie.value};`,
+        },
+        browser,
         page,
-      });
+      };
 
-      const result = await pa11y(
-        `http://localhost:8000/admin${scenario.path}`,
-        options,
-      );
+      const result = await pa11y(`${ADMIN_ROOT}${scenario.path}`, pa11yOptions);
 
       if (HAS_ONLY_FILTER) {
         console.log(result);

@@ -943,7 +943,6 @@ const account = [
     label: "Change password",
     path: "/account/change_password/",
     category: "User account",
-    only: true,
     states: [
       {
         label: "Validation error",
@@ -954,6 +953,7 @@ const account = [
       },
       {
         label: "Success",
+        path: "/account/change_password/",
         actions: [
           "set field #id_old_password to changeme",
           "set field #id_new_password1 to changeme",
@@ -961,6 +961,8 @@ const account = [
           'click element [action="/admin/account/change_password/"] [type="submit"]',
           "wait for element .success to be visible",
         ],
+        // TODO Skip.
+        skip: "Resets the sessionid cookie, makes the remaining tests break",
       },
     ],
   }),
