@@ -1,7 +1,7 @@
 const fs = require("fs");
 const pa11y = require("pa11y");
 
-const scenarios = require("./scenarios");
+const scenarios = require("../ui/scenarios");
 
 const views = {};
 
