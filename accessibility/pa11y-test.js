@@ -26,7 +26,7 @@ scenarios
     });
   });
 
-const sessionid = "789wzgu4awghfr4wmuno65z3kz5hcmcq";
+const sessionid = "sbzq8bzn0xsw15vlpbhqki7uhrgj7fqm";
 
 const pa11yOptions = {
   standard: "WCAG2AAA",

@@ -943,25 +943,68 @@ const account = [
     label: "Change password",
     path: "/account/change_password/",
     category: "User account",
-    states: ["Validation error", "Success"],
+    only: true,
+    states: [
+      {
+        label: "Validation error",
+        actions: [
+          'click element [action="/admin/account/change_password/"] [type="submit"]',
+          "wait for element .error-message to be visible",
+        ],
+      },
+      {
+        label: "Success",
+        actions: [
+          "set field #id_old_password to changeme",
+          "set field #id_new_password1 to changeme",
+          "set field #id_new_password2 to changeme",
+          'click element [action="/admin/account/change_password/"] [type="submit"]',
+          "wait for element .success to be visible",
+        ],
+      },
+    ],
   }),
   contentOnly({
     label: "Notification preferences",
     path: "/account/notification_preferences/",
     category: "User account",
-    states: ["Success"],
+    states: [
+      {
+        label: "Success",
+        actions: [
+          'click element [value="Update"]',
+          "wait for element .success to be visible",
+        ],
+      },
+    ],
   }),
   contentOnly({
     label: "Language preferences",
     path: "/account/language_preferences/",
     category: "User account",
-    states: ["Success"],
+    states: [
+      {
+        label: "Success",
+        actions: [
+          'click element [value="Update"]',
+          "wait for element .success to be visible",
+        ],
+      },
+    ],
   }),
   contentOnly({
     label: "Current time zone",
     path: "/account/current_time_zone/",
     category: "User account",
-    states: ["Success"],
+    states: [
+      {
+        label: "Success",
+        actions: [
+          'click element [value="Update"]',
+          "wait for element .success to be visible",
+        ],
+      },
+    ],
   }),
 ];
 
