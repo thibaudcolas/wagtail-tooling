@@ -4,27 +4,30 @@ const puppeteer = require("puppeteer");
 
 const scenarios = require("../ui/scenarios");
 
-const views = [];
+let views = [];
 
-const hasOnly = scenarios.find((s) => s.only);
+const hasOnlyFlag = (s) =>
+  s.only || (s.states && s.states.find((state) => state.only));
 
-scenarios
-  .filter((s) => (hasOnly ? s.only : true))
-  .forEach((scenario) => {
-    if (!views.find((v) => v.path === scenario.path)) {
-      views.push(scenario);
-    }
+const HAS_ONLY_FILTER = scenarios.find(hasOnlyFlag);
 
-    const states = scenario.states || [];
+scenarios.forEach((scenario) => {
+  if (!views.find((v) => v.path === scenario.path)) {
+    views.push(scenario);
+  }
 
-    states.forEach((state) => {
-      views.push(
-        Object.assign({}, scenario, state, {
-          label: `${scenario.label}: ${state.label}`,
-        }),
-      );
-    });
+  const states = scenario.states || [];
+
+  states.forEach((state) => {
+    views.push(
+      Object.assign({}, scenario, state, {
+        label: `${scenario.label}: ${state.label}`,
+      }),
+    );
   });
+});
+
+views = views.filter((s) => (HAS_ONLY_FILTER ? s.only : true));
 
 const run = async () => {
   const browser = await puppeteer.launch();
@@ -52,13 +55,11 @@ const run = async () => {
     runners: ["axe", "htmlcs"],
   };
 
-  console.log(sessionid);
-
   try {
     let issues = [];
 
     for (const scenario of views) {
-      console.log(scenario.path);
+      console.log(scenario.label, scenario.path);
 
       page = await browser.newPage();
       await page.setCookie({
@@ -85,7 +86,7 @@ const run = async () => {
         options,
       );
 
-      if (hasOnly) {
+      if (HAS_ONLY_FILTER) {
         console.log(result);
       }
 
