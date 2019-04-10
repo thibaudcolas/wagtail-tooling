@@ -129,9 +129,9 @@ const navigation = [
       "“Javascript is required to use Wagtail, but it is currently disabled.” banner at the top of all pages",
     skip: "No way to disable JavaScript with Chromy at the moment.",
   },
-  { label: "404", path: "/404", category: "Navigation" },
+  { label: "Page not found (404)", path: "/404", category: "Navigation" },
   {
-    label: "403",
+    label: "Unauthorised access (403)",
     path: "/",
     category: "Navigation",
     notes:
@@ -893,7 +893,7 @@ const promotedSearchSettings = [
   contentOnly({
     label: "Add / edit pages chooser",
     path: "/searchpicks/5/",
-    category: "Redirects",
+    category: "Promoted search",
     states: ["Loading", "Search", "Search no results", "Explorer navigation"],
   }),
   contentOnly({
