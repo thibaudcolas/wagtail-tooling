@@ -1,0 +1,169 @@
+Category	View	Admin path (example)	UI states	Relevance	Review comments	UI notes
+						
+						
+Dashboard						
+	Dashboard	/	Wagtail upgrade, Most recent edits, Pages awaiting moderation			
+Authentication						
+	Login	/login/	Validation error			
+	Logout	/logout				“You have been successfully logged out.” message on Login screen
+	Password reset	/password_reset/	Validation error			
+	Password reset done	/password_reset/done/				
+Navigation						
+	Search form	/				
+	Account menu	/				
+	Settings menu	/				
+	ModelAdmin menu	/				
+	Pages menu	/	Loading, Server error			
+	Pages menu level 2	/	Loading, Server error			
+	Mobile menu toggle	/				
+	Edit bird	/edit-bird	Active			
+	No JS	/				“Javascript is required to use Wagtail, but it is currently disabled.” banner at the top of all pages
+	Page not found (404)	/404				
+	Unauthorised access (403)	/				“Sorry, you do not have permission to access this area.” message at the top of the dasboard
+Pages						
+	View child pages	/pages/60/	Empty, Reorder child pages, Sort by <column>, Pagination, Root level			
+	Search	/pages/search/?q=bread	No results, Page type filter, Sort by <column>, Pagination			
+	Set privacy	/pages/60/	Validation error			
+	View all revisions	/pages/60/revisions/	Sort by <column>, Pagination			
+	Compare revisions	/pages/60/revisions/compare/32...34/	Empty			
+	Preview revision	/pages/60/revisions/37/view/				This serves the same view as the “live” page, but with different content. This should at least change the page title to make it clear it's a revision
+	Review revision	/pages/60/revisions/37/revert/	Success			Uses the standard page editing UI, but with a top banner and different footer
+	Unpublish	/pages/60/unpublish/	Success			
+	Delete	/pages/60/delete/	Success			
+	Copy	/pages/60/copy/	Validation error, Success			
+	Move	/pages/69/move/60/	Pagination, No move target, Confirm, Success			
+	Edit lock	/pages/60/edit/	Locked, Unlocked			
+	Add child page	/pages/60/add_subpage/				
+	Create	/pages/add/base/homepage/60/	Validation error, Success			
+	Edit	/pages/60/edit/				
+	Edit promote tab	/pages/60/edit/#tab-promote				
+	Edit settings tab	/pages/60/edit/#tab-settings				
+	Preview	/pages/60/edit/preview/				This serves the same view as the “live” page, but with different content. This should at least change the page title to make it clear it's a revision
+Rich text (wagtail-markdown)						
+	Text formats		Bold, Italic, Heading levels, Bullet list, Numbered list			
+	Blocks		Horizontal rule, images, tables			
+	Links		Links			
+	Other controls		Preview, Undo, Redo			
+Rich text (Draftail)						
+	Text formats		Bold, Italic, Heading levels, Bullet list, Numbered list			
+	Blocks		Horizontal rule, Embed, Image, Blocks tooltip			
+	Inlines		Links, Documents, Inlines tooltip			
+	Other controls		Line break, Undo, Redo			
+Rich text (Hallo)						
+	Text formats		Bold, Italic, Heading levels, Bullet list, Numbered list			
+	Blocks		Horizontal rule, images, tables			
+	Inlines		Links			
+	Other controls		Preview, Undo, Redo			
+Choosers						
+	Image chooser	/pages/60/edit/	Loading, Pagination, Collections filter, Search			
+	Images chooser upload	/pages/60/edit/	Uploading, Validation error			
+	Embed chooser	/pages/60/edit/	Loading, Validation error, Uploading			
+	Document chooser	/pages/60/edit/	Loading, Pagination, Collections filter, Search			
+	Link chooser	/pages/60/edit/	Loading, Pagination, Search, Explorer navigation, Preselected page			
+	Link chooser – external link	/pages/60/edit/	Validation error			
+	Email link chooser	/pages/60/edit/	Validation error			
+	Page chooser	/pages/60/edit/	Loading, Pagination, Search, Explorer navigation, Preselected page			
+StreamField						
+	StreamField	/pages/60/edit/				Not detailed to an accurate level because of the work involved
+	Add block	/pages/60/edit/				
+	Move block	/pages/60/edit/				
+	Delete block	/pages/60/edit/				
+	Drag and drop block	/pages/60/edit/				
+	Copy block	/pages/60/edit/				
+	Nested StreamField	/pages/60/edit/				
+	TableBlock	/pages/60/edit/				Not broken down because of the work involved
+InlinePanel						
+	InlinePanel	/pages/60/edit/	Add, Move, Delete			
+ModelAdmin						
+	View all	/base/people/	Empty, Pagination, Sort by <column>			
+	Edit	/base/people/edit/1/	Validation error, Success			
+	Add	/base/people/create/	Validation error, Success			
+	Delete	/base/people/delete/1/	Success			
+Images						
+	View all	/images/	Empty, Pagination			
+	Search	/images/?q=bread	No results, Pagination			
+	Collections filter	/images/?collection_id=2	No results, Pagination			
+	Edit	/images/47/	File not found error on load, Validation error, Focal point set, Success			
+	Add an image	/images/add/	File not found error on load, Validation error, Focal point set, Success			
+	Delete	/images/47/delete/	Success			
+	Image URL generator	/images/47/generate_url/				
+Media						
+	View all	/media/	Empty, Pagination, Sort by <column>			Third-party wagtailmedia extension. Not part of Wagtail core
+	Search	/media/?q=bread	No results, Pagination			
+	Edit	/media/edit/1/	Validation error, Success			
+	Add audio	/media/audio/add/	Validation error, Uploading, Success			
+	Add video	/media/video/add/	Validation error, Uploading, Success			
+	Delete	/images/delete/1/	Success			
+Documents						
+	View all	/documents/	Empty, Pagination, Sort by <column>			
+	Search	/documents/?q=wagtail	No results, Pagination			
+	Collections filter	/documents/?collection_id=2	No results, Pagination			
+	Edit	/documents/edit/1/	File not found error on load, Validation error, Success			
+	Add a document	/documents/multiple/add/	Loading, Validation error, Success			
+	Delete	/documents/delete/1/	Success			
+Snippets						
+	View all types	/snippets/	Empty			
+	View all	/snippets/base/people/	Empty, Pagination, Delete selected			
+	Search snippets	/snippets/base/people/?q=test	No results			
+	Edit	/snippets/base/people/1/	Validation error, Success			
+	Add	/snippets/base/people/add/	Validation error, Success			
+	Delete	/snippets/base/people/1/delete/	Success			
+Forms						
+	View all	/forms/	Empty, Pagination			
+	View submissions	/forms/submissions/69/	Sort by <column>, Delete selected			
+	Submissions date picker	/forms/submissions/69/				
+	Submissions date range	/forms/submissions/69/?date_from=2017-01-01&date_to=2050-01-01&action=filter	No results			
+	Submissions CSV download	/forms/submissions/69/				
+Users						
+	View all	/users/	Sort by <column>, Pagination			
+	Search	/users/?q=admin	No results, Pagination			
+	Edit	/users/3/	Validation error, Success			
+	Edit roles	/users/3/#roles				
+	Add	/users/add/	Validation error, Success			
+	Add roles	/users/add/#roles				
+	Delete	/users/4/delete/	Success			
+Groups						
+	View all	/groups/	Empty, Pagination			
+	Search	/groups/?q=edi	No results, Pagination			
+	Edit	/groups/1/	Validation error, Success			
+	Add a group	/groups/new/	Validation error, Success			
+	Add permissions	/groups/1/				
+	Delete permissions	/groups/1/				
+	Delete	/groups/1/delete/	Success			
+Sites						
+	View all	/sites/	Sort by <column>			
+	Edit	/sites/2/	Validation error, Success			
+	Add a site	/sites/new/	Validation error, Success			
+	Delete	/sites/2/delete/	Success			
+Collections						
+	View all	/collections/	Empty			
+	Edit	/collections/2/	Validation error, Success			
+	Set privacy	/collections/2/	Validation error, Success			
+	Add a collection	/collections/add/	Validation error, Success			
+	Delete	/collections/2/delete/	Success			
+Redirects						
+	View all	/redirects/	Empty, Sort by <column>, Pagination			
+	Search	/redirects/?q=test	No results, Pagination			
+	Edit	/redirects/1/	Validation error, Success			
+	Add	/redirects/add/				
+	Add / edit pages chooser	/redirects/add/	Loading, Search, Search no results, Explorer navigation			
+Promoted search						
+	View all	/searchpicks/	Empty, Pagination			
+	Search	/searchpicks/?q=test	No results, Pagination			
+	Edit	/searchpicks/5/	Validation error, Success			
+	Add / Edit search term chooser	/searchpicks/5/	Loading, Search, Search no results, Pagination			
+	Add / edit pages chooser	/searchpicks/5/	Loading, Search, Search no results, Explorer navigation			
+	Add results	/searchpicks/add/	Validation error, Success			
+	Delete	/searchpicks/5/delete/	Success			
+Styleguide						
+	Styleguide	/styleguide/				
+Site settings						
+	Site settings	/				
+User account						
+	Account actions	/account/				
+	Change profile picture	/account/change_avatar/	Validation error			
+	Change email	/account/change_email/	Validation error, Success			
+	Change password	/account/change_password/	Validation error, Success			
+	Notification preferences	/account/notification_preferences/	Success			
+	Language preferences	/account/language_preferences/	Success			
+	Current time zone	/account/current_time_zone/	Success			
