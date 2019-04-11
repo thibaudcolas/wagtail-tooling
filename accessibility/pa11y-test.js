@@ -54,7 +54,8 @@ const getAuthCookie = async (browser) => {
   await page.keyboard.press("Enter");
   await page.waitFor(".page404__header");
   const sessionid = await page.evaluate(() => {
-    return document.cookie.match(/sessionid=(.+);/)[1];
+    const cookieMatch = document.cookie.match(/sessionid=(.+)(;|$)/);
+    return cookieMatch ? cookieMatch[1] : "test";
   });
 
   // We will be setting the cookie manually per-page. Do not want it to be stored for the whole browser.
@@ -115,6 +116,13 @@ const run = async () => {
             scenario.unauthenticated ? "test" : sharedCookie.value
           };`,
         },
+        viewport: {
+          width: 1024,
+          height: 768,
+          deviceScaleFactor: 1,
+          isMobile: false,
+        },
+        screenCapture: `${__dirname}/data/screenshots/${scenario.label}.png`,
         browser,
         page,
       };
@@ -137,6 +145,7 @@ const run = async () => {
             type: issue.type,
             selector: issue.selector,
             runner: issue.runner,
+            screenshot: `${scenario.label}.png`,
           };
         }),
       );
