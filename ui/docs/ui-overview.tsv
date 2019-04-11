@@ -72,8 +72,9 @@ StreamField
 	Copy block	/pages/60/edit/				
 	Nested StreamField	/pages/60/edit/				
 	TableBlock	/pages/60/edit/				Not broken down because of the work involved
-InlinePanel						
+Panels						
 	InlinePanel	/pages/60/edit/	Add, Move, Delete			
+	MultiFieldPanel	/pages/60/edit/				
 ModelAdmin						
 	View all	/base/people/	Empty, Pagination, Sort by <column>			
 	Edit	/base/people/edit/1/	Validation error, Success			
@@ -86,7 +87,7 @@ Images
 	Edit	/images/47/	File not found error on load, Validation error, Focal point set, Success			
 	Add an image	/images/add/	File not found error on load, Validation error, Focal point set, Success			
 	Delete	/images/47/delete/	Success			
-	Image URL generator	/images/47/generate_url/				
+	Image URL generator	/images/47/generate_url/	Focal point set			
 Media						
 	View all	/media/	Empty, Pagination, Sort by <column>			Third-party wagtailmedia extension. Not part of Wagtail core
 	Search	/media/?q=bread	No results, Pagination			

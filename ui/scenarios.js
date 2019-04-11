@@ -427,8 +427,14 @@ const inlinepanel = [
   {
     label: "InlinePanel",
     path: `/pages/${PAGE_ID}/edit/`,
-    category: "InlinePanel",
+    category: "Panels",
     states: ["Add", "Move", "Delete"],
+  },
+  {
+    label: "MultiFieldPanel",
+    path: `/pages/${PAGE_ID}/edit/`,
+    category: "Panels",
+    notes: "Collapses",
   },
 ];
 
@@ -511,6 +517,7 @@ const images = [
     label: "Image URL generator",
     path: "/images/47/generate_url/",
     category: "Images",
+    states: ["Focal point set"],
   }),
 ];
 
