@@ -1,4 +1,17 @@
-const PAGE_ID = 60;
+const {
+  wagtailUpgradeAvailable,
+  adminAPIFailure,
+  adminAPISlow,
+} = require("./requestOverrides");
+
+const BAKERYDEMO_HOMEPAGE_ID = 60;
+const BAKERYDEMO_EMPTY_BLOG_PAGE_ID = 80;
+const BAKERYDEMO_PAGINATED_BREADS_PAGE_ID = 81;
+const BAKERYDEMO_REVISIONS_PAGE_ID = 69;
+const BAKERYDEMO_ADMIN_ID = 3;
+
+const PAGE_ID = BAKERYDEMO_HOMEPAGE_ID;
+const USER_ID = BAKERYDEMO_ADMIN_ID;
 
 const contentOnly = (val) => val;
 
@@ -8,12 +21,13 @@ const dashboard = [
     path: "/",
     category: "Dashboard",
     selectors: [".nav-wrapper", ".content-wrapper"],
+    requestOverrides: wagtailUpgradeAvailable,
     states: [
-      // TODO Implement these or convert to another format. Needs fixtures.
       "Wagtail upgrade",
       "Most recent edits",
       "Pages awaiting moderation",
     ],
+    fixturesRequirements: ["Most recent edits", "Pages awaiting moderation"],
   },
 ];
 
@@ -35,10 +49,16 @@ const auth = [
   },
   {
     label: "Logout",
-    path: "/logout",
+    path: "/login/?next=/admin/logout/",
     category: "Auth",
     notes: "“You have been successfully logged out.” message on Login screen",
     skip: "Revokes the session cookie, which is annoying when testing.",
+    actions: [
+      "set field #id_username to admin",
+      "set field #id_password to changeme",
+      'click element [type="submit"]',
+      "wait for element .success to be visible",
+    ],
   },
   {
     label: "Password reset",
@@ -65,53 +85,74 @@ const auth = [
 
 const navigation = [
   {
-    label: "Search form",
+    label: "Main menu",
     path: "/",
     category: "Navigation",
-  },
-  {
-    label: "Account menu",
-    path: "/",
-    category: "Navigation",
-    selectors: [".nav-wrapper"],
-    clickSelector: "#account-settings",
-  },
-  {
-    label: "Settings menu",
-    path: "/",
-    category: "Navigation",
-    clickSelector: ".submenu-trigger.icon-cogs",
-  },
-  {
-    label: "ModelAdmin menu",
-    path: "/",
-    category: "Navigation",
-    clickSelector: ".submenu-trigger.icon-fa-cutlery",
+    states: [
+      "Search form",
+      {
+        label: "Account menu",
+        selectors: [".nav-wrapper"],
+        clickSelector: "#account-settings",
+        actions: [
+          "click element #account-settings",
+          "wait for element .footer-submenu to be visible",
+        ],
+      },
+      {
+        label: "Settings menu",
+        clickSelector: ".submenu-trigger.icon-cogs",
+        actions: [
+          "click element .submenu-trigger.icon-cogs",
+          "wait for element .nav-submenu to be visible",
+        ],
+      },
+      {
+        label: "ModelAdmin menu",
+        clickSelector: ".submenu-trigger.icon-fa-cutlery",
+        actions: [
+          "click element .submenu-trigger.icon-fa-cutlery",
+          "wait for element .nav-submenu to be visible",
+        ],
+      },
+      {
+        label: "Mobile menu toggle",
+        viewport: {
+          width: 768,
+          height: 1024,
+          deviceScaleFactor: 2,
+          isMobile: true,
+        },
+      },
+    ],
   },
   {
     label: "Pages menu",
     path: "/",
     category: "Navigation",
     clickSelector: "[data-explorer-menu-item] > a",
-    states: ["Loading", "Server error"],
-  },
-  {
-    label: "Pages menu level 2",
-    path: "/",
-    category: "Navigation",
-    clickSelector: [
-      "[data-explorer-menu-item] > a",
-      ".c-explorer__item__action:last-of-type",
+    actions: [
+      "click element [data-explorer-menu-item] > a",
+      "wait for element .explorer to be visible",
     ],
-    onReadySelector: ".c-explorer__item:nth-child(2)",
-    states: ["Loading", "Server error"],
-  },
-  {
-    label: "Mobile menu toggle",
-    path: "/",
-    category: "Navigation",
-    // TODO
-    skip: "Needs to configure the viewport",
+    states: [
+      {
+        label: "Loading",
+        actions: [
+          "click element [data-explorer-menu-item] > a",
+          "wait for element .explorer to be visible",
+        ],
+        requestOverrides: adminAPISlow,
+      },
+      {
+        label: "Server error",
+        actions: [
+          "click element [data-explorer-menu-item] > a",
+          "wait for element .explorer to be visible",
+        ],
+        requestOverrides: adminAPIFailure,
+      },
+    ],
   },
   {
     label: "Edit bird",
@@ -124,20 +165,137 @@ const navigation = [
     label: "No JS",
     path: "/",
     category: "Navigation",
-    onBeforeScript: "disableJS.js",
+    disableJS: true,
     notes:
       "“Javascript is required to use Wagtail, but it is currently disabled.” banner at the top of all pages",
-    skip: "No way to disable JavaScript with Chromy at the moment.",
+    skip:
+      "This would be possible with page.setJavaScriptEnabled(false), but is not supported by pa11y atm.",
   },
   { label: "Page not found (404)", path: "/404", category: "Navigation" },
   {
     label: "Unauthorised access (403)",
-    path: "/",
+    path: `/admin/users/${USER_ID}/delete/`,
     category: "Navigation",
     notes:
       "“Sorry, you do not have permission to access this area.” message at the top of the dasboard",
-    skip: "Needs to use an account that is not admin",
+    actions: [
+      // `navigate to http://localhost:8000/admin/users/${USER_ID}/delete/`,
+      "wait for element .error to be visible",
+    ],
+    skip: "pa11y does not support redirects at the moment",
   },
+];
+
+const account = [
+  contentOnly({
+    label: "Account actions",
+    path: "/account/",
+    category: "User account",
+  }),
+  contentOnly({
+    label: "Change profile picture",
+    path: "/account/change_avatar/",
+    category: "User account",
+    states: [
+      {
+        label: "Validation error",
+        actions: [
+          'click element [action="/admin/account/change_avatar/"] button',
+        ],
+      },
+    ],
+  }),
+  contentOnly({
+    label: "Change email",
+    path: "/account/change_email/",
+    category: "User account",
+    states: [
+      {
+        label: "Validation error",
+        actions: [
+          "set field #id_email to invalid@mail",
+          'click element [value="Change email"]',
+          "wait for element .error-message to be visible",
+        ],
+      },
+      {
+        label: "Success",
+        actions: [
+          'click element [value="Change email"]',
+          "wait for element .success to be visible",
+        ],
+      },
+    ],
+  }),
+  contentOnly({
+    label: "Change password",
+    path: "/account/change_password/",
+    category: "User account",
+    states: [
+      {
+        label: "Validation error",
+        actions: [
+          'click element [action="/admin/account/change_password/"] [type="submit"]',
+          "wait for element .error-message to be visible",
+        ],
+      },
+      {
+        label: "Success",
+        path: "/account/change_password/",
+        actions: [
+          "set field #id_old_password to changeme",
+          "set field #id_new_password1 to changeme",
+          "set field #id_new_password2 to changeme",
+          'click element [action="/admin/account/change_password/"] [type="submit"]',
+          "wait for element .success to be visible",
+        ],
+        // TODO Skip.
+        skip: "Resets the sessionid cookie, makes the remaining tests break",
+      },
+    ],
+  }),
+  contentOnly({
+    label: "Notification preferences",
+    path: "/account/notification_preferences/",
+    category: "User account",
+    states: [
+      {
+        label: "Success",
+        actions: [
+          'click element [value="Update"]',
+          "wait for element .success to be visible",
+        ],
+      },
+    ],
+  }),
+  contentOnly({
+    label: "Language preferences",
+    path: "/account/language_preferences/",
+    category: "User account",
+    states: [
+      {
+        label: "Success",
+        actions: [
+          'click element [value="Update"]',
+          "wait for element .success to be visible",
+        ],
+      },
+    ],
+  }),
+  contentOnly({
+    label: "Current time zone",
+    path: "/account/current_time_zone/",
+    category: "User account",
+    states: [
+      {
+        label: "Success",
+        actions: [
+          'click element [value="Update"]',
+          "wait for element .success to be visible",
+        ],
+      },
+    ],
+  }),
 ];
 
 const pages = [
@@ -146,11 +304,38 @@ const pages = [
     path: `/pages/${PAGE_ID}/`,
     category: "Pages",
     states: [
-      "Empty",
-      "Reorder child pages",
-      "Sort by <column>",
+      {
+        label: "Empty",
+        path: `/pages/${BAKERYDEMO_EMPTY_BLOG_PAGE_ID}/`,
+        fixturesRequirements: [
+          `Empty blog index page id=${BAKERYDEMO_EMPTY_BLOG_PAGE_ID}`,
+        ],
+      },
+      {
+        label: "Reorder child pages",
+        path: `/pages/${PAGE_ID}/?ordering=ord`,
+      },
+      {
+        label: "Reorder success",
+        skip: "Impossible to reach without drag'n'drop",
+      },
+      {
+        label: "Sort by <column>",
+        path: `/pages/${PAGE_ID}/?ordering=title`,
+      },
       "Pagination",
-      "Root level",
+      {
+        label: "Pagination",
+        path: `/pages/${BAKERYDEMO_PAGINATED_BREADS_PAGE_ID}/`,
+        fixturesRequirements: [
+          `Paginated breads index page id=${BAKERYDEMO_PAGINATED_BREADS_PAGE_ID}`,
+          "51 bread pages under paginated breads index page",
+        ],
+      },
+      {
+        label: "Root level",
+        path: "/pages/",
+      },
     ],
   }),
   contentOnly({
@@ -158,78 +343,182 @@ const pages = [
     path: "/pages/search/?q=bread",
     category: "Pages",
     states: [
-      "No results",
-      "Page type filter",
-      "Sort by <column>",
-      "Pagination",
+      {
+        label: "No results",
+        path: "/pages/search/?q=pain",
+      },
+      {
+        label: "Page type filter",
+        path: "/pages/search/?q=bread&content_type=blog.blogpage",
+      },
+      {
+        label: "Sort by <column>",
+        path: "/pages/search/?ordering=title&q=bread",
+      },
+      {
+        label: "Pagination",
+        path: "/pages/search/?q=b",
+      },
     ],
   }),
   contentOnly({
     label: "Set privacy",
     path: `/pages/${PAGE_ID}/`,
     category: "Pages",
-    states: ["Validation error"],
     // TODO Privacy type select not working.
     // clickSelector: ['.action-set-privacy', '[for="id_restriction_type_2"]'],
     clickSelector: [".action-set-privacy"],
+    actions: [
+      "click element .action-set-privacy",
+      "wait for element .modal-body to be visible",
+    ],
+    states: [
+      {
+        label: "Validation error",
+        actions: [
+          "click element .action-set-privacy",
+          "wait for element .modal-body to be visible",
+          "click element #id_restriction_type_2",
+          'click element [value="Save"]',
+          "wait for element .error-message to be visible",
+        ],
+        skip: "Privacy type select not working",
+      },
+    ],
   }),
   contentOnly({
     label: "View all revisions",
-    path: `/pages/${PAGE_ID}/revisions/`,
+    path: `/pages/${BAKERYDEMO_REVISIONS_PAGE_ID}/revisions/`,
     category: "Pages",
-    states: ["Sort by <column>", "Pagination"],
+    states: [
+      {
+        label: "Sort by <column>",
+        path: `/pages/${BAKERYDEMO_REVISIONS_PAGE_ID}/revisions/?ordering=created_at`,
+      },
+      {
+        label: "Pagination",
+        skip: "Not implemented",
+      },
+    ],
   }),
   contentOnly({
     label: "Compare revisions",
-    path: `/pages/${PAGE_ID}/revisions/compare/32...34/`,
+    path: `/pages/${BAKERYDEMO_REVISIONS_PAGE_ID}/revisions/compare/1...131/`,
     category: "Pages",
-    states: ["Empty"],
+    states: [
+      {
+        label: "Empty",
+        path: `/pages/${BAKERYDEMO_REVISIONS_PAGE_ID}/revisions/compare/131...132/`,
+      },
+    ],
   }),
   contentOnly({
     label: "Preview revision",
-    path: `/pages/${PAGE_ID}/revisions/37/view/`,
+    path: `/pages/${BAKERYDEMO_REVISIONS_PAGE_ID}/revisions/37/view/`,
     category: "Pages",
     notes:
       "This serves the same view as the “live” page, but with different content. This should at least change the page title to make it clear it's a revision",
+    skip: "Not reviewable automatically",
   }),
   contentOnly({
     label: "Review revision",
-    path: `/pages/${PAGE_ID}/revisions/37/revert/`,
+    path: `/pages/${BAKERYDEMO_REVISIONS_PAGE_ID}/revisions/131/revert/`,
     category: "Pages",
-    states: ["Success"],
+    states: [
+      {
+        label: "Success",
+        actions: [
+          "click element .action-save",
+          "wait for element .success to be visible",
+        ],
+        skip: "TODO troubleshoot CSRF issue",
+      },
+    ],
     notes:
       "Uses the standard page editing UI, but with a top banner and different footer",
   }),
   contentOnly({
     label: "Unpublish",
-    path: `/pages/${PAGE_ID}/unpublish/`,
+    path: `/pages/${BAKERYDEMO_EMPTY_BLOG_PAGE_ID}/unpublish/`,
     category: "Pages",
-    states: ["Success"],
+    states: [
+      {
+        label: "Success",
+        actions: [
+          'click element [value="Yes, unpublish it"]',
+          "wait for element .success to be visible",
+        ],
+        skip: "TODO troubleshoot CSRF issue",
+      },
+    ],
+    fixturesRequirements: ["Empty blog index page"],
   }),
   contentOnly({
     label: "Delete",
     path: `/pages/${PAGE_ID}/delete/`,
     category: "Pages",
-    states: ["Success"],
+    states: [
+      {
+        label: "Success",
+        actions: [
+          'click element [value="Yes, delete it"]',
+          "wait for element .success to be visible",
+        ],
+        skip:
+          "TODO troubleshoot CSRF issue. And do we really want to delete a page?",
+      },
+    ],
   }),
   contentOnly({
     label: "Copy",
     path: `/pages/${PAGE_ID}/copy/`,
     category: "Pages",
-    states: ["Validation error", "Success"],
+    states: [
+      {
+        label: "Validation error",
+        actions: [
+          'click element [value="Copy this page"]',
+          "wait for element .error-message to be visible",
+        ],
+        skip: "TODO troubleshoot CSRF issue.",
+      },
+      {
+        label: "Success",
+        actions: [],
+        skip: "TODO troubleshoot CSRF issue.",
+      },
+    ],
   }),
   contentOnly({
     label: "Move",
-    path: `/pages/69/move/60/`,
+    path: `/pages/69/move/${BAKERYDEMO_HOMEPAGE_ID}/`,
     category: "Pages",
-    states: ["Pagination", "No move target", "Confirm", "Success"],
+    states: [
+      {
+        label: "Pagination",
+        path: `/pages/69/move/${BAKERYDEMO_PAGINATED_BREADS_PAGE_ID}/`,
+      },
+      {
+        label: "No move target",
+        path: `/pages/69/move/61/`,
+      },
+      {
+        label: "Confirm",
+        path: `/pages/69/move/76/confirm/`,
+      },
+      {
+        label: "Success",
+        path: `/pages/69/move/76/confirm/`,
+        skip: "TODO troubleshoot CSRF issue.",
+      },
+    ],
   }),
   contentOnly({
     label: "Edit lock",
     path: `/pages/${PAGE_ID}/edit/`,
     category: "Pages",
-    states: ["Locked", "Unlocked"],
-    skip: "To implement",
+    states: ["Locked"],
+    skip: "TODO troubleshoot CSRF issue.",
   }),
   contentOnly({
     label: "Add child page",
@@ -238,7 +527,7 @@ const pages = [
   }),
   contentOnly({
     label: "Create",
-    path: `/pages/add/base/homepage/60/`,
+    path: `/pages/add/blog/blogindexpage/${BAKERYDEMO_HOMEPAGE_ID}/`,
     category: "Pages",
     states: ["Validation error", "Success"],
   }),
@@ -246,12 +535,14 @@ const pages = [
     label: "Edit",
     path: `/pages/${PAGE_ID}/edit/`,
     category: "Pages",
+    states: ["Validation error", "Success"],
   }),
   contentOnly({
     label: "Edit promote tab",
     path: `/pages/${PAGE_ID}/edit/#tab-promote`,
     category: "Pages",
     clickSelector: '[href="#tab-promote"]',
+    actions: ["wait for element #tab-promote to be visible"],
   }),
   contentOnly({
     label: "Edit settings tab",
@@ -260,6 +551,7 @@ const pages = [
     // TODO Point to a specific, stable date.
     // clickSelector: ['[href="#tab-settings"]', '[for="id_go_live_at"]'],
     clickSelector: ['[href="#tab-settings"]'],
+    actions: ["wait for element #tab-settings to be visible"],
   }),
   {
     label: "Preview",
@@ -267,6 +559,7 @@ const pages = [
     category: "Pages",
     notes:
       "This serves the same view as the “live” page, but with different content. This should at least change the page title to make it clear it's a revision",
+    skip: "Not reviewable automatically",
   },
 ];
 
@@ -282,18 +575,43 @@ const richtext = [
       "Bullet list",
       "Numbered list",
     ],
+    fixturesRequirements: ["Rich text content on homepage field"],
   },
   {
     label: "Blocks",
     path: `/pages/${PAGE_ID}/edit/`,
     category: "Rich text",
-    states: ["Horizontal rule", "Embed", "Image", "Blocks tooltip"],
+    states: [
+      "Horizontal rule",
+      "Embed",
+      "Image",
+      {
+        label: "Blocks tooltip",
+        actions: [
+          "click element .MediaBlock",
+          "wait for element .Tooltip to be visible",
+        ],
+        skip: "Click not working",
+      },
+    ],
+    fixturesRequirements: ["Rich text content on homepage field"],
   },
   {
     label: "Inlines",
     path: `/pages/${PAGE_ID}/edit/`,
     category: "Rich text",
-    states: ["Links", "Documents", "Inlines tooltip"],
+    states: [
+      "Links",
+      "Documents",
+      {
+        label: "Inline tooltips",
+        actions: [
+          "click element .TooltipEntity",
+          "wait for element .Tooltip to be visible",
+        ],
+        skip: "Click not working",
+      },
+    ],
   },
   {
     label: "Other controls",
@@ -306,9 +624,32 @@ const richtext = [
 const choosers = [
   contentOnly({
     label: "Image chooser",
-    path: `/pages/${PAGE_ID}/edit/`,
+    path: `/pages/${BAKERYDEMO_EMPTY_BLOG_PAGE_ID}/edit/`,
     category: "Choosers",
-    states: ["Loading", "Pagination", "Collections filter", "Search"],
+    actions: [
+      "click element .unchosen .action-choose",
+      "wait for element .modal-body to be visible",
+    ],
+    states: [
+      { label: "Loading", actions: ["click element .unchosen .action-choose"] },
+      "Pagination",
+      {
+        label: "Collections filter",
+        actions: [
+          "click element .unchosen .action-choose",
+          "wait for element .modal-body to be visible",
+          "set #collection_chooser_collection_id to 2",
+        ],
+      },
+      {
+        label: "Search",
+        actions: [
+          "click element .unchosen .action-choose",
+          "wait for element .modal-body to be visible",
+          "set #id_q to bread",
+        ],
+      },
+    ],
     typeSelector: '[for="id_promo_text"] + div .richtext',
     clickSelector: '[title="Images"]',
     onReadySelector: '[action="/admin/images/chooser/?select_format=true"]',
@@ -316,43 +657,176 @@ const choosers = [
   }),
   contentOnly({
     label: "Images chooser upload",
-    path: `/pages/${PAGE_ID}/edit/`,
+    path: `/pages/${BAKERYDEMO_EMPTY_BLOG_PAGE_ID}/edit/`,
     category: "Choosers",
-    states: ["Uploading", "Validation error"],
+    actions: [
+      "click element .unchosen .action-choose",
+      "wait for element .modal-body to be visible",
+      'click element [href="#upload"]',
+    ],
+    states: [
+      {
+        label: "Uploading",
+        actions: [
+          "click element .unchosen .action-choose",
+          "wait for element .modal-body to be visible",
+          'click element [href="#upload"]',
+          'click element .image-upload [type="submit"]',
+        ],
+      },
+      {
+        label: "Validation error",
+        actions: [
+          "click element .unchosen .action-choose",
+          "wait for element .modal-body to be visible",
+          'click element [href="#upload"]',
+          'click element .image-upload [type="submit"]',
+          "wait for element .error-message to be visible",
+        ],
+      },
+    ],
     clickSelector: [
       "#id_image-chooser li:nth-child(2) button",
       '[href="#upload"]',
     ],
-    skip: "TODO Does not seem to work for the second selector?",
   }),
   contentOnly({
     label: "Embed chooser",
-    path: `/pages/${PAGE_ID}/edit/`,
+    path: `/snippets/base/footertext/add/`,
     category: "Choosers",
-    states: ["Loading", "Validation error", "Uploading"],
+    actions: [
+      'click [name="EMBED"]',
+      "wait for element .modal-body to be visible",
+    ],
+    states: [
+      { label: "Loading", actions: ['click [name="EMBED"]'] },
+      {
+        label: "Validation error",
+        actions: [
+          'click [name="EMBED"]',
+          "wait for element .modal-body to be visible",
+          'click .embed-form [type="submit"]',
+          "wait for element .error-message to be visible",
+        ],
+      },
+      {
+        label: "Uploading",
+        actions: [
+          'click [name="EMBED"]',
+          "wait for element .modal-body to be visible",
+          "set #id_url to https://www.youtube.com/watch?v=eIGnJCVw908",
+          'click .embed-form [type="submit"]',
+        ],
+      },
+    ],
     typeSelector: '[for="id_promo_text"] + div .richtext',
     clickSelector: '[title="Embed"]',
     onReadySelector: '[action="/admin/embeds/chooser/upload/"]',
   }),
   contentOnly({
     label: "Document chooser",
-    path: `/pages/${PAGE_ID}/edit/`,
+    path: `/snippets/base/footertext/add/`,
     category: "Choosers",
-    states: ["Loading", "Pagination", "Collections filter", "Search"],
+    actions: [
+      'click [name="DOCUMENT"]',
+      "wait for element .modal-body to be visible",
+    ],
+    states: [
+      { label: "Loading", actions: ['click [name="DOCUMENT"]'] },
+      "Pagination",
+      {
+        label: "Collections filter",
+        actions: [
+          'click [name="DOCUMENT"]',
+          "wait for element .modal-body to be visible",
+          "set #collection_chooser_collection_id to 2",
+        ],
+      },
+      {
+        label: "Search",
+        actions: [
+          'click [name="DOCUMENT"]',
+          "wait for element .modal-body to be visible",
+          "set #id_q to test",
+        ],
+      },
+    ],
     typeSelector: '[for="id_promo_text"] + div .richtext',
     clickSelector: '[title="Documents"]',
     onReadySelector: '[action="/admin/documents/chooser/"]',
   }),
   contentOnly({
-    label: "Link chooser",
-    path: `/pages/${PAGE_ID}/edit/`,
+    label: "Document chooser upload",
+    path: `/snippets/base/footertext/add/`,
     category: "Choosers",
+    actions: [
+      'click [name="DOCUMENT"]',
+      "wait for element .modal-body to be visible",
+      'click [href="#upload"]',
+    ],
     states: [
-      "Loading",
-      "Pagination",
-      "Search",
-      "Explorer navigation",
-      "Preselected page",
+      {
+        label: "Uploading",
+        actions: [
+          'click [name="DOCUMENT"]',
+          "wait for element .modal-body to be visible",
+          'click [href="#upload"]',
+          'click .document-upload [type="submit"]',
+        ],
+      },
+      {
+        label: "Validation error",
+        actions: [
+          'click [name="DOCUMENT"]',
+          "wait for element .modal-body to be visible",
+          'click [href="#upload"]',
+          'click .document-upload [type="submit"]',
+          "wait for element .error-message to be visible",
+        ],
+        skip: "CSRF token error to investigate",
+      },
+    ],
+  }),
+  contentOnly({
+    label: "Link chooser",
+    path: `/snippets/base/footertext/add/`,
+    category: "Choosers",
+    actions: [
+      'click [name="LINK"]',
+      "wait for element .modal-body to be visible",
+    ],
+    states: [
+      {
+        label: "Loading",
+        actions: ['click [name="LINK"]'],
+      },
+      {
+        label: "Pagination",
+        actions: [
+          'click [name="LINK"]',
+          "wait for element .modal-body to be visible",
+          "set #id_q to b",
+          'wait for element [href="#53"] to be visible',
+        ],
+      },
+      {
+        label: "Search",
+        actions: [
+          'click [name="LINK"]',
+          "wait for element .modal-body to be visible",
+          "set #id_q to bread",
+          'wait for element [href="#3"] to be visible',
+        ],
+      },
+      {
+        label: "Explorer navigation",
+        actions: [
+          'click [name="LINK"]',
+          "wait for element .modal-body to be visible",
+          "click .navigate-pages",
+          'wait for element [href="#63"] to be visible',
+        ],
+      },
     ],
     typeSelector: '[for="id_promo_text"] + div .richtext',
     clickSelector: '[title="Add/Edit Link"]',
@@ -369,41 +843,83 @@ const choosers = [
   // }),
   {
     label: "Link chooser – external link",
-    path: `/pages/${PAGE_ID}/edit/`,
+    path: `/snippets/base/footertext/add/`,
     category: "Choosers",
-    states: ["Validation error"],
+    actions: [
+      'click [name="LINK"]',
+      "wait for element .modal-body to be visible",
+      'click [href*="/admin/choose-external-link/"]',
+    ],
+    states: [
+      {
+        label: "Validation error",
+        actions: [
+          'click [name="LINK"]',
+          "wait for element .modal-body to be visible",
+          'click [href*="/admin/choose-external-link/"]',
+          'wait for element [value="Insert link"] to be visible',
+          'click [value="Insert link"]',
+          "wait for element .error-message to be visible",
+        ],
+        skip: "CSRF token error to investigate",
+      },
+    ],
     typeSelector: '[for="id_promo_text"] + div .richtext',
     clickSelector: [
       '[title="Add/Edit Link"]',
       '[href*="/admin/choose-external-link/"]',
     ],
-    skip: "TODO Investigate",
   },
   {
-    label: "Email link chooser",
-    path: `/pages/${PAGE_ID}/edit/`,
+    label: "Link chooser – email link",
+    path: `/snippets/base/footertext/add/`,
     category: "Choosers",
-    states: ["Validation error"],
+    actions: [
+      'click [name="LINK"]',
+      "wait for element .modal-body to be visible",
+      'click [href*="/admin/choose-email-link/"]',
+    ],
+    states: [
+      {
+        label: "Validation error",
+        actions: [
+          'click [name="LINK"]',
+          "wait for element .modal-body to be visible",
+          'click [href*="/admin/choose-email-link/"]',
+          'wait for element [value="Insert link"] to be visible',
+          'click [value="Insert link"]',
+          "wait for element .error-message to be visible",
+        ],
+        skip: "CSRF token error to investigate",
+      },
+    ],
     typeSelector: '[for="id_promo_text"] + div .richtext',
     clickSelector: [
       '[title="Add/Edit Link"]',
       '[href*="/admin/choose-email-link/"]',
     ],
-    skip: "TODO Investigate",
   },
-  contentOnly({
-    label: "Page chooser",
-    path: `/pages/${PAGE_ID}/edit/`,
+  {
+    label: "Snippet chooser",
+    path: "/pages/68/edit/",
     category: "Choosers",
-    states: [
-      "Loading",
-      "Pagination",
-      "Search",
-      "Explorer navigation",
-      "Preselected page",
+    actions: [
+      "click .snippet-chooser .chosen .action-choose",
+      "wait for element .modal-body to be visible",
     ],
-    skip: "Not implemented",
-  }),
+    states: [
+      "Empty",
+      {
+        label: "Search",
+        actions: [
+          "click .snippet-chooser .chosen .action-choose",
+          "wait for element .modal-body to be visible",
+          "set #id_q to w",
+        ],
+      },
+      "Pagination",
+    ],
+  },
 ];
 
 const streamfield = [
@@ -426,15 +942,37 @@ const streamfield = [
 const inlinepanel = [
   {
     label: "InlinePanel",
-    path: `/pages/${PAGE_ID}/edit/`,
+    path: `/pages/68/edit/`,
     category: "Panels",
-    states: ["Add", "Move", "Delete"],
+    states: [
+      { label: "Add", actions: ["click #id_blog_person_relationship-ADD"] },
+      {
+        label: "Move",
+        actions: [
+          "click #id_blog_person_relationship-ADD",
+          "wait for #inline_child_blog_person_relationship-1 to be visible",
+          "click #blog_person_relationship-1-move-up",
+        ],
+      },
+      {
+        label: "Delete",
+        actions: ["click #id_blog_person_relationship-0-DELETE-button"],
+      },
+    ],
   },
   {
     label: "MultiFieldPanel",
-    path: `/pages/${PAGE_ID}/edit/`,
+    path: `/pages/34/edit/`,
     category: "Panels",
-    notes: "Collapses",
+    states: [
+      {
+        label: "Expanded",
+        actions: [
+          "click #tab-content .multi-field",
+          "wait for element #tab-content .multi-field .object-layout to be visible",
+        ],
+      },
+    ],
   },
 ];
 
@@ -555,7 +1093,7 @@ const media = [
   }),
   contentOnly({
     label: "Delete",
-    path: "/images/delete/1/",
+    path: "/media/delete/1/",
     category: "Media",
     states: ["Success"],
   }),
@@ -881,25 +1419,25 @@ const promotedSearchSettings = [
   }),
   contentOnly({
     label: "Search",
-    path: "/searchpicks/?q=test",
+    path: "/searchpicks/?q=bread",
     category: "Promoted search",
     states: ["No results", "Pagination"],
   }),
   contentOnly({
     label: "Edit",
-    path: "/searchpicks/5/",
+    path: "/searchpicks/4/",
     category: "Promoted search",
     states: ["Validation error", "Success"],
   }),
   contentOnly({
     label: "Add / Edit search term chooser",
-    path: "/searchpicks/5/",
+    path: "/searchpicks/4/",
     category: "Promoted search",
     states: ["Loading", "Search", "Search no results", "Pagination"],
   }),
   contentOnly({
     label: "Add / edit pages chooser",
-    path: "/searchpicks/5/",
+    path: "/searchpicks/4/",
     category: "Promoted search",
     states: ["Loading", "Search", "Search no results", "Explorer navigation"],
   }),
@@ -913,7 +1451,7 @@ const promotedSearchSettings = [
   }),
   contentOnly({
     label: "Delete",
-    path: "/searchpicks/5/delete/",
+    path: "/searchpicks/4/delete/",
     category: "Promoted search",
     states: ["Success"],
   }),
@@ -947,122 +1485,11 @@ const settings = [
   ...settingsContrib,
 ];
 
-const account = [
-  contentOnly({
-    label: "Account actions",
-    path: "/account/",
-    category: "User account",
-  }),
-  contentOnly({
-    label: "Change profile picture",
-    path: "/account/change_avatar/",
-    category: "User account",
-    states: [
-      {
-        label: "Validation error",
-        actions: [
-          'click element [action="/admin/account/change_avatar/"] button',
-        ],
-      },
-    ],
-  }),
-  contentOnly({
-    label: "Change email",
-    path: "/account/change_email/",
-    category: "User account",
-    states: [
-      {
-        label: "Validation error",
-        actions: [
-          "set field #id_email to invalid@mail",
-          'click element [value="Change email"]',
-          "wait for element .error-message to be visible",
-        ],
-      },
-      {
-        label: "Success",
-        actions: [
-          'click element [value="Change email"]',
-          "wait for element .success to be visible",
-        ],
-      },
-    ],
-  }),
-  contentOnly({
-    label: "Change password",
-    path: "/account/change_password/",
-    category: "User account",
-    states: [
-      {
-        label: "Validation error",
-        actions: [
-          'click element [action="/admin/account/change_password/"] [type="submit"]',
-          "wait for element .error-message to be visible",
-        ],
-      },
-      {
-        label: "Success",
-        path: "/account/change_password/",
-        actions: [
-          "set field #id_old_password to changeme",
-          "set field #id_new_password1 to changeme",
-          "set field #id_new_password2 to changeme",
-          'click element [action="/admin/account/change_password/"] [type="submit"]',
-          "wait for element .success to be visible",
-        ],
-        // TODO Skip.
-        skip: "Resets the sessionid cookie, makes the remaining tests break",
-      },
-    ],
-  }),
-  contentOnly({
-    label: "Notification preferences",
-    path: "/account/notification_preferences/",
-    category: "User account",
-    states: [
-      {
-        label: "Success",
-        actions: [
-          'click element [value="Update"]',
-          "wait for element .success to be visible",
-        ],
-      },
-    ],
-  }),
-  contentOnly({
-    label: "Language preferences",
-    path: "/account/language_preferences/",
-    category: "User account",
-    states: [
-      {
-        label: "Success",
-        actions: [
-          'click element [value="Update"]',
-          "wait for element .success to be visible",
-        ],
-      },
-    ],
-  }),
-  contentOnly({
-    label: "Current time zone",
-    path: "/account/current_time_zone/",
-    category: "User account",
-    states: [
-      {
-        label: "Success",
-        actions: [
-          'click element [value="Update"]',
-          "wait for element .success to be visible",
-        ],
-      },
-    ],
-  }),
-];
-
 const scenarios = [
   ...dashboard,
   ...auth,
   ...navigation,
+  ...account,
   ...pages,
   ...richtext,
   ...choosers,
@@ -1075,7 +1502,6 @@ const scenarios = [
   ...snippets,
   ...forms,
   ...settings,
-  ...account,
 ];
 
 module.exports = scenarios;
