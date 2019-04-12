@@ -1,7 +1,7 @@
 /**
  * Manually extracted from https://github.com/pa11y/pa11y/wiki/HTML-CodeSniffer-Rules.
  */
-module.exports = {
+const rules = {
   "WCAG2A.Principle1.Guideline1_1.1_1_1.H30.2": {
     description: `Img element is the only content of the link, but is missing alt text. The alt text should describe the purpose of the link.`,
     standard: "WCAG2.0",
@@ -414,6 +414,13 @@ module.exports = {
     level: "A",
     sc: "1.3.1",
     techniques: "H48",
+  },
+  "WCAG2AA.Principle1.Guideline1_3.1_3_1.F68": {
+    description: `This form field should be labelled in some way. Use the label element (either with a "for" attribute or wrapped around the form field), or "title", "aria-label" or "aria-labelledby" attributes as appropriate.`,
+    standard: "WCAG2.0",
+    level: "AA",
+    sc: "1.3.1",
+    techniques: "F68",
   },
   "WCAG2A.Principle1.Guideline1_3.1_3_2.G57": {
     description: `Check that the content is ordered in a meaningful sequence when linearised, such as when style sheets are disabled.`,
@@ -2562,3 +2569,32 @@ module.exports = {
     techniques: "H91.[NodeName].Value",
   },
 };
+
+const nodeNames = [
+  "Button",
+  "Fieldset",
+  "InputText",
+  "InputRadio",
+  "Textarea",
+  "InputFile",
+  "InputCheckbox",
+];
+
+const dupeRules = {
+  "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail":
+    rules["WCAG2AA.Principle1.Guideline1_4.1_4_3.G18"],
+  "WCAG2AA.Principle2.Guideline2_4.2_4_1.G1,G123,G124.NoSuchID":
+    rules["WCAG2AA.Principle2.Guideline2_4.2_4_1.G1,G123,G124.NoSuchId"],
+};
+
+Object.keys(rules).forEach((code) => {
+  dupeRules[code] = rules[code];
+
+  if (code.includes("[NodeName]")) {
+    nodeNames.forEach((nodeName) => {
+      dupeRules[code.replace("[NodeName]", nodeName)] = rules[code];
+    });
+  }
+});
+
+module.exports = dupeRules;
