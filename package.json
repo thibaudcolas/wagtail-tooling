@@ -30,6 +30,7 @@
     "performance:open": "open http://localhost:3000",
     "lint": "eslint . && prettier --check '**/*.{js,css,md,html,json,yaml,yml}",
     "format": "prettier --write '**/*.{js,css,md,html,json,yaml,yml}'",
+    "test:ci": "npm run lint -s",
     "pa11y": "node accessibility/pa11y-test.js"
   }
 }

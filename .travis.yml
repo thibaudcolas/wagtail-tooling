@@ -8,8 +8,7 @@ cache:
 install:
   - npm install
 script:
-  - npm run regression:test || true
-  - mv backstop/data/* examples || true
+  - npm run test:ci
 branches:
   except:
     - gh-pages
