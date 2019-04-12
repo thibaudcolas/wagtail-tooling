@@ -1,6 +1,7 @@
 const fs = require("fs");
 const axeRules = require("./docs/axe-rules");
 const htmlcsRules = require("./docs/htmlcs-rules");
+const wcag21 = require("./docs/wcag21.json");
 
 const axeSuccessCriteria = {};
 Object.keys(axeRules).forEach((id) => {
@@ -57,8 +58,45 @@ Object.keys(axeRules).forEach((id) => {
   rulesMapping[id] = matches;
 });
 
-// fs.writeFileSync(
-//   "./rules-mapping.json",
-//   JSON.stringify(rulesMapping, null, 2),
-//   "utf8",
-// );
+const scMapping = {};
+
+wcag21.principles.forEach((principle) => {
+  principle.guidelines.forEach((guideline) => {
+    guideline.successcriteria.forEach((sc) => {
+      const { id, alt_id, num, versions, level, handle, title } = sc;
+
+      const rules = {};
+
+      rules.axe = Object.keys(axeRules).filter((id) =>
+        axeRules[id].sc.includes(sc.num),
+      );
+
+      rules.htmlcs = Object.keys(htmlcsRules).filter(
+        (id) => htmlcsRules[id].sc === sc.num,
+      );
+
+      rules.manual = [];
+
+      scMapping[sc.num] = {
+        id,
+        alt_id,
+        num,
+        versions,
+        level,
+        handle,
+        title,
+        rules,
+      };
+
+      // if (rules.axe.length === 0 || rules.htmlcs.length === 0) {
+      //   console.log(num, title);
+      // }
+    });
+  });
+});
+
+fs.writeFileSync(
+  "./success-criteria-mapping.json",
+  JSON.stringify(scMapping, null, 2),
+  "utf8",
+);
