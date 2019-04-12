@@ -1,7 +1,16 @@
 const fs = require("fs");
 const { convertArrayToCSV } = require("convert-array-to-csv");
 
-const issues = require("./data/pa11y.json");
+const manualIssues = require("./manual-testing.json");
+const automatedIssues = require("./data/pa11y.json");
+
+// const axeToHTMLCS = require("./axe-htmlcs-mapping.json");
+// const htmlcsToAxe = Object.keys(axeToHTMLCS).reduce((obj, k) => {
+//   obj[axeToHTMLCS[k]] = k;
+//   return obj;
+// }, {});
+
+const issues = [...manualIssues, ...automatedIssues];
 
 const uniqueIssues = issues.reduce((unique, issue) => {
   const {
@@ -13,8 +22,12 @@ const uniqueIssues = issues.reduce((unique, issue) => {
     message,
     type,
     selector,
+    runner,
   } = issue;
-  const id = `${issue.code}${issue.selector}${issue.context}`;
+  // let codeCompat = runner === "htmlcs" ? htmlcsToAxe[code] : axeToHTMLCS[code];
+  // const issueCode = runner === "htmlcs" ? [codeCompat, code] : [code, codeCompat]
+
+  const id = `${code}${selector}${context}`;
   const uniqueIssue = unique[id];
 
   const instance = {
@@ -32,6 +45,7 @@ const uniqueIssues = issues.reduce((unique, issue) => {
       message,
       type,
       selector,
+      runner,
       instances: [instance],
     };
   }

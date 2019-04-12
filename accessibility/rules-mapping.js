@@ -4,6 +4,7 @@ const allAxeRules = axe.getRules(["wcag2a", "wcag2aa", "wcag2aaa"]);
 
 const axeRules = allAxeRules.reduce((rules, rule) => {
   rules[rule.ruleId] = rule.tags;
+  console.log(rule);
   return rules;
 }, {});
 
