@@ -14,18 +14,16 @@ const hasOnlyFlag = (s) =>
 const HAS_ONLY_FILTER = scenarios.find(hasOnlyFlag);
 
 scenarios.forEach((scenario) => {
-  if (!views.find((v) => v.path === scenario.path)) {
-    views.push(scenario);
-  }
-
   const states = scenario.states || [];
+
+  views.push(scenario);
 
   states
     .filter((s) => typeof s === "object")
     .forEach((state) => {
       views.push(
         Object.assign({}, scenario, state, {
-          label: `${scenario.label}: ${state.label}`,
+          label: `${scenario.label} - ${state.label}`,
         }),
       );
     });
@@ -54,8 +52,8 @@ const getAuthCookie = async (browser) => {
   await page.keyboard.press("Enter");
   await page.waitFor(".page404__header");
   const sessionid = await page.evaluate(() => {
-    const cookieMatch = document.cookie.match(/sessionid=(.+)(;|$)/);
-    return cookieMatch ? cookieMatch[1] : "test";
+    const cookieMatch = document.cookie.match(/sessionid=([^;]+)/);
+    return cookieMatch ? cookieMatch[1] : "error";
   });
 
   // We will be setting the cookie manually per-page. Do not want it to be stored for the whole browser.
@@ -92,6 +90,48 @@ const run = async () => {
 
       const page = await browser.newPage();
 
+      const headers = {
+        Cookie: `sessionid=${sharedCookie.value};`,
+      };
+
+      await page.setRequestInterception(true);
+      page.removeAllListeners("request");
+      let interceptionHandled = false;
+      page.on("request", (request) => {
+        // This is normally implemented by pa11y. We do this ourselves because it would be incompatible with any other request override.
+        const overrides = {};
+        if (!scenario.unauthenticated) {
+          if (!interceptionHandled) {
+            overrides.headers = {};
+            for (const [key, value] of Object.entries(headers)) {
+              overrides.headers[key.toLowerCase()] = value;
+            }
+
+            interceptionHandled = true;
+          }
+        }
+
+        if (scenario.requestOverrides) {
+          const overrideKey = Object.keys(scenario.requestOverrides).find(
+            (path) => request.url().includes(path),
+          );
+          const override = scenario.requestOverrides[overrideKey];
+
+          if (override) {
+            if (typeof override === "object") {
+              request.respond(override);
+            } else {
+              setTimeout(() => {
+                request.continue();
+              }, override);
+            }
+            return;
+          }
+        }
+
+        request.continue(overrides);
+      });
+
       await page.deleteCookie({
         name: "sessionid",
         domain: "localhost",
@@ -99,11 +139,18 @@ const run = async () => {
       });
 
       if (!scenario.unauthenticated) {
+        if (sharedCookie === "error") {
+          throw new Error(
+            "sessionid cookie is unreadable. Did you set up SESSION_COOKIE_HTTPONLY = False in Django settings?",
+          );
+        }
         await page.setCookie(sharedCookie);
       }
 
+      const fullLabel = `${scenario.category} – ${scenario.label}`;
+
       const pa11yOptions = {
-        standard: "WCAG2AAA",
+        standard: "WCAG2AA",
         log: {
           debug: console.log,
           error: console.error,
@@ -111,22 +158,16 @@ const run = async () => {
         },
         runners: ["axe", "htmlcs"],
         actions: scenario.actions || [],
-        headers: {
-          Cookie: `sessionid=${
-            scenario.unauthenticated ? "test" : sharedCookie.value
-          };`,
-        },
-        viewport: {
+        viewport: scenario.viewport || {
           width: 1024,
           height: 768,
           deviceScaleFactor: 1,
           isMobile: false,
         },
-        screenCapture: `${__dirname}/data/screenshots/${scenario.label}.png`,
+        screenCapture: `${__dirname}/data/screenshots/${fullLabel}.png`,
         browser,
         page,
       };
-
       const result = await pa11y(`${ADMIN_ROOT}${scenario.path}`, pa11yOptions);
 
       if (HAS_ONLY_FILTER) {
@@ -136,7 +177,7 @@ const run = async () => {
       issues = issues.concat(
         result.issues.map((issue) => {
           return {
-            label: `${scenario.category} – ${scenario.label}`,
+            label: fullLabel,
             documentTitle: result.documentTitle,
             pageUrl: result.pageUrl,
             code: issue.code,
