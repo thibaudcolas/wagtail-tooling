@@ -109,7 +109,7 @@ module.exports = {
   },
   "aria-roles": {
     description: "Ensures all elements with a role attribute use a valid value",
-    impact: ["Serious", "Critical"],
+    impact: "Serious",
     tags: ["cat.aria", "wcag2a", "wcag412"],
     sc: ["4.1.2"],
     standard: "WCAG2.0",
@@ -177,7 +177,7 @@ module.exports = {
   },
   "button-name": {
     description: "Ensures buttons have discernible text",
-    impact: ["Serious", "Critical"],
+    impact: "Serious",
     tags: [
       "cat.name-role-value",
       "wcag2a",
@@ -469,7 +469,7 @@ module.exports = {
   },
   label: {
     description: "Ensures every form element has a label",
-    impact: ["Minor", "Critical"],
+    impact: "Minor",
     tags: [
       "cat.forms",
       "wcag2a",
@@ -694,7 +694,7 @@ module.exports = {
   },
   "scope-attr-valid": {
     description: "Ensures the scope attribute is used correctly on tables",
-    impact: ["Moderate", "Critical"],
+    impact: "Moderate",
     tags: ["cat.tables", "best-practice"],
     sc: [],
     standard: null,
