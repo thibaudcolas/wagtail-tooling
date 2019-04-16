@@ -1,60 +1,36 @@
 const fs = require("fs");
 const { convertArrayToCSV } = require("convert-array-to-csv");
 
-const manualIssues = require("./manual-testing.json");
-const automatedIssues = require("./data/pa11y.json");
+const { getUniqueIssues } = require("./pa11y-dedupe");
 
-// const axeToHTMLCS = require("./axe-htmlcs-mapping.json");
-// const htmlcsToAxe = Object.keys(axeToHTMLCS).reduce((obj, k) => {
-//   obj[axeToHTMLCS[k]] = k;
-//   return obj;
-// }, {});
+const csvHeader = [
+  "Issue",
+  "Code",
+  "Standard",
+  "Level",
+  "Success criteria",
+  "Impact",
+  "Occurences",
+  "Selector",
+  "Context",
+  "Occurences",
+  "Screenshots",
+];
 
-const issues = [...manualIssues, ...automatedIssues];
+const uniqueIssues = getUniqueIssues();
 
-const uniqueIssues = issues.reduce((unique, issue) => {
+const rows = uniqueIssues.map((issue) => {
   const {
     label,
-    documentTitle,
-    pageUrl,
     code,
+    wcagSC,
+    standard,
+    wcagLevel,
+    impact,
     context,
-    message,
-    type,
     selector,
-    runner,
+    instances,
   } = issue;
-  // let codeCompat = runner === "htmlcs" ? htmlcsToAxe[code] : axeToHTMLCS[code];
-  // const issueCode = runner === "htmlcs" ? [codeCompat, code] : [code, codeCompat]
-
-  const id = `${code}${selector}${context}`;
-  const uniqueIssue = unique[id];
-
-  const instance = {
-    label,
-    documentTitle,
-    pageUrl,
-  };
-
-  if (uniqueIssue) {
-    unique[id].instances.push(instance);
-  } else {
-    unique[id] = {
-      code,
-      context,
-      message,
-      type,
-      selector,
-      runner,
-      instances: [instance],
-    };
-  }
-
-  return unique;
-}, {});
-
-const rows = Object.values(uniqueIssues).map((issue) => {
-  const { code, context, message, selector, instances } = issue;
 
   const instancesLabel = issue.instances
     .map(
@@ -67,17 +43,25 @@ const rows = Object.values(uniqueIssues).map((issue) => {
     .join(", ")
     .substr(0, 100);
 
-  return [message, code, instances.length, selector, context, instancesLabel];
-});
+  const screenshots = issue.instances
+    .map((instance) => instance.screenshot)
+    .join(", ")
+    .substr(0, 100);
 
-const csvHeader = [
-  "Issue",
-  "Code",
-  "Occurences",
-  "Selector",
-  "Context",
-  "Occurences",
-];
+  return [
+    label,
+    code,
+    standard,
+    wcagLevel,
+    wcagSC,
+    impact,
+    instances.length,
+    selector,
+    context,
+    instancesLabel,
+    screenshots,
+  ];
+});
 
 const csv = convertArrayToCSV(rows, {
   header: csvHeader,

@@ -1,0 +1,66 @@
+[
+  {
+    "label": "Parse error: expected 'p' at 7:2",
+    "context": "wagtail/admin/templates/wagtailadmin/collection_privacy/ancestor_privacy.html:8:2"
+  },
+  {
+    "label": "Parse error: expected '>' at 25:150",
+    "context": "wagtail/admin/templates/wagtailadmin/edit_handlers/chooser_panel.html:26:150"
+  },
+  {
+    "label": "Parse error: expected 'p' at 7:2",
+    "context": "wagtail/admin/templates/wagtailadmin/page_privacy/ancestor_privacy.html:8:2"
+  },
+  {
+    "label": "Parse error: expected 'ul' at 14:6",
+    "context": "wagtail/admin/templates/wagtailadmin/pages/listing/_button_with_dropdown.html:15:6"
+  },
+  {
+    "label": "Parse error: expected 'p' at 68:271",
+    "context": "wagtail/admin/templates/wagtailadmin/pages/listing/_list_explore.html:69:271"
+  },
+  {
+    "label": "Parse error: expected 'tbody' at 42:2",
+    "context": "wagtail/admin/templates/wagtailadmin/permissions/includes/collection_member_permissions_formset.html:43:2"
+  },
+  {
+    "label": "Parse error: expected 'td' at 33:14",
+    "context": "wagtail/contrib/forms/templates/wagtailforms/list_submissions.html:34:14"
+  },
+  {
+    "label": "Parse error: expected one of 'autoescape', 'block', 'blocktrans', 'comment', 'filter', 'for', 'if', 'ifchanged', 'ifequal', 'ifnotequal', 'not an intermediate Jinja tag name', 'spaceless', 'verbatim', 'with' at 18:8",
+    "context": "wagtail/contrib/redirects/templates/wagtailredirects/results.html:19:8"
+  },
+  {
+    "label": "Parse error: expected one of 'autoescape', 'block', 'blocktrans', 'comment', 'filter', 'for', 'if', 'ifchanged', 'ifequal', 'ifnotequal', 'not an intermediate Jinja tag name', 'spaceless', 'verbatim', 'with' at 433:205",
+    "context": "wagtail/contrib/styleguide/templates/wagtailstyleguide/base.html:434:205"
+  },
+  {
+    "label": "Parse error: expected one of '[:a-z]', 'area', 'base', 'br', 'col', 'command', 'embed', 'hr', 'img', 'input', 'keygen', 'link', 'meta', 'param', 'script', 'source', 'style', 'track', 'wbr', '{#', '{%', '{{' at 65:5",
+    "context": "wagtail/documents/templates/wagtaildocs/documents/edit.html:66:5"
+  },
+  {
+    "label": "Parse error: expected 'p' at 39:10",
+    "context": "wagtail/documents/templates/wagtaildocs/multiple/add.html:40:10"
+  },
+  {
+    "label": "Parse error: expected 'p' at 40:10",
+    "context": "wagtail/images/templates/wagtailimages/multiple/add.html:41:10"
+  },
+  {
+    "label": "Parse error: expected one of '=', '>', '[0-9-_.]', '[:a-z]', '\\s+', '{#', '{%', '{{' at 5:70",
+    "context": "wagtail/project_template/home/templates/home/welcome_page.html:6:70"
+  },
+  {
+    "label": "Parse error: expected one of 'autoescape', 'block', 'blocktrans', 'comment', 'endif', 'filter', 'for', 'if', 'ifchanged', 'ifequal', 'ifnotequal', 'not an intermediate Jinja tag name', 'spaceless', 'verbatim', 'with' at 12:11",
+    "context": "wagtail/snippets/templates/wagtailsnippets/snippets/edit.html:13:11"
+  },
+  {
+    "label": "Parse error: expected 'tbody' at 42:2",
+    "context": "wagtail/users/templates/wagtailusers/groups/includes/page_permissions_formset.html:43:2"
+  },
+  {
+    "label": "Parse error: expected 'tr' at 17:14",
+    "context": "wagtail/users/templates/wagtailusers/groups/list.html:18:14"
+  }
+]
