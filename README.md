@@ -34,7 +34,7 @@ npm run regression:open
 
 ## Git hooks
 
-Pre-commit hooks ready to use with Wagtail: [.githooks](.githooks).
+Pre-commit hooks ready to use with Wagtail: [`./hooks`](hooks).
 
 ## Examples
 
