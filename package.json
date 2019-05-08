@@ -10,7 +10,7 @@
   "dependencies": {},
   "devDependencies": {
     "axe-core": "^3.2.2",
-    "backstopjs": "^3.0.32",
+    "backstopjs": "^4.0.4",
     "convert-array-to-csv": "^1.0.6",
     "dotenv": "^4.0.0",
     "eslint": "^5.16.0",

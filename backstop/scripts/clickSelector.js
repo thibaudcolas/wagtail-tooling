@@ -3,7 +3,7 @@
  * Caution is advised.
  */
 
-module.exports = (chromy, scenario, viewport) => {
+module.exports = async (page, scenario, viewport) => {
   // console.log(`clickSelector: ${scenario.label} @${viewport.label}`);
   let clickSelector = scenario.clickSelector;
 
@@ -12,31 +12,21 @@ module.exports = (chromy, scenario, viewport) => {
   }
 
   const isMobile = viewport.width < 800;
-  const isInSidebar = chromy.exists(`.nav-wrapper ${clickSelector[0]}`);
+  const isInSidebar =
+    (await page.$(`.nav-wrapper ${clickSelector[0]}`)) !== null;
 
   if (isMobile && isInSidebar) {
-    chromy.click("#nav-toggle");
-    chromy.wait(100);
+    await page.click("#nav-toggle");
+    await page.click(clickSelector[0]);
+    await page.waitFor(100);
   }
 
-  let typeSelector = scenario.typeSelector;
-  if (typeSelector) {
-    if (!Array.isArray(typeSelector)) {
-      typeSelector = [typeSelector];
-    }
-
-    typeSelector.forEach((selector) => {
-      chromy.type(selector, "test");
-      chromy.wait(500);
-    });
+  for (const selector of [].concat(clickSelector)) {
+    await page.click(selector);
+    await page.waitFor(500);
   }
-
-  clickSelector.forEach((selector) => {
-    chromy.click(selector);
-    chromy.wait(500);
-  });
 
   if (scenario.onReadySelector) {
-    chromy.wait(scenario.onReadySelector);
+    await page.waitFor(scenario.onReadySelector);
   }
 };

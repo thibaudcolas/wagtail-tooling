@@ -1,15 +1,9 @@
-/**
- * This is evaluated in the Chrome environment, not Node.
- * Caution is advised.
- */
-const clickSelector = require("./clickSelector");
+module.exports = async (page, scenario, viewport) => {
+  console.log("SCENARIO > " + scenario.label);
 
-module.exports = (chromy, scenario, viewport) => {
-  console.log(
-    `onReady: ${scenario.index} ${scenario.fullLabel} @${viewport.label}`,
-  );
+  await page.evaluate(() => {
+    window.__REACT_DEVTOOLS_GLOBAL_HOOK__ = { isDisabled: true };
 
-  chromy.evaluate(() => {
     const preventInteractionStyles = `
         * {
             cursor: none !important;
@@ -44,6 +38,9 @@ module.exports = (chromy, scenario, viewport) => {
   });
 
   if (scenario.clickSelector) {
-    clickSelector(chromy, scenario, viewport);
+    const clickSelector = require("./clickSelector");
+    await clickSelector(page, scenario, viewport);
   }
+
+  // add more ready handlers here...
 };

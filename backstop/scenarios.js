@@ -43,10 +43,10 @@ const generateScenario = (scenario, index) => {
         // '.human-readable-date'
       ],
       onBeforeScript: "onBefore.js",
-      onReadyScript: "onReady.js",
-      cookies: {
-        sessionid: process.env.WAGTAIL_SESSIONID,
-      },
+      // onReadyScript: "onReady.js",
+      // cookies: {
+      //   sessionid: process.env.WAGTAIL_SESSIONID,
+      // },
     },
     generateLabels(scenario, index),
     scenario,
@@ -54,15 +54,6 @@ const generateScenario = (scenario, index) => {
 };
 
 const PAGE_ID = 60;
-
-const empty = [
-  { label: "Empty 1", path: "/empty", selectors: [".page404__button"] },
-  { label: "Empty 2", path: "/empty", selectors: [".page404__button"] },
-  { label: "Empty 3", path: "/empty", selectors: [".page404__button"] },
-  { label: "Empty 4", path: "/empty", selectors: [".page404__button"] },
-  { label: "Empty 5", path: "/empty", selectors: [".page404__button"] },
-  { label: "Empty 6", path: "/empty", selectors: [".page404__button"] },
-];
 
 const base = [
   { path: "/login", onBeforeScript: null },
@@ -179,61 +170,61 @@ const pages = [
 ];
 
 const richtext = [
-  {
-    path: `/pages/${PAGE_ID}/edit/`,
-    typeSelector: '[for="id_promo_text"] + div .richtext',
-    clickSelector: '[title="h2"]',
-    selectors: [".hallo_rich_text_area"],
-  },
-  {
-    path: `/pages/${PAGE_ID}/edit/`,
-    typeSelector: '[for="id_promo_text"] + div .richtext',
-    clickSelector: '[title="OL"]',
-    selectors: [".hallo_rich_text_area"],
-  },
-  {
-    path: `/pages/${PAGE_ID}/edit/`,
-    typeSelector: '[for="id_promo_text"] + div .richtext',
-    clickSelector: '[title="UL"]',
-    selectors: [".hallo_rich_text_area"],
-  },
-  {
-    path: `/pages/${PAGE_ID}/edit/`,
-    typeSelector: '[for="id_promo_text"] + div .richtext',
-    clickSelector: '[title="Horizontal rule"]',
-    selectors: [".hallo_rich_text_area"],
-  },
-  {
-    path: `/pages/${PAGE_ID}/edit/`,
-    typeSelector: '[for="id_promo_text"] + div .richtext',
-    clickSelector: ['[title="Horizontal rule"]', '[title="Undo"]'],
-    selectors: [".hallo_rich_text_area"],
-  },
-  contentOnly({
-    path: `/pages/${PAGE_ID}/edit/`,
-    typeSelector: '[for="id_promo_text"] + div .richtext',
-    clickSelector: '[title="Embed"]',
-    onReadySelector: '[action="/admin/embeds/chooser/upload/"]',
-  }),
-  contentOnly({
-    path: `/pages/${PAGE_ID}/edit/`,
-    typeSelector: '[for="id_promo_text"] + div .richtext',
-    clickSelector: '[title="Documents"]',
-    onReadySelector: '[action="/admin/documents/chooser/"]',
-  }),
-  contentOnly({
-    path: `/pages/${PAGE_ID}/edit/`,
-    typeSelector: '[for="id_promo_text"] + div .richtext',
-    clickSelector: '[title="Images"]',
-    onReadySelector: '[action="/admin/images/chooser/?select_format=true"]',
-    hideSelectors: [".show-transparency"],
-  }),
-  contentOnly({
-    path: `/pages/${PAGE_ID}/edit/`,
-    typeSelector: '[for="id_promo_text"] + div .richtext',
-    clickSelector: '[title="Add/Edit Link"]',
-    onReadySelector: ".page-results",
-  }),
+  // {
+  //   path: `/pages/${PAGE_ID}/edit/`,
+  //   typeSelector: '[for="id_promo_text"] + div .richtext',
+  //   clickSelector: '[title="h2"]',
+  //   selectors: [".hallo_rich_text_area"],
+  // },
+  // {
+  //   path: `/pages/${PAGE_ID}/edit/`,
+  //   typeSelector: '[for="id_promo_text"] + div .richtext',
+  //   clickSelector: '[title="OL"]',
+  //   selectors: [".hallo_rich_text_area"],
+  // },
+  // {
+  //   path: `/pages/${PAGE_ID}/edit/`,
+  //   typeSelector: '[for="id_promo_text"] + div .richtext',
+  //   clickSelector: '[title="UL"]',
+  //   selectors: [".hallo_rich_text_area"],
+  // },
+  // {
+  //   path: `/pages/${PAGE_ID}/edit/`,
+  //   typeSelector: '[for="id_promo_text"] + div .richtext',
+  //   clickSelector: '[title="Horizontal rule"]',
+  //   selectors: [".hallo_rich_text_area"],
+  // },
+  // {
+  //   path: `/pages/${PAGE_ID}/edit/`,
+  //   typeSelector: '[for="id_promo_text"] + div .richtext',
+  //   clickSelector: ['[title="Horizontal rule"]', '[title="Undo"]'],
+  //   selectors: [".hallo_rich_text_area"],
+  // },
+  // contentOnly({
+  //   path: `/pages/${PAGE_ID}/edit/`,
+  //   typeSelector: '[for="id_promo_text"] + div .richtext',
+  //   clickSelector: '[title="Embed"]',
+  //   onReadySelector: '[action="/admin/embeds/chooser/upload/"]',
+  // }),
+  // contentOnly({
+  //   path: `/pages/${PAGE_ID}/edit/`,
+  //   typeSelector: '[for="id_promo_text"] + div .richtext',
+  //   clickSelector: '[title="Documents"]',
+  //   onReadySelector: '[action="/admin/documents/chooser/"]',
+  // }),
+  // contentOnly({
+  //   path: `/pages/${PAGE_ID}/edit/`,
+  //   typeSelector: '[for="id_promo_text"] + div .richtext',
+  //   clickSelector: '[title="Images"]',
+  //   onReadySelector: '[action="/admin/images/chooser/?select_format=true"]',
+  //   hideSelectors: [".show-transparency"],
+  // }),
+  // contentOnly({
+  //   path: `/pages/${PAGE_ID}/edit/`,
+  //   typeSelector: '[for="id_promo_text"] + div .richtext',
+  //   clickSelector: '[title="Add/Edit Link"]',
+  //   onReadySelector: ".page-results",
+  // }),
   // TODO Investigate.
   // {
   //     label: 'Hallo.js - External link chooser',
@@ -409,7 +400,6 @@ const account = [
 ];
 
 const scenarios = [
-  ...empty,
   ...base,
   ...nav,
   ...pages,

@@ -1,31 +1,16 @@
-/**
- * This is evaluated in the Chrome environment, not Node.
- * Caution is advised.
- */
-
-const getCookiesArray = (scenario) => {
-  const url = scenario.url
-    .split("/")
-    .slice(0, 3)
-    .join("/");
-
-  return Object.keys(scenario.cookies).map((name) => {
-    const value = scenario.cookies[name];
-
-    return {
-      httponly: true,
-      url,
-      name,
-      value,
-    };
-  });
-};
-
-// eslint-disable-next-line no-unused-vars
-module.exports = (chromy, scenario, viewport) => {
-  // console.log(`loadCookies: ${scenario.label} @${viewport.label}`);
-
-  chromy.setCookie(getCookiesArray(scenario));
-
-  chromy.ignoreCertificateErrors();
+module.exports = async (page, scenario) => {
+  if (!scenario.unauthenticated) {
+    await page.setCookie({
+      name: "sessionid",
+      domain: "localhost",
+      path: "/",
+      value: scenario.sessionid,
+      expirationDate: 1798790400,
+      hostOnly: false,
+      httpOnly: false,
+      secure: false,
+      session: false,
+      sameSite: "no_restriction",
+    });
+  }
 };
