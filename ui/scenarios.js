@@ -714,7 +714,7 @@ const choosers = [
         actions: [
           'click [name="EMBED"]',
           "wait for element .modal-body to be visible",
-          "set #id_url to https://www.youtube.com/watch?v=eIGnJCVw908",
+          "set #id_embed-chooser-url to https://www.youtube.com/watch?v=eIGnJCVw908",
           'click .embed-form [type="submit"]',
         ],
       },
