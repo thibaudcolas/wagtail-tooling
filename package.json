@@ -14,7 +14,7 @@
     "convert-array-to-csv": "^1.0.6",
     "dotenv": "^4.0.0",
     "eslint": "^5.16.0",
-    "pa11y": "git+ssh://git@github.com/pa11y/pa11y.git#multiple-test-runners",
+    "pa11y": "^5.3.0",
     "prettier": "^1.16.4",
     "puppeteer": "^1.14.0",
     "sitespeed.io": "4.3.9"
