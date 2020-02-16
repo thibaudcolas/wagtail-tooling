@@ -14,7 +14,7 @@
     "convert-array-to-csv": "^1.0.6",
     "dotenv": "^4.0.0",
     "eslint": "^5.16.0",
-    "pa11y": "git+ssh://git@github.com/pa11y/pa11y.git#multiple-test-runners",
+    "pa11y": "^5.3.0",
     "prettier": "^1.16.4",
     "puppeteer": "^1.14.0",
     "sitespeed.io": "4.3.9"
@@ -28,8 +28,8 @@
     "regression:open": "npm run backstop -s -- openReport",
     "performance:test": "npm run sitespeed -s -- sitespeed-urls.txt",
     "performance:open": "open http://localhost:3000",
-    "lint": "eslint . && prettier --check '**/*.{js,css,md,html,json,yaml,yml}",
-    "format": "prettier --write '**/*.{js,css,md,html,json,yaml,yml}'",
+    "lint": "eslint . && prettier --check '**/?(.)*.{md,css,scss,js,json,json5,yaml,yml,html}'",
+    "format": "prettier --write '**/?(.)*.{md,css,scss,js,json,json5,yaml,yml,html}'",
     "test:ci": "npm run lint -s",
     "pa11y": "node accessibility/pa11y-test.js"
   }
