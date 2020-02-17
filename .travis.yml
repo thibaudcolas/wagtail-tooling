@@ -12,15 +12,5 @@ script:
 branches:
   except:
     - gh-pages
-deploy:
-  provider: pages
-  skip_cleanup: true
-  local_dir: examples
-  github_token: "$GITHUB_TOKEN"
-  on:
-    branch: master
 notifications:
   email: false
-env:
-  global:
-    - secure: XtkTFCsu0pTsGj4nV3LdM9+/oZa1Eo5V5j8hVkE70AwVRHs32Tg9bu59evOIdNi30Vb3Q6a5W6yPZkktdEXhpuId8XDiKjjMP4hjsZ0euD1gwOv2F6rX1JkaoJaiW7RamRplid6XOfDPfXeJkYD4/UBBQvtSErppRGjs9f/YqE1EcN5EgfyTWMy7x2KdIFX6zUcxaEqxZNFcqXUcm+GT95z0g3sZ/5MuYiSrTpMtRT7a4+Yl3JuTilQI0jcGFPWJ3RcHk5x81/0CfsjBueETgx8+wWiKXoDzgmiPQch22Y8xAFjUNDhxXdzJm6gfF3Low73Uns+skZg/dgoKUBH88l/KwXV8CjCX0CtS56FgChCY1mAx+6eGqQV4QQlFjJ5bj8P3TtZNU/YEqwUg5/6f3B3OYz4X51kvqP2KUFSCIlqsBLiNog3W08njdaImPFHJA71FierhKobKK/rQE/pTUpph8KOArvWely6/HTrNEPS+FEsOp7gXaRHQIcR0UN+5foQl8tNq7H6uCeHVTe1+YaWEaSidBmlvML9amryKcE9KiOVI5u5hSGshjxma9OrX3GQLPqrzNY7KMoevckH0E9reXMT/AYLFkvzNVp3R72yObQR0F5CctNeyvCvlqkW6hgnMXWA5xK33xqk5XOCe0xAywaZNCfzDINpU4xN10V8=
