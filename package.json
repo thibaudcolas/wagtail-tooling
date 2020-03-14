@@ -9,7 +9,7 @@
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
-    "axe-core": "3.5.1",
+    "axe-core": "3.5.2",
     "backstopjs": "^4.0.4",
     "convert-array-to-csv": "1.0.10",
     "dotenv": "8.2.0",
