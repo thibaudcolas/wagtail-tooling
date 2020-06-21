@@ -51,5 +51,10 @@
       groupName: "eslint",
       automerge: true,
     },
+    {
+      packageNames: ["axe-core"],
+      groupName: "axe",
+      automerge: true,
+    },
   ],
 }
