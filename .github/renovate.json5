@@ -21,6 +21,8 @@
   prBodyColumns: ["Package", "Update", "Type", "Change", "Sourcegraph"],
   // https://renovatebot.com/docs/configuration-options/#rebasestaleprs
   rebaseStalePrs: true,
+  // Silently merge updates without PRs
+  automergeType: "branch",
   // https://renovatebot.com/docs/configuration-options/#schedule
   schedule: ["every weekend"],
   node: {
