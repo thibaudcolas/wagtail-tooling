@@ -12,7 +12,7 @@ To install it,
 
 ```sh
 # From your local development copy of Wagtail,
-curl https://raw.githubusercontent.com/thibaudcolas/wagtail-tooling/master/hooks/pre-commit > .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
+curl https://raw.githubusercontent.com/thibaudcolas/wagtail-tooling/main/hooks/pre-commit > .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
 ```
 
 Then, the hook will be executed whenever committing code. To bypass the hook for a given commit, use the `--no-verify` flag:
