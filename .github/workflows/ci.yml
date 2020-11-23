@@ -1,0 +1,18 @@
+name: CI
+on:
+  push:
+    branches-ignore:
+      - 'gh-pages'
+  pull_request:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - id: nvm
+        run: echo "##[set-output name=NVMRC;]$(cat .nvmrc)"
+      - uses: actions/setup-node@v2-beta
+        with:
+          node-version: "${{ steps.nvm.outputs.NVMRC }}"
+      - run: npm install --no-optional --no-audit --no-fund --progress=false
+      - run: npm run test:ci
