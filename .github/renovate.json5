@@ -23,8 +23,6 @@
   rebaseStalePrs: true,
   // Silently merge updates without PRs
   automergeType: "branch",
-  // https://renovatebot.com/docs/configuration-options/#schedule
-  schedule: ["every weekend"],
   node: {
     major: {
       enabled: true,
