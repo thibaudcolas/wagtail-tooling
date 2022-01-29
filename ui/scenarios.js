@@ -20,7 +20,7 @@ const dashboard = [
     label: "Dashboard",
     path: "/",
     category: "Dashboard",
-    selectors: [".nav-wrapper", ".content-wrapper"],
+    selectors: ["#wagtail-sidebar", ".content-wrapper"],
     requestOverrides: wagtailUpgradeAvailable,
     states: [
       "Wagtail upgrade",
@@ -92,27 +92,19 @@ const navigation = [
       "Search form",
       {
         label: "Account menu",
-        selectors: [".nav-wrapper"],
-        clickSelector: "#account-settings",
+        selectors: ["#wagtail-sidebar"],
+        clickSelector: ".sidebar-footer__account",
         actions: [
-          "click element #account-settings",
-          "wait for element .footer-submenu to be visible",
+          "click element .sidebar-footer__account",
+          'wait for element [href="/admin/account/"] to be visible',
         ],
       },
       {
-        label: "Settings menu",
-        clickSelector: ".submenu-trigger.icon-cogs",
+        label: "Sub-menu",
+        clickSelector: "button.sidebar-menu-item__link",
         actions: [
-          "click element .submenu-trigger.icon-cogs",
-          "wait for element .nav-submenu to be visible",
-        ],
-      },
-      {
-        label: "ModelAdmin menu",
-        clickSelector: ".submenu-trigger.icon-fa-cutlery",
-        actions: [
-          "click element .submenu-trigger.icon-fa-cutlery",
-          "wait for element .nav-submenu to be visible",
+          "click element button.sidebar-menu-item__link",
+          "wait for element .sidebar-panel--open to be visible",
         ],
       },
       {
@@ -130,25 +122,25 @@ const navigation = [
     label: "Pages menu",
     path: "/",
     category: "Navigation",
-    clickSelector: "[data-explorer-menu-item] > a",
+    clickSelector: 'a.sidebar-menu-item__link[aria-haspopup="dialog"]',
     actions: [
-      "click element [data-explorer-menu-item] > a",
-      "wait for element .explorer to be visible",
+      'click element a.sidebar-menu-item__link[aria-haspopup="dialog"]',
+      "wait for element .sidebar-panel--open to be visible",
     ],
     states: [
       {
         label: "Loading",
         actions: [
-          "click element [data-explorer-menu-item] > a",
-          "wait for element .explorer to be visible",
+          'click element a.sidebar-menu-item__link[aria-haspopup="dialog"]',
+          "wait for element .sidebar-panel--open to be visible",
         ],
         requestOverrides: adminAPISlow,
       },
       {
         label: "Server error",
         actions: [
-          "click element [data-explorer-menu-item] > a",
-          "wait for element .explorer to be visible",
+          'click element a.sidebar-menu-item__link[aria-haspopup="dialog"]',
+          "wait for element .sidebar-panel--open to be visible",
         ],
         requestOverrides: adminAPIFailure,
       },
@@ -222,61 +214,6 @@ const account = [
         label: "Success",
         actions: [
           'click element [value="Change email"]',
-          "wait for element .success to be visible",
-        ],
-      },
-    ],
-  }),
-  contentOnly({
-    label: "Change password",
-    path: "/account/change_password/",
-    category: "User account",
-    states: [
-      {
-        label: "Validation error",
-        actions: [
-          'click element [action="/admin/account/change_password/"] [type="submit"]',
-          "wait for element .error-message to be visible",
-        ],
-      },
-      {
-        label: "Success",
-        path: "/account/change_password/",
-        actions: [
-          "set field #id_old_password to changeme",
-          "set field #id_new_password1 to changeme",
-          "set field #id_new_password2 to changeme",
-          'click element [action="/admin/account/change_password/"] [type="submit"]',
-          "wait for element .success to be visible",
-        ],
-        // TODO Skip.
-        skip: "Resets the sessionid cookie, makes the remaining tests break",
-      },
-    ],
-  }),
-  contentOnly({
-    label: "Notification preferences",
-    path: "/account/notification_preferences/",
-    category: "User account",
-    states: [
-      {
-        label: "Success",
-        actions: [
-          'click element [value="Update"]',
-          "wait for element .success to be visible",
-        ],
-      },
-    ],
-  }),
-  contentOnly({
-    label: "Language preferences",
-    path: "/account/language_preferences/",
-    category: "User account",
-    states: [
-      {
-        label: "Success",
-        actions: [
-          'click element [value="Update"]',
           "wait for element .success to be visible",
         ],
       },

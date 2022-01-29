@@ -59,7 +59,7 @@ const base = [
   { path: "/login", onBeforeScript: null },
   // No way to disable JavaScript with Chromy at the moment.
   // { path: '/', label: 'No JS', onBeforeScript: 'disableJS.js' },
-  { path: "/", selectors: [".nav-wrapper", ".content-wrapper"] },
+  { path: "/", selectors: ["#wagtail-sidebar", ".content-wrapper"] },
   { path: "/404" },
   contentOnly({ path: "/styleguide/" }),
   // Revokes the session cookie, which is annoying when testing.
@@ -72,25 +72,21 @@ const base = [
 const nav = [
   {
     path: "/",
-    selectors: [".nav-wrapper"],
-    clickSelector: "#account-settings",
+    selectors: ["#wagtail-sidebar"],
+    clickSelector: ".sidebar-footer__account",
   },
   {
     path: "/",
-    clickSelector: ".submenu-trigger.icon-cogs",
+    clickSelector: "button.sidebar-menu-item__link",
   },
   {
     path: "/",
-    clickSelector: ".submenu-trigger.icon-fa-cutlery",
-  },
-  {
-    path: "/",
-    clickSelector: "[data-explorer-menu-item] > a",
+    clickSelector: 'a.sidebar-menu-item__link[aria-haspopup="dialog"]',
   },
   {
     path: "/",
     clickSelector: [
-      "[data-explorer-menu-item] > a",
+      'a.sidebar-menu-item__link[aria-haspopup="dialog"]',
       ".c-explorer__item__action:last-of-type",
     ],
     onReadySelector: ".c-explorer__item:nth-child(2)",
@@ -393,9 +389,6 @@ const settings = [
 
 const account = [
   contentOnly({ path: "/account/" }),
-  contentOnly({ path: "/account/change_password/" }),
-  contentOnly({ path: "/account/notification_preferences/" }),
-  contentOnly({ path: "/account/language_preferences/" }),
   { path: "/password_reset/" },
 ];
 
