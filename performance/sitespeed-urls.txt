@@ -1,3 +1,0 @@
-http://localhost:8000/admin/ Dashboard
-http://localhost:8000/admin/pages/5/ Page
-http://localhost:8000/admin/pages/5/edit/ Edit
