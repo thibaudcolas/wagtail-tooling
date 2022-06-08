@@ -1,5 +1,5 @@
 const wagtailUpgradeAvailable = {
-  "https://releases.wagtail.io/latest.txt": {
+  "https://releases.wagtail.org/latest.txt": {
     status: 200,
     contentType: "binary/octet-stream",
     headers: {
@@ -8,7 +8,7 @@ const wagtailUpgradeAvailable = {
     },
     body: JSON.stringify({
       version: "999",
-      url: "https://docs.wagtail.io/en/v999/releases/999.html",
+      url: "https://docs.wagtail.org/en/v999/releases/999.html",
     }),
   },
 };

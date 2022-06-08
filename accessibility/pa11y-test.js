@@ -2,7 +2,11 @@ const fs = require("fs");
 const pa11y = require("pa11y");
 const puppeteer = require("puppeteer");
 
+require("dotenv").config();
+
 const scenarios = require("../ui/scenarios");
+
+const WAGTAIL_SESSIONID = process.env.WAGTAIL_SESSIONID;
 
 const ADMIN_ROOT = "http://localhost:8000/admin";
 
@@ -40,34 +44,34 @@ const shouldTest = (s) => {
 views = views.filter(shouldTest);
 
 const getAuthCookie = async (browser) => {
-  let page = await browser.newPage();
-  await page.deleteCookie({
-    name: "sessionid",
-    domain: "localhost",
-    path: "/",
-  });
-  await page.goto(`${ADMIN_ROOT}/login`);
-  await page.type("#id_username", "admin");
-  await page.type("#id_password", "changeme");
-  await page.keyboard.press("Enter");
-  await page.waitFor(".page404__header");
-  const sessionid = await page.evaluate(() => {
-    const cookieMatch = document.cookie.match(/sessionid=([^;]+)/);
-    return cookieMatch ? cookieMatch[1] : "error";
-  });
+  // let page = await browser.newPage();
+  // await page.deleteCookie({
+  //   name: "sessionid",
+  //   domain: "localhost",
+  //   path: "/",
+  // });
+  // await page.goto(`${ADMIN_ROOT}/login`);
+  // await page.type("#id_username", "admin");
+  // await page.type("#id_password", "changeme");
+  // await page.keyboard.press("Enter");
+  // await page.waitFor(".page404__header");
+  // const sessionid = await page.evaluate(() => {
+  //   const cookieMatch = document.cookie.match(/sessionid=([^;]+)/);
+  //   return cookieMatch ? cookieMatch[1] : "error";
+  // });
 
-  // We will be setting the cookie manually per-page. Do not want it to be stored for the whole browser.
-  await page.deleteCookie({
-    name: "sessionid",
-    domain: "localhost",
-    path: "/",
-  });
+  // // We will be setting the cookie manually per-page. Do not want it to be stored for the whole browser.
+  // await page.deleteCookie({
+  //   name: "sessionid",
+  //   domain: "localhost",
+  //   path: "/",
+  // });
 
   return {
     name: "sessionid",
     domain: "localhost",
     path: "/",
-    value: sessionid,
+    value: WAGTAIL_SESSIONID,
     expirationDate: 1798790400,
     hostOnly: false,
     httpOnly: false,
@@ -156,7 +160,7 @@ const run = async () => {
           error: console.error,
           info: console.log,
         },
-        runners: ["axe", "htmlcs"],
+        runners: ["axe"],
         actions: scenario.actions || [],
         viewport: scenario.viewport || {
           width: 1024,

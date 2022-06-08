@@ -7,30 +7,16 @@
   "keywords": [],
   "author": "Thibaud Colas",
   "license": "MIT",
-  "dependencies": {},
   "devDependencies": {
-    "axe-core": "4.3.5",
-    "backstopjs": "^4.0.4",
-    "convert-array-to-csv": "2.0.0",
-    "dotenv": "14.3.2",
-    "eslint": "8.8.0",
-    "pa11y": "^5.3.0",
-    "prettier": "1.16.4",
-    "puppeteer": "^1.14.0",
-    "sitespeed.io": "4.3.9"
+    "backstopjs": "^6.1.0",
+    "dotenv": "^16.0.1",
+    "pa11y": "^6.2.3"
   },
   "scripts": {
-    "prepare": "./.githooks/deploy.sh",
-    "backstop": "backstop --config=backstop/config.js",
-    "sitespeed": "sitespeed.io --config sitespeedio.json",
+    "backstop": "backstop --config=backstop/backstop.config.js",
     "regression:test": "npm run backstop -s -- test",
     "regression:approve": "npm run backstop -s -- approve",
     "regression:open": "npm run backstop -s -- openReport",
-    "performance:test": "npm run sitespeed -s -- sitespeed-urls.txt",
-    "performance:open": "open http://localhost:3000",
-    "lint": "eslint . && prettier --check '**/?(.)*.{md,css,scss,js,json,json5,yaml,yml,html}'",
-    "format": "prettier --write '**/?(.)*.{md,css,scss,js,json,json5,yaml,yml,html}'",
-    "test:ci": "npm run lint -s",
     "pa11y": "node accessibility/pa11y-test.js"
   }
 }

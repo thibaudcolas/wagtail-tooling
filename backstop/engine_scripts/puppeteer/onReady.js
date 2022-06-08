@@ -1,7 +1,24 @@
 module.exports = async (page, scenario, viewport) => {
   console.log("SCENARIO > " + scenario.label);
+  await require("./clickAndHoverHelper")(page, scenario);
+  await require("./loadSVG")(page, scenario);
 
   await page.evaluate(() => {
+    const consoleWarn = console.warn;
+
+    console.warn = function filterWarnings(msg, ...args) {
+      // Stop logging React warnings we shouldn’t be doing anything about at this time.
+      const supressedWarnings = [
+        "Warning: componentWillMount",
+        "Warning: componentWillReceiveProps",
+        "Warning: componentWillUpdate",
+      ];
+
+      if (!supressedWarnings.some((entry) => msg.includes(entry))) {
+        consoleWarn.apply(console, ...args);
+      }
+    };
+
     window.__REACT_DEVTOOLS_GLOBAL_HOOK__ = { isDisabled: true };
 
     const preventInteractionStyles = `
