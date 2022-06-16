@@ -77,6 +77,15 @@ module.exports = {
     level: "A",
     default: true,
   },
+  "aria-input-field-name": {
+    description: "Ensures every ARIA input field has an accessible name",
+    impact: "Serious",
+    tags: ["cat.aria", "wcag2a", "wcag412", "wcag131", "ACT"],
+    sc: ["4.1.2"],
+    standard: "WCAG2.0",
+    level: "A",
+    default: true,
+  },
   "aria-required-attr": {
     description:
       "Ensures elements with ARIA roles have all required ARIA attributes",
