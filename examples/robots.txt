@@ -1,3 +1,0 @@
-User-agent: *
-Disallow: /sitespeed-result/
-Disallow: /backstop_data/
