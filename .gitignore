@@ -92,4 +92,6 @@ lib64
 # Your own project's ignores
 # -------------------------------------------------
 backstop/data
+ui/data
+accessibility/data
 backstop_data

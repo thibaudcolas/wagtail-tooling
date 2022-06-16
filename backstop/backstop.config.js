@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-const scenarios = require("../ui/scenarios");
+const allScenarios = require("../ui/scenarios");
 
 process.setMaxListeners(0);
 
@@ -10,7 +10,30 @@ if (!WAGTAIL_SESSIONID) {
   throw new ReferenceError("WAGTAIL_SESSIONID is not defined.");
 }
 
-const scenarioLabels = scenarios.map((s) => s.label);
+const scenarios = allScenarios.reduce((list, scenario) => {
+  const states = scenario.states || [];
+  const newEntries = [scenario].concat(states);
+  return list.concat(newEntries);
+}, []);
+
+// const FILTER = /.*rich.*/;
+const FILTER = null;
+
+const testScenarios = scenarios
+  .map((s) => ({
+    sessionid: s.unauthenticated ? "invalid" : WAGTAIL_SESSIONID,
+    ...s,
+    label: `${s.category} - ${s.label}`,
+    // emulateVisionDeficiency: "achromatopsia",
+    // emulateMediaFeatures: [
+    //   { name: "forced-colors", value: "active" },
+    //   { name: "prefers-contrast", value: "more" },
+    // ],
+  }))
+  .filter((s) => !Boolean(s.skip))
+  .filter((s) => (FILTER ? s.label.match(FILTER) : true));
+
+const scenarioLabels = testScenarios.map((s) => s.label);
 const duplicateScenarioLabels = scenarioLabels.filter(
   (l, i) => scenarioLabels.indexOf(l) !== i,
 );
@@ -20,26 +43,15 @@ if (duplicateScenarioLabels.length !== 0) {
   throw new Error("Two scenarios cannot use the same label");
 }
 
-// const FILTER = /.*rich.*/;
-const FILTER = null;
-
-const testScenarios = scenarios
-  .map((s) => ({
-    sessionid: s.unauthenticated ? "invalid" : WAGTAIL_SESSIONID,
-    ...s,
-  }))
-  .filter((s) => !Boolean(s.skip))
-  .filter((s) => (FILTER ? s.label.match(FILTER) : true));
-
 module.exports = {
   debug: false,
   debugWindow: false,
-  id: "bakerydemo",
+  id: "bd",
   viewports: [
     {
-      label: "1024x1400",
+      label: "1024x768",
       width: 1024,
-      height: 1400,
+      height: 768,
     },
   ],
   scenarios: testScenarios,
