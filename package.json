@@ -9,6 +9,7 @@
   "license": "MIT",
   "devDependencies": {
     "backstopjs": "^6.1.0",
+    "convert-array-to-csv": "^2.0.0",
     "dotenv": "^16.0.1",
     "pa11y": "^6.2.3"
   },
