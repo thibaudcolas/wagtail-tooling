@@ -11,13 +11,21 @@
     "backstopjs": "^6.1.0",
     "convert-array-to-csv": "^2.0.0",
     "dotenv": "^16.0.1",
+    "lighthouse": "^9.6.3",
     "pa11y": "^6.2.3"
   },
   "scripts": {
+    "// Base backstop.js visual regression tests": "",
     "backstop": "backstop --config=backstop/backstop.config.js",
     "regression:test": "npm run backstop -s -- test",
     "regression:approve": "npm run backstop -s -- approve",
     "regression:open": "npm run backstop -s -- openReport",
-    "pa11y": "node accessibility/pa11y-test.js"
+    "// Base Pa11y accessibility tests": "",
+    "pa11y": "node accessibility/pa11y-test.js",
+    "// Contrast themes tests": "",
+    "contrast:backstop": "backstop --config=contrast-themes/backstop.config.js",
+    "contrast:regression:test": "npm run contrast:backstop -s -- test",
+    "contrast:regression:approve": "npm run contrast:backstop -s -- approve",
+    "contrast:regression:open": "npm run contrast:backstop -s -- openReport"
   }
 }

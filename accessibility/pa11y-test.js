@@ -1,6 +1,7 @@
 const fs = require("fs");
 const pa11y = require("pa11y");
 const puppeteer = require("puppeteer");
+const lighthouse = require("lighthouse");
 
 require("dotenv").config();
 
@@ -25,11 +26,16 @@ scenarios.forEach((scenario) => {
   states
     .filter((s) => typeof s === "object")
     .forEach((state) => {
-      views.push(
-        Object.assign({}, scenario, state, {
-          label: `${scenario.label} - ${state.label}`,
-        }),
-      );
+      views.push({
+        ...scenario,
+        ...state,
+        label: `${scenario.label} - ${state.label}`,
+        // emulateVisionDeficiency: "achromatopsia",
+        // emulateMediaFeatures: [
+        //   { name: "forced-colors", value: "active" },
+        //   { name: "prefers-contrast", value: "more" },
+        // ],
+      });
     });
 });
 
@@ -151,16 +157,33 @@ const run = async () => {
         await page.setCookie(sharedCookie);
       }
 
+      if (scenario.emulateVisionDeficiency) {
+        await page.emulateVisionDeficiency(scenario.emulateVisionDeficiency);
+      }
+
+      if (scenario.emulateMediaFeatures) {
+        const client = await page.target().createCDPSession();
+        await client.send("Emulation.setEmulatedMedia", {
+          features: scenario.emulateMediaFeatures,
+        });
+      }
+
       const fullLabel = `${scenario.category} – ${scenario.label}`;
 
       const pa11yOptions = {
-        standard: "WCAG2AA",
+        standard: "WCAG2AAA",
         log: {
           debug: console.log,
           error: console.error,
           info: console.log,
         },
-        runners: ["axe"],
+        runners: ["axe", "htmlcs"],
+        ignore: [
+          // The heading structure is not logically nested.
+          "WCAG2AAA.Principle1.Guideline1_3.1_3_1_AAA.G141",
+          // This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 7:1.
+          "WCAG2AAA.Principle1.Guideline1_4.1_4_6.G17.Fail",
+        ],
         actions: scenario.actions || [],
         viewport: scenario.viewport || {
           width: 1024,
@@ -190,12 +213,26 @@ const run = async () => {
             type: issue.type,
             selector: issue.selector,
             runner: issue.runner,
-            screenshot: `${scenario.label}.png`,
+            screenshot: `${fullLabel}.png`,
+            lighthouseReport: `${fullLabel}.html`,
           };
         }),
       );
 
       fs.writeFileSync(`./pa11y.json`, JSON.stringify(issues, null, 2), "utf8");
+
+      const runnerResult = await lighthouse(`${ADMIN_ROOT}${scenario.path}`, {
+        port: new URL(browser.wsEndpoint()).port,
+        onlyCategories: ["accessibility", "best-practices", "seo"],
+        // onlyCategories: ["accessibility", "best-practices", "seo", "pwa", "performance"],
+        output: "html",
+        // logLevel: "info",
+      });
+      const reportHtml = runnerResult.report;
+      fs.writeFileSync(
+        `${__dirname}/data/lighthouse/${fullLabel}.html`,
+        reportHtml,
+      );
     }
   } catch (error) {
     // Output an error if it occurred
