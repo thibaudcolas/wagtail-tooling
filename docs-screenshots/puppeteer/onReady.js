@@ -1,5 +1,6 @@
 module.exports = async (page, scenario, viewport) => {
   console.log("SCENARIO > " + scenario.label);
+  await require("./clickAndHoverHelper")(page, scenario);
   await require("./loadSVG")(page, scenario);
 
   await page.evaluate(() => {
@@ -32,7 +33,7 @@ module.exports = async (page, scenario, viewport) => {
     const preventAnimationStyles = `
         * {
             transition-property: none !important;
-            transition-duration: 0.01s !important;
+            transform: none !important;
             animation: none !important;
         }`;
 
@@ -49,27 +50,13 @@ module.exports = async (page, scenario, viewport) => {
     [].slice
       .call(document.querySelectorAll(".w-human-readable-date"))
       .forEach((date) => {
-        date.innerHTML = "24&nbsp;minutes ago";
+        date.innerHTML = "16&nbsp;hours, 55&nbsp;minutes ago";
       });
   });
 
-  // if (scenario.clickSelector) {
-  //   const clickSelector = require("./clickSelector");
-  //   await clickSelector(page, scenario, viewport);
-  // }
-  await require("./clickAndHoverHelper")(page, scenario);
-
-  if (scenario.highlightSelector) {
-    await page.evaluate((selector) => {
-      const style = document.createElement("style");
-      style.innerHTML = `
-          ${selector} {
-            outline: 5px solid red !important;
-            outline-offset: 2px !important;
-          }
-          `;
-      document.body.appendChild(style);
-    }, scenario.highlightSelector);
+  if (scenario.clickSelector) {
+    const clickSelector = require("./clickSelector");
+    await clickSelector(page, scenario, viewport);
   }
 
   // add more ready handlers here...

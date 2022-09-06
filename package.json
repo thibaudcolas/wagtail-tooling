@@ -26,6 +26,11 @@
     "contrast:backstop": "backstop --config=contrast-themes/backstop.config.js",
     "contrast:regression:test": "npm run contrast:backstop -s -- test",
     "contrast:regression:approve": "npm run contrast:backstop -s -- approve",
-    "contrast:regression:open": "npm run contrast:backstop -s -- openReport"
+    "contrast:regression:open": "npm run contrast:backstop -s -- openReport",
+    "// docs screenshots": "",
+    "docs:backstop": "backstop --config=docs-screenshots/backstop.config.js",
+    "docs:regression:test": "npm run docs:backstop -s -- test",
+    "docs:regression:approve": "npm run docs:backstop -s -- approve",
+    "docs:regression:open": "npm run docs:backstop -s -- openReport"
   }
 }
