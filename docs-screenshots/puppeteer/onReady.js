@@ -24,24 +24,14 @@ module.exports = async (page, scenario, viewport) => {
     const preventInteractionStyles = `
         * {
             cursor: none !important;
-            pointer-events: none !important;
-            user-select: none !important; -moz-user-select: none !important;
-            animation-delay: 0.01s !important; -webkit-animation-delay: 0.01s !important;
-            animation-duration: 0.01s !important; -webkit-animation-duration: 0.01s !important;
-        }`;
-
-    const preventAnimationStyles = `
-        * {
+            user-select: none !important;
+            animation-delay: 0.01s !important;
+            animation-duration: 0.01s !important;
             transition-property: none !important;
-            transform: none !important;
-            animation: none !important;
         }`;
 
     const style = document.createElement("style");
-    style.innerHTML = `
-        ${preventInteractionStyles}
-        ${preventAnimationStyles}
-        `;
+    style.innerHTML = preventInteractionStyles;
     document.body.appendChild(style);
 
     // TODO Break the tests if the user is not logged in – no point in testing.
@@ -50,13 +40,27 @@ module.exports = async (page, scenario, viewport) => {
     [].slice
       .call(document.querySelectorAll(".w-human-readable-date"))
       .forEach((date) => {
-        date.innerHTML = "16&nbsp;hours, 55&nbsp;minutes ago";
+        date.innerHTML = "24&nbsp;minutes ago";
       });
   });
 
-  if (scenario.clickSelector) {
-    const clickSelector = require("./clickSelector");
-    await clickSelector(page, scenario, viewport);
+  // if (scenario.clickSelector) {
+  //   const clickSelector = require("./clickSelector");
+  //   await clickSelector(page, scenario, viewport);
+  // }
+  await require("./clickAndHoverHelper")(page, scenario);
+
+  if (scenario.highlightSelector) {
+    await page.evaluate((selector) => {
+      const style = document.createElement("style");
+      style.innerHTML = `
+          ${selector} {
+            outline: 5px solid red !important;
+            outline-offset: 2px !important;
+          }
+          `;
+      document.body.appendChild(style);
+    }, scenario.highlightSelector);
   }
 
   // add more ready handlers here...

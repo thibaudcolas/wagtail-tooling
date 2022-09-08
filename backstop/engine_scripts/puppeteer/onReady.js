@@ -23,24 +23,14 @@ module.exports = async (page, scenario, viewport) => {
     const preventInteractionStyles = `
         * {
             cursor: none !important;
-            pointer-events: none !important;
-            user-select: none !important; -moz-user-select: none !important;
-            animation-delay: 0.01s !important; -webkit-animation-delay: 0.01s !important;
-            animation-duration: 0.01s !important; -webkit-animation-duration: 0.01s !important;
-        }`;
-
-    const preventAnimationStyles = `
-        * {
+            user-select: none !important;
+            animation-delay: 0.01s !important;
+            animation-duration: 0.01s !important;
             transition-property: none !important;
-            transition-duration: 0.01s !important;
-            animation: none !important;
         }`;
 
     const style = document.createElement("style");
-    style.innerHTML = `
-        ${preventInteractionStyles}
-        ${preventAnimationStyles}
-        `;
+    style.innerHTML = preventInteractionStyles;
     document.body.appendChild(style);
 
     // TODO Break the tests if the user is not logged in – no point in testing.
