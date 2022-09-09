@@ -484,7 +484,7 @@ const guideScenarios = [
     url: "http://localhost:8000/admin/searchpicks/4/",
     selectors: ["main"],
   },
-  { label: "screen40_table_block", url: "" },
+  // { label: "screen40_table_block", url: "" },
   // { label: "screen41_redirects_menu_item", url: "" },
   {
     label: "screen42_redirects_interface",
