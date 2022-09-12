@@ -266,6 +266,7 @@ const guideScenarios = [
     label: "screen12.7_4_alias_page_edit_notification",
     url: "http://localhost:8000/admin/pages/81/edit/",
     selectors: ["main"],
+    viewports: [{ label: "1280", width: 1280, height: 500 }],
   },
   {
     label: "screen12_edit_screen_overview",
