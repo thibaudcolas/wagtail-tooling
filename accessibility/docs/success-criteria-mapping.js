@@ -1,19 +1,14 @@
 const fs = require("fs");
-const axeRules = require("./docs/axe-rules");
-const htmlcsRules = require("./docs/htmlcs-rules");
-const wcag21 = require("./docs/wcag21.json");
+const axeRules = require("./axe-rules");
+const htmlcsRules = require("./htmlcs-rules");
+const wcag21 = require("./wcag21");
 
 const axeSuccessCriteria = {};
 Object.keys(axeRules).forEach((id) => {
   const rule = axeRules[id];
   const wcagTags = rule.tags
     .filter((tag) => tag.startsWith("wcag") && !tag.endsWith("a"))
-    .map((tag) =>
-      tag
-        .replace("wcag", "")
-        .split("")
-        .join("."),
-    );
+    .map((tag) => tag.replace("wcag", "").split("").join("."));
 
   axeSuccessCriteria[id] = wcagTags;
 });
@@ -26,10 +21,7 @@ Object.keys(axeRules).forEach((id) => {
       ["wcag2a", "wcag2aa", "wcag2aaa", "wcag21a", "wcag21aa"].includes(tag),
     )
     .map((tag) =>
-      tag
-        .replace("21a", "2.1 A")
-        .replace("2a", "2.0 A")
-        .toUpperCase(),
+      tag.replace("21a", "2.1 A").replace("2a", "2.0 A").toUpperCase(),
     );
 
   axeStandardLevel[id] = wcagTags ? wcagTags[0] : null;

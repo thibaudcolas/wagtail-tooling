@@ -1,7 +1,7 @@
 const fs = require("fs");
 const { convertArrayToCSV } = require("convert-array-to-csv");
 
-const wcag21 = require("./docs/wcag21.json");
+const wcag21 = require("./docs/wcag21");
 const { getUniqueIssues } = require("./pa11y-dedupe");
 
 const csvHeader = [
@@ -71,7 +71,7 @@ wcag21.principles.forEach((principle) => {
         rows.push([""]);
 
         uniqueIssues
-          .filter((issue) => issue.wcagSC.includes(sc.num))
+          .filter((issue) => issue?.wcagSC?.includes(sc.num))
           .forEach((issue) => {
             rows.push(getIssueRow(issue));
           });

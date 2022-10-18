@@ -18,9 +18,8 @@ const tutorialScenarios = [
   {
     label: "tutorial_4a",
     url: "http://localhost:8000/admin/pages/3/",
-    clickSelector: "[data-hover-tooltip-content='Actions']",
-    highlightSelector:
-      "[data-hover-tooltip-content='Actions'][aria-expanded='true']",
+    hoverSelectors: ['[href="/admin/pages/5/add_subpage/"]'],
+    highlightSelector: '[href="/admin/pages/5/add_subpage/"]',
   },
   {
     label: "tutorial_4b",
