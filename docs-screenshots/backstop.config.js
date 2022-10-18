@@ -1,4 +1,7 @@
 require("dotenv").config();
+const baseConfig = require("../backstop/backstop.config");
+
+process.setMaxListeners(0);
 
 const WAGTAIL_SESSIONID = process.env.WAGTAIL_SESSIONID;
 
@@ -55,9 +58,12 @@ const tutorialScenarios = [
 const extendingAdminViews = [
   {
     label: "adminviews_calendar",
+    url: "",
+  },
+  {
+    label: "adminviews_calendar_template",
     url: "http://localhost:8000/admin/calendar/",
   },
-  { label: "adminviews_calendar_template", url: "" },
   {
     label: "adminviews_calendarmonth",
     url: "http://localhost:8000/admin/calendar/month/",
@@ -564,7 +570,7 @@ const guideScenarios = [
 const scenarios = [
   // ...tutorialScenarios,
   // ...extendingAdminViews,
-  // ...guideScenarios,
+  ...guideScenarios,
 ];
 
 // const FILTER = /.*rich.*/;
@@ -605,11 +611,11 @@ module.exports = {
   onBeforeScript: "puppeteer/onBefore.js",
   onReadyScript: "puppeteer/onReady.js",
   paths: {
-    bitmaps_reference: "backstop/data/bitmaps_reference",
-    bitmaps_test: "backstop/data/bitmaps_test",
-    engine_scripts: "backstop/engine_scripts",
-    html_report: "backstop/data/html_report",
-    ci_report: "backstop/data/ci_report",
+    ...baseConfig.paths,
+    bitmaps_reference: `${__dirname}/data/bitmaps_reference`,
+    bitmaps_test: `${__dirname}/data/bitmaps_test`,
+    html_report: `${__dirname}/data/html_report`,
+    ci_report: `${__dirname}/data/ci_report`,
   },
   report: ["browser"],
   engine: "puppeteer",
