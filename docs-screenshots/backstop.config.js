@@ -74,7 +74,6 @@ const extendingAdminViews = [
     url: "http://localhost:8000/admin/calendar/",
     selectors: [".sidebar-main-menu"],
   },
-  // { label: "adminviews_menu_group", url: "" },
   {
     label: "adminviews_menu_group_expanded",
     url: "http://localhost:8000/admin/calendar/",
@@ -86,7 +85,7 @@ const extendingAdminViews = [
 ];
 
 const guideScenarios = [
-  // { label: "screen01_login", url: "" },
+  { label: "screen01_login", url: "" },
   {
     label: "screen02_dashboard_editor",
     url: "http://localhost:8000/admin/",
@@ -114,7 +113,6 @@ const guideScenarios = [
     url: "http://localhost:8000/admin/pages/60/",
     selectors: ["main"],
   },
-  // { label: "screen06_explorer_page_arrow", url: "" },
   {
     label: "screen07_explorer_page_breadcrumb",
     url: "http://localhost:8000/admin/pages/3/",
@@ -127,15 +125,13 @@ const guideScenarios = [
     selectors: ["main"],
     viewports: [{ label: "1280", width: 1280, height: 500 }],
   },
-  // { label: "screen08_add_page_button", url: "" },
   {
     label: "screen09.1_page_more_dropdown",
     url: "http://localhost:8000/admin/pages/3/",
     hoverSelectors: ['[data-hover-tooltip-content="Actions"]'],
     clickSelectors: ['[data-hover-tooltip-content="Actions"]'],
-    highlightSelector:
-      '[data-hover-tooltip-content="Actions"], [href="/admin/pages/3/add_subpage/"]',
-    postInteractionWait: 1000,
+    delay: 3000,
+    postInteractionWait: 5000,
     viewports: [{ label: "1280", width: 1280, height: 500 }],
   },
   {
@@ -149,7 +145,6 @@ const guideScenarios = [
       "tr:nth-child(3) .bulk-action-checkbox-cell input",
     ],
   },
-  // { label: "screen09.3_bulk_action_bar", url: "" },
   {
     label: "screen09_page_type_selection",
     url: "http://localhost:8000/admin/pages/60/add_subpage/",
@@ -165,18 +160,18 @@ const guideScenarios = [
     typeSelectSelector: '[role="textbox"]',
     hoverSelectors: ['[name="header-three"]'],
     postInteractionWait: 1000,
-    selectors: ["#tab-content"],
+    selectors: [".tab-content"],
     removeSelectors: [
       "footer",
       ".w-panel:not(#panel-child-content-body-section)",
     ],
   },
-  // { label: "screen11.2_toolbar_tooltips", url: "", },
-  // { label: "screen11.3_keyboard_shortcuts_.gif", url: "" },
+  { label: "screen11.2_toolbar_tooltips", url: "" },
+  { label: "screen11.3_keyboard_shortcuts_.gif", url: "" },
   {
     label: "screen11.8_adding_new_blocks",
     url: "http://localhost:8000/admin/pages/69/edit/",
-    selectors: ["#tab-content"],
+    selectors: [".tab-content"],
     clickSelectors: [
       "[data-streamfield-stream-container] > div:nth-child(3) [data-streamblock-menu-open]",
     ],
@@ -187,18 +182,20 @@ const guideScenarios = [
       "footer",
       ".w-panel:not(#panel-child-content-body-section)",
     ],
-    postInteractionWait: 1000,
+    delay: 3000,
+    postInteractionWait: 5000,
   },
   {
     label: "screen11.9_streamfield_reordering",
     url: "http://localhost:8000/admin/pages/69/edit/",
-    selectors: [".c-sf-container__block-container"],
-    hoverSelectors: [".c-sf-block__actions__cue"],
+    selectors: ["[data-streamfield-stream-container]"],
+    hoverSelectors: [".w-panel__controls-cue"],
+    delay: 3000,
   },
   {
     label: "screen11_empty_streamfield",
     url: "http://localhost:8000/admin/pages/add/base/standardpage/60/",
-    selectors: ["#tab-content"],
+    selectors: [".tab-content"],
     hoverSelectors: [".c-sf-add-button"],
     removeSelectors: [
       "footer",
@@ -212,6 +209,17 @@ const guideScenarios = [
     clickSelector: '[data-side-panel-toggle="status"]',
     highlightSelector:
       "#side-panel-status-title + div  > .w-py-6 > div:nth-child(2)",
+    viewports: [{ label: "1280", width: 1280, height: 800 }],
+  },
+  {
+    label: "page_history_filters",
+    url: "http://localhost:8000/admin/pages/68/history/",
+    selectors: ["main"],
+  },
+  {
+    label: "page_history_replace_current_draft",
+    url: "http://localhost:8000/admin/pages/68/revisions/7/revert/",
+    selectors: ["main"],
     viewports: [{ label: "1280", width: 1280, height: 500 }],
   },
   {
@@ -236,7 +244,6 @@ const guideScenarios = [
       },
     ],
   },
-  // { label: "screen12.6_3_copy_success", url: "" },
   {
     label: "screen12.7_1_alias_choose_parent_page_button",
     url: "http://localhost:8000/admin/pages/34/copy/",
@@ -254,7 +261,6 @@ const guideScenarios = [
     highlightSelector: ".action-choose",
     hoverSelectors: [".action-choose"],
   },
-  // { label: "screen12.7_2_alias_choose_new_parent_page", url: "" },
   {
     label: "screen12.7_3_alias_confirm_changes",
     url: "http://localhost:8000/admin/pages/34/copy/",
@@ -276,6 +282,7 @@ const guideScenarios = [
   {
     label: "screen12_edit_screen_overview",
     url: "http://localhost:8000/admin/pages/68/edit/",
+    readySelector: '.w-minimap [aria-current="true"]',
   },
   {
     label: "screen13_publish_menu",
@@ -293,45 +300,41 @@ const guideScenarios = [
   {
     label: "screen14_add_main_image",
     url: "http://localhost:8000/admin/pages/add/base/standardpage/60/",
-    selectors: ["#tab-content"],
+    selectors: [".tab-content"],
     removeSelectors: [
       "footer",
       ".w-panel:not(#panel-child-content-image-section)",
     ],
   },
-  // { label: "screen15_carousel_form", url: "" },
-  // Not working for some reason.
-  // {
-  //   label: "screen16_selecting_image_from_library",
-  //   url: "http://localhost:8000/admin/pages/add/base/standardpage/60/",
-  //   readySelector: "#id_image-chooser .unchosen button",
-  //   clickSelectors: ["#id_image-chooser .unchosen button"],
-  //   postInteractionWait: 10000,
-  //   // selectors: [".modal-content"],
-  // },
-  // { label: "screen17_upload_image", url: "" },
-  // { label: "screen18_image_format", url: "" },
-  // { label: "screen19_link_form", url: "" },
-  // { label: "screen20_insert_video_form", url: "" },
+  {
+    label: "screen16_selecting_image_from_library",
+    url: "http://localhost:8000/admin/pages/add/base/standardpage/60/",
+    readySelector: "#id_image-chooser .unchosen button",
+    clickSelectors: ["#id_image-chooser .unchosen button"],
+    postInteractionWait: 10000,
+    // selectors: [".modal-content"],
+  },
+  { label: "screen17_upload_image", url: "" },
+  { label: "screen18_image_format", url: "" },
+  { label: "screen19_link_form", url: "" },
+  { label: "screen20_insert_video_form", url: "" },
   {
     label: "screen21_video_in_editor",
     url: "http://localhost:8000/admin/pages/68/edit/",
-    readySelector: ".c-sf-block__content-inner",
-    selectors: [".c-sf-block__content-inner"],
+    readySelector: "[data-streamfield-stream-container]",
+    selectors: ["[data-streamfield-stream-container]"],
   },
-  // { label: "screen22_required_field", url: "" },
-  // {
-  //   label: "screen23_validation_error",
-  //   url: "http://localhost:8000/admin/pages/add/base/standardpage/60/",
-  //   clickSelector: "footer .action-save",
-  //   selectors: ["main"],
-  //   viewports: [{ label: "1280", width: 1280, height: 500 }],
-  // },
-  // { label: "screen24_multiple_items_closed", url: "" },
+  {
+    label: "screen23_validation_error",
+    url: "http://localhost:8000/admin/pages/add/base/standardpage/60/",
+    clickSelector: "footer .action-save",
+    selectors: ["main"],
+    viewports: [{ label: "1280", width: 1280, height: 500 }],
+  },
   {
     label: "screen25_multiple_items_open",
     url: "http://localhost:8000/admin/pages/73/edit/",
-    selectors: ["#tab-content"],
+    selectors: [".tab-content"],
     removeSelectors: [
       "footer",
       ".w-form-width > .w-panel:not(#panel-child-content-authors-section)",
@@ -355,13 +358,13 @@ const guideScenarios = [
     typeSelectSelector: '[role="textbox"]',
     highlightSelector: '[name="DOCUMENT"]',
     postInteractionWait: 1000,
-    selectors: ["#tab-content"],
+    selectors: [".tab-content"],
     removeSelectors: [
       "footer",
       ".w-panel:not(#panel-child-content-body-section)",
     ],
   },
-  // { label: "screen28_docs_form", url: "" },
+  { label: "screen28_docs_form", url: "" },
   {
     label: "screen29.5_documents_bulk_actions",
     url: "http://localhost:8000/admin/documents/",
@@ -416,8 +419,9 @@ const guideScenarios = [
     selectors: ["main"],
     viewports: [{ label: "1280", width: 1280, height: 500 }],
     highlightSelector: '[href="/admin/snippets/base/people/usage/2/"]',
+    clickSelector: '[data-side-panel-toggle="status"]',
   },
-  // { label: "collections_add_to_collection", url: "" },
+  { label: "collections_add_to_collection", url: "" },
   {
     label: "collections_create_collection",
     url: "http://localhost:8000/admin/collections/add/",
@@ -456,8 +460,6 @@ const guideScenarios = [
     selectors: [".w-dialog__box"],
     clickSelectors: ['[data-a11y-dialog-show="set-privacy"]'],
   },
-
-  // { label: "screen35_users_menu_item", url: "" },
   {
     label: "screen36.5_users_bulk_actions",
     url: "http://localhost:8000/admin/users/",
@@ -471,7 +473,6 @@ const guideScenarios = [
     selectors: ["main"],
     viewports: [{ label: "1280", width: 1280, height: 500 }],
   },
-  // { label: "screen37_promoted_menu_item", url: "" },
   {
     label: "screen38.5_popular_search_results",
     url: "http://localhost:8000/admin/searchpicks/4/",
@@ -490,8 +491,7 @@ const guideScenarios = [
     url: "http://localhost:8000/admin/searchpicks/4/",
     selectors: ["main"],
   },
-  // { label: "screen40_table_block", url: "" },
-  // { label: "screen41_redirects_menu_item", url: "" },
+  { label: "screen40_table_block", url: "" },
   {
     label: "screen42_redirects_interface",
     url: "http://localhost:8000/admin/redirects/",
@@ -531,7 +531,7 @@ const guideScenarios = [
   {
     label: "screen48_comment_thread",
     url: "http://localhost:8000/admin/pages/68/edit/",
-    selectors: ["#tab-content"],
+    selectors: [".tab-content"],
     clickSelectors: [
       '[data-side-panel-toggle="comments"]',
       '[data-comment-id="1"]',
@@ -554,10 +554,11 @@ const guideScenarios = [
     ],
     hoverSelectors: ["#id_subtitle"],
     highlightSelector: "#id_subtitle + [data-comment-add]",
+    viewports: [{ label: "1280", width: 1280, height: 500 }],
   },
-  // { label: "screen50_comment_menu", url: "" },
-  // { label: "screen51_draftail_comment", url: "" },
-  // { label: "screen52_new_comment", url: "" },
+  { label: "screen50_comment_menu", url: "" },
+  { label: "screen51_draftail_comment", url: "" },
+  { label: "screen52_new_comment", url: "" },
   {
     label: "screen53_commenting_notifications",
     url: "http://localhost:8000/admin/pages/68/edit/",
@@ -567,10 +568,20 @@ const guideScenarios = [
   },
 ];
 
+const releasesScenarios = [
+  {
+    label: "release_410_page_editor_minimap",
+    url: "http://localhost:8000/admin/pages/68/edit/",
+    readySelector: '.w-minimap [aria-current="true"]',
+    hoverSelectors: [".w-minimap__toggle"],
+  },
+];
+
 const scenarios = [
   // ...tutorialScenarios,
   // ...extendingAdminViews,
-  ...guideScenarios,
+  // ...guideScenarios,
+  // ...releasesScenarios,
 ];
 
 // const FILTER = /.*rich.*/;
