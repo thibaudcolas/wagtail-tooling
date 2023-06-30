@@ -53,6 +53,12 @@ const tutorialScenarios = [
     label: "tutorial_10",
     url: "http://localhost:8000/our-blog/second-post/",
   },
+  {
+    label: "tutorial_11",
+    url: "http://localhost:8000/admin/",
+    clickSelectors: [".sidebar-page-explorer-item button"],
+    highlightInsideSelector: '[href="/admin/pages/3/edit/"]',
+  },
 ];
 
 const extendingAdminViews = [
@@ -674,18 +680,18 @@ const releasesScenarios = [
 const scenarios = [
   // ...tutorialScenarios,
   // ...extendingAdminViews,
-  {
-    label: "screen40_table_block",
-    url: "http://localhost:8000/admin/pages/81/edit/",
-    selectors: [".tab-content"],
-    removeSelectors: [
-      "footer",
-      ".w-form-width > .w-panel:not(#panel-child-content-body-section)",
-      '[data-streamfield-stream-container] > *:not([data-contentpath="2b9b59cb-4dd7-4ebf-ac66-1ed43471609b"])',
-      '[aria-label="Minimap"]',
-    ],
-    viewports: [{ label: "800x800", width: 800, height: 800 }],
-  },
+  // {
+  //   label: "screen40_table_block",
+  //   url: "http://localhost:8000/admin/pages/81/edit/",
+  //   selectors: [".tab-content"],
+  //   removeSelectors: [
+  //     "footer",
+  //     ".w-form-width > .w-panel:not(#panel-child-content-body-section)",
+  //     '[data-streamfield-stream-container] > *:not([data-contentpath="2b9b59cb-4dd7-4ebf-ac66-1ed43471609b"])',
+  //     '[aria-label="Minimap"]',
+  //   ],
+  //   viewports: [{ label: "800x800", width: 800, height: 800 }],
+  // },
   // ...guideScenarios,
   // ...releasesScenarios,
   // {

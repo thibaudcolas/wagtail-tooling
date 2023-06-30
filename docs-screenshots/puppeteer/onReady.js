@@ -63,5 +63,18 @@ module.exports = async (page, scenario, viewport) => {
     }, scenario.highlightSelector);
   }
 
+  if (scenario.highlightInsideSelector) {
+    await page.evaluate((selector) => {
+      const style = document.createElement("style");
+      style.innerHTML = `
+          ${selector} {
+            outline: 5px solid red !important;
+            outline-offset: -5px !important;
+          }
+          `;
+      document.body.appendChild(style);
+    }, scenario.highlightInsideSelector);
+  }
+
   // add more ready handlers here...
 };
