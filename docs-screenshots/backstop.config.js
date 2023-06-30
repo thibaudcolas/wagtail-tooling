@@ -77,10 +77,14 @@ const extendingAdminViews = [
   {
     label: "adminviews_menu_group_expanded",
     url: "http://localhost:8000/admin/calendar/",
-    selectors: [".sidebar-panel"],
+    selectors: [".wrapper"],
+    delay: 3000,
+    postInteractionWait: 5000,
     clickSelectors: [
       ".sidebar-main-menu .sidebar-menu-item:nth-child(8) button",
     ],
+    removeSelectors: ["main"],
+    viewports: [{ label: "800x800", width: 800, height: 800 }],
   },
 ];
 
@@ -556,7 +560,17 @@ const guideScenarios = [
     url: "http://localhost:8000/admin/searchpicks/4/",
     selectors: ["main"],
   },
-  { label: "screen40_table_block", url: "" },
+  {
+    label: "screen40_table_block",
+    url: "http://localhost:8000/admin/pages/81/edit/",
+    selectors: [".tab-content"],
+    removeSelectors: [
+      "footer",
+      ".w-form-width > .w-panel:not(#panel-child-content-body-section)",
+      '[data-streamfield-stream-container] > *:not([data-contentpath="2b9b59cb-4dd7-4ebf-ac66-1ed43471609b"])',
+      '[aria-label="Minimap"]',
+    ],
+  },
   {
     label:
       "Redirects listing, with a search field in the header, buttons to add and import redirects, and rows of existing underneath",
@@ -660,6 +674,18 @@ const releasesScenarios = [
 const scenarios = [
   // ...tutorialScenarios,
   // ...extendingAdminViews,
+  {
+    label: "screen40_table_block",
+    url: "http://localhost:8000/admin/pages/81/edit/",
+    selectors: [".tab-content"],
+    removeSelectors: [
+      "footer",
+      ".w-form-width > .w-panel:not(#panel-child-content-body-section)",
+      '[data-streamfield-stream-container] > *:not([data-contentpath="2b9b59cb-4dd7-4ebf-ac66-1ed43471609b"])',
+      '[aria-label="Minimap"]',
+    ],
+    viewports: [{ label: "800x800", width: 800, height: 800 }],
+  },
   // ...guideScenarios,
   // ...releasesScenarios,
   // {
