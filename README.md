@@ -45,6 +45,8 @@ touch .env
 # echo "WAGTAIL_SESSIONID=yoursessionid" >> .env
 ```
 
+You will also need to update the `loadSVG.js` file to contain an up-to-date copy of Wagtail’s icons sprite.
+
 ## UI regression tests
 
 ```sh
@@ -57,6 +59,10 @@ npm run regression:open
 ```
 
 ## Documentation
+
+We use `wagtail-tooling` to keep Wagtail’s documentation screenshots up-to-date.
+
+## References
 
 - <https://github.com/garris/BackstopJS>
 - <https://pa11y.org/>
