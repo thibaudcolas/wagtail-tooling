@@ -28,7 +28,7 @@ scenarios
       scenario.workNeeded,
       scenario.nextReleaseTarget,
       scenario.notes,
-      `https://bakerydemo-thibaudcolas6.herokuapp.com/admin${scenario.path}`,
+      `https://static-wagtail-v5-2.netlify.app/admin${scenario.path}`,
     ]);
 
     const components = scenario.components || [];
