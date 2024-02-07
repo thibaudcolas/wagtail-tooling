@@ -60,7 +60,7 @@ const getAuthCookie = async (browser) => {
   // await page.type("#id_username", "admin");
   // await page.type("#id_password", "changeme");
   // await page.keyboard.press("Enter");
-  // await page.waitFor(".page404__header");
+  // await page.waitForSelector(".page404__header");
   // const sessionid = await page.evaluate(() => {
   //   const cookieMatch = document.cookie.match(/sessionid=([^;]+)/);
   //   return cookieMatch ? cookieMatch[1] : "error";

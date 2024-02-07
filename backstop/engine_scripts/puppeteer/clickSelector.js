@@ -8,10 +8,10 @@ module.exports = async (page, scenario, viewport) => {
 
   for (const selector of [].concat(clickSelector)) {
     await page.click(selector);
-    await page.waitFor(500);
+    await page.waitForTimeout(500);
   }
 
   if (scenario.onReadySelector) {
-    await page.waitFor(scenario.onReadySelector);
+    await page.waitForSelector(scenario.onReadySelector);
   }
 };

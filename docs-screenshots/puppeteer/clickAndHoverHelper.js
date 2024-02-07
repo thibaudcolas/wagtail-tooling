@@ -11,7 +11,7 @@ module.exports = async (page, scenario) => {
 
   if (keyPressSelector) {
     for (const keyPressSelectorItem of [].concat(keyPressSelector)) {
-      await page.waitFor(keyPressSelectorItem.selector);
+      await page.waitForSelector(keyPressSelectorItem.selector);
       await page.type(
         keyPressSelectorItem.selector,
         keyPressSelectorItem.keyPress,
@@ -25,36 +25,36 @@ module.exports = async (page, scenario) => {
     for (let i = 0; i < "Hello, ".length; i += 1) {
       await page.keyboard.press("ArrowLeft");
     }
-    await page.waitFor(100);
+    await page.waitForTimeout(100);
   }
 
   if (hoverSelector) {
     for (const hoverSelectorIndex of [].concat(hoverSelector)) {
-      await page.waitFor(hoverSelectorIndex);
+      await page.waitForSelector(hoverSelectorIndex);
       await page.hover(hoverSelectorIndex);
     }
   }
 
   if (clickSelector) {
     for (const clickSelectorIndex of [].concat(clickSelector)) {
-      await page.waitFor(clickSelectorIndex);
+      await page.waitForSelector(clickSelectorIndex);
       await page.click(clickSelectorIndex);
     }
   }
 
   if (hoverAfterClickSelector) {
     for (const index of [].concat(hoverAfterClickSelector)) {
-      await page.waitFor(index);
+      await page.waitForSelector(index);
       await page.hover(index);
     }
   }
 
   if (postInteractionWait) {
-    await page.waitFor(postInteractionWait);
+    await page.waitForTimeout(postInteractionWait);
   }
 
   if (scrollToSelector) {
-    await page.waitFor(scrollToSelector);
+    await page.waitForSelector(scrollToSelector);
     await page.evaluate((scrollToSelector) => {
       document.querySelector(scrollToSelector).scrollIntoView();
     }, scrollToSelector);
