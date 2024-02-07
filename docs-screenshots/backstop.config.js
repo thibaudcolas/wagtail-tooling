@@ -5,7 +5,7 @@ process.setMaxListeners(0);
 
 const WAGTAIL_SESSIONID = process.env.WAGTAIL_SESSIONID;
 
-const ORIGIN = "https://static-wagtail-v5-2.netlify.app";
+const ORIGIN = "http://localhost:8000";
 
 if (!WAGTAIL_SESSIONID) {
   throw new ReferenceError("WAGTAIL_SESSIONID is not defined.");
@@ -23,9 +23,11 @@ const tutorialScenarios = [
   {
     label: "tutorial_4a",
     url: `${ORIGIN}/admin/pages/3/`,
-    clickSelectors: ["#page_5_title .w-dropdown__toggle"],
-    hoverAfterClickSelectors: ['[href="/admin/pages/5/add_subpage/"]'],
-    highlightSelector: '[href="/admin/pages/5/add_subpage/"]',
+    clickSelectors: [
+      '[data-listing-page-title] [data-w-dropdown-target="toggle"]',
+    ],
+    hoverAfterClickSelectors: ['[href^="/admin/pages/5/add_subpage/"]'],
+    highlightSelector: '[href^="/admin/pages/5/add_subpage/"]',
   },
   {
     label: "tutorial_4b",
@@ -699,6 +701,7 @@ const FILTER = null;
 const testScenarios = scenarios
   .map((s) => ({
     sessionid: s.unauthenticated ? "invalid" : WAGTAIL_SESSIONID,
+    emulateMediaFeatures: [{ name: "prefers-color-scheme", value: "light" }],
     ...s,
   }))
   .filter((s) => Boolean(s.url))
