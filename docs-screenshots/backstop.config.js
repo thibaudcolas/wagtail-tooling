@@ -731,8 +731,8 @@ module.exports = {
   ],
   fileNameTemplate: "{scenarioLabel}",
   scenarios: testScenarios,
-  onBeforeScript: "puppeteer/onBefore.js",
-  onReadyScript: "puppeteer/onReady.js",
+  onBeforeScript: baseConfig.onBeforeScript,
+  onReadyScript: baseConfig.onReadyScript,
   paths: {
     ...baseConfig.paths,
     bitmaps_reference: `${__dirname}/data/bitmaps_reference`,
