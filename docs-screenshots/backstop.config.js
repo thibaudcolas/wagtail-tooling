@@ -259,7 +259,7 @@ const guideScenarios = [
   },
   {
     label: "page_history_replace_current_draft",
-    url: `${ORIGIN}/admin/pages/68/revisions/108/revert/`,
+    url: `${ORIGIN}/admin/pages/68/revisions/9/revert/`,
     selectors: ["main"],
     viewports: [{ label: "1280", width: 1280, height: 500 }],
   },
@@ -275,7 +275,7 @@ const guideScenarios = [
       "Copy action available when hovering over a page in an explorer page",
     url: `${ORIGIN}/admin/pages/3/`,
     selectors: ["main"],
-    clickSelector: "#page_34_title .w-dropdown__toggle",
+    clickSelector: "[data-listing-page-title] .w-dropdown__toggle",
     highlightSelector: ".w-dropdown__content a:nth-child(5)",
   },
   {
@@ -683,6 +683,17 @@ const releasesScenarios = [
 const scenarios = [
   // ...tutorialScenarios,
   // ...extendingAdminViews,
+  // {
+  //   label:
+  //     "The page editing form, with its Info side panel opened to the right, with a highlight on page workflow metadata",
+  //   url: `${ORIGIN}/admin/pages/61/edit/`,
+  //   selectors: ["main"],
+  //   clickSelector: '.w-minimap__collapse-all',
+  //   highlightSelector:
+  //     "#side-panel-status-title + div  > .w-py-6 > div:nth-child(2)",
+  //   viewports: [{ label: "1280", width: 1280, height: 800 }],
+  //   postInteractionWait: 1000,
+  // },
   ...guideScenarios,
   // ...releasesScenarios,
   // {
