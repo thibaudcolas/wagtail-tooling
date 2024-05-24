@@ -354,6 +354,37 @@ const guideScenarios = [
   },
   {
     label:
+      'Page editor for "Bread and Circuses" page. The form to the left, and to the right the Status side panel is expanded',
+    url: `${ORIGIN}/admin/pages/68/edit/`,
+    selectors: ["main"],
+    clickSelector: '[data-side-panel-toggle="status"]',
+    delay: 1000,
+  },
+  {
+    label: "Page privacy dialog, with the Public option selected",
+    url: `${ORIGIN}/admin/pages/68/edit/`,
+    selectors: [".wrapper"],
+    clickSelectors: [
+      '[data-side-panel-toggle="status"]',
+      '[data-a11y-dialog-show="set-privacy"]',
+    ],
+    delay: 1000,
+    viewports: [{ label: "800x800", width: 800, height: 800 }],
+  },
+  {
+    label: "Page privacy dialog, with the Shared Password option selected",
+    url: `${ORIGIN}/admin/pages/68/edit/`,
+    selectors: [".wrapper"],
+    clickSelectors: [
+      '[data-side-panel-toggle="status"]',
+      '[data-a11y-dialog-show="set-privacy"]',
+      '[for="id_restriction_type_1"]',
+    ],
+    delay: 1000,
+    viewports: [{ label: "800x800", width: 800, height: 800 }],
+  },
+  {
+    label:
       'Close-up of an empty Image field, showing its "Choose an image" button, and help text underneath',
     url: `${ORIGIN}/admin/pages/add/base/standardpage/60/`,
     selectors: [".tab-content"],
@@ -620,22 +651,6 @@ const guideScenarios = [
     selectors: ["main"],
     viewports: [{ label: "1280", width: 1280, height: 500 }],
   },
-
-  // {
-  //   label: "screen48_comment_thread",
-  //   url: `${ORIGIN}/admin/pages/68/edit/`,
-  //   selectors: [".tab-content"],
-  //   clickSelectors: [
-  //     '[data-side-panel-toggle="comments"]',
-  //     '[data-comment-id="1"]',
-  //   ],
-  //   viewports: [{ label: "1280", width: 1280, height: 500 }],
-  //   highlightSelector: "[data-comment-notifications]",
-  //   removeSelectors: [
-  //     "footer",
-  //     ".w-form-width > .w-panel:not(#panel-child-content-introduction-section)",
-  //   ],
-  // },
   {
     label:
       "Screenshot of a Subtitle form field with a comment button next to it, highlighted in red",
@@ -666,43 +681,111 @@ const guideScenarios = [
       'Page editor for "Breads and Circuses" blog page, with the minimap opened to the right, showing the form sections',
     url: `${ORIGIN}/admin/pages/68/edit/`,
     readySelector: '.w-minimap [aria-current="true"]',
-    hoverSelectors: [".w-minimap__toggle"],
+    clickSelectors: [".w-minimap__toggle"],
   },
-];
-
-const releasesScenarios = [
+  {
+    label: "Wagtail dashboard with the skip link",
+    url: `${ORIGIN}/admin/`,
+    focusSelector: '[data-controller="w-skip-link"]',
+    viewports: [{ label: "1280", width: 1280, height: 500 }],
+  },
   {
     label:
-      'Page editor for "Breads and Circuses" blog page, with the minimap opened to the right, showing the form sections',
+      'Page editor for "Breads and Circuses" blog page, with sections toggle button and anchor links highlighted',
+    url: `${ORIGIN}/admin/pages/68/edit/`,
+    selectors: ["main"],
+    viewports: [{ label: "1280", width: 1280, height: 500 }],
+    focusSelector: "#panel-child-content-subtitle-section .w-panel__anchor",
+    emulateMediaFeatures: [{ name: "hover", value: "none" }],
+    highlightSelector:
+      "#panel-child-content-subtitle-section [data-panel-anchor], #panel-child-content-subtitle-section [data-panel-toggle], .w-minimap__collapse-all",
+  },
+  {
+    label:
+      'Page editor for "Breads and Circuses" blog page, with the collapse/expand all having been clicked',
+    url: `${ORIGIN}/admin/pages/68/edit/`,
+    selectors: ["main"],
+    viewports: [{ label: "1280", width: 1280, height: 500 }],
+    clickSelector: ".w-minimap__collapse-all",
+    highlightSelector: ".w-minimap__collapse-all",
+  },
+  {
+    label: "The Wagtail sidebar, with its minimize control highlighted.",
+    url: `${ORIGIN}/admin/`,
+    selectors: [".sidebar"],
+    viewports: [{ label: "800", width: 800, height: 500 }],
+    highlightSelector: ".sidebar__collapse-toggle",
+  },
+  {
+    label: "The account menu within the sidebar",
+    url: `${ORIGIN}/admin/`,
+    selectors: [".sidebar"],
+    viewports: [{ label: "800", width: 800, height: 500 }],
+    clickSelector: ".sidebar-footer__account",
+    highlightSelector: '[href="/admin/account/"]',
+  },
+  {
+    label:
+      'Page editor for "Breads and Circuses" blog page, with the minimap opened to the right, focused on the toggle',
     url: `${ORIGIN}/admin/pages/68/edit/`,
     readySelector: '.w-minimap [aria-current="true"]',
-    hoverSelectors: [".w-minimap__toggle"],
+    clickSelectors: [".w-minimap-item"],
+    highlightSelector: ".w-minimap__toggle",
+    postInteractionWait: 1000,
+    viewports: [{ label: "1280", width: 1280, height: 500 }],
+  },
+  {
+    label:
+      "The page editing form, with its Info side panel opened to the right, and the Info side panel toggle highlighted",
+    url: `${ORIGIN}/admin/pages/61/edit/`,
+    selectors: ["main"],
+    clickSelector: '[data-side-panel-toggle="status"]',
+    highlightSelector: '[data-side-panel-toggle="status"]',
+    viewports: [{ label: "1280", width: 1280, height: 500 }],
+  },
+  {
+    label: "User profile notification settings",
+    url: `${ORIGIN}/admin/account/#tab-notifications`,
+    selectors: [".wrapper"],
+    viewports: [{ label: "800x800", width: 800, height: 800 }],
+    readySelector: "#id_notifications-submitted_notifications",
+  },
+  {
+    label: "User profile locale and theme settings",
+    url: `${ORIGIN}/admin/account/#locale-section`,
+    selectors: [".wrapper"],
+    viewports: [{ label: "800x800", width: 800, height: 800 }],
+    removeSelectors: [
+      ".w-header .left, .w-header .right",
+      ".w-tabs__wrapper",
+      ".w-panel:not(#locale-section, #theme-section)",
+    ],
+  },
+  {
+    label: "Keyboard shortcuts dialog",
+    url: `${ORIGIN}/admin/`,
+    selectors: [".wrapper"],
+    delay: 3000,
+    postInteractionWait: 5000,
+    clickSelectors: [
+      ".sidebar-main-menu .sidebar-menu-item:nth-child(10) button",
+      '[data-a11y-dialog-show="keyboard-shortcuts-dialog"]',
+    ],
+    viewports: [{ label: "800x800", width: 800, height: 800 }],
   },
 ];
 
 const scenarios = [
-  // ...tutorialScenarios,
+  ...tutorialScenarios,
   // ...extendingAdminViews,
+  // ...guideScenarios,
   // {
-  //   label:
-  //     "The page editing form, with its Info side panel opened to the right, with a highlight on page workflow metadata",
-  //   url: `${ORIGIN}/admin/pages/61/edit/`,
-  //   selectors: ["main"],
-  //   clickSelector: '.w-minimap__collapse-all',
-  //   highlightSelector:
-  //     "#side-panel-status-title + div  > .w-py-6 > div:nth-child(2)",
-  //   viewports: [{ label: "1280", width: 1280, height: 800 }],
-  //   postInteractionWait: 1000,
-  // },
-  ...guideScenarios,
-  // ...releasesScenarios,
-  // {
-  //   label:
-  //     'Page editor for "Breads and Circuses" blog page, with the minimap opened to the right, showing the form sections',
-  //   url: "http://localhost:8001/admin/pages/73/edit/",
-  //   clickSelectors: ["#id_blog_person_relationship-OPEN_MODAL"],
-  //   // readySelector: "#chooser-modal-select-1",
-  //   selectors: [".modal-content"],
+  //   label: "The account menu within the sidebar",
+  //   url: `${ORIGIN}/admin/`,
+  //   selectors: [".sidebar"],
+  //   viewports: [{ label: "800", width: 800, height: 500 }],
+  //   clickSelector: ".sidebar-footer__account",
+  //   highlightInsideSelector: '[href="/admin/account/"]',
   // },
 ];
 
@@ -712,7 +795,7 @@ const FILTER = null;
 const testScenarios = scenarios
   .map((s) => ({
     sessionid: s.unauthenticated ? "invalid" : WAGTAIL_SESSIONID,
-    emulateMediaFeatures: [{ name: "prefers-color-scheme", value: "light" }],
+    emulateMediaFeatures: [{ name: "hover", value: "none" }],
     ...s,
   }))
   .filter((s) => Boolean(s.url))
