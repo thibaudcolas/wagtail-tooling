@@ -53,7 +53,7 @@ module.exports = async (page, scenario, viewport) => {
     await page.evaluate((selector) => {
       const style = document.createElement("style");
       style.innerHTML = `
-          ${selector} {
+          ${selector}, :is(${selector}):is(:hover, :active, :focus, :focus-visible) {
             outline: 5px solid red !important;
             outline-offset: 2px !important;
           }
@@ -66,7 +66,7 @@ module.exports = async (page, scenario, viewport) => {
     await page.evaluate((selector) => {
       const style = document.createElement("style");
       style.innerHTML = `
-          ${selector} {
+          ${selector}, ${selector}:is(:hover, :active, :focus, :focus-visible) {
             outline: 5px solid red !important;
             outline-offset: -5px !important;
           }
