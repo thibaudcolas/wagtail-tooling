@@ -8,9 +8,9 @@
   "author": "Thibaud Colas",
   "license": "MIT",
   "devDependencies": {
-    "backstopjs": "^6.3.3",
+    "backstopjs": "^6.3.25",
     "convert-array-to-csv": "^2.0.0",
-    "dotenv": "^16.4.1"
+    "dotenv": "^16.4.5"
   },
   "scripts": {
     "// Base backstop.js visual regression tests": "",
