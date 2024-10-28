@@ -259,7 +259,7 @@ const guideScenarios = [
   },
   {
     label: "page_history_replace_current_draft",
-    url: `${ORIGIN}/admin/pages/68/revisions/9/revert/`,
+    url: `${ORIGIN}/admin/pages/68/revisions/108/revert/`,
     selectors: ["main"],
     viewports: [{ label: "1280", width: 1280, height: 500 }],
   },
@@ -341,7 +341,7 @@ const guideScenarios = [
     label:
       "Page editor, with Save-Submit menu expanded to reveal all four options",
     url: `${ORIGIN}/admin/pages/76/edit/`,
-    clickSelector: "footer .dropdown-toggle",
+    clickSelector: `footer [data-controller="w-dropdown"]`,
     viewports: [{ label: "1280", width: 1280, height: 500 }],
   },
   {
@@ -513,10 +513,10 @@ const guideScenarios = [
   {
     label:
       'Snippet editing form for a People snippet instance. To the right of the form is a "Usage Used n times" label',
-    url: `${ORIGIN}/admin/snippets/base/people/edit/2/`,
+    url: `${ORIGIN}/admin/snippets/base/person/edit/2/`,
     selectors: ["main"],
     viewports: [{ label: "1280", width: 1280, height: 500 }],
-    highlightSelector: '[href="/admin/snippets/base/people/usage/2/"]',
+    highlightSelector: '[href="/admin/snippets/base/person/usage/2/"]',
     clickSelector: '[data-side-panel-toggle="status"]',
   },
   { label: "collections_add_to_collection", url: "" },
@@ -776,9 +776,9 @@ const guideScenarios = [
 ];
 
 const scenarios = [
-  ...tutorialScenarios,
+  // ...tutorialScenarios,
   // ...extendingAdminViews,
-  // ...guideScenarios,
+  ...guideScenarios,
   // {
   //   label: "The account menu within the sidebar",
   //   url: `${ORIGIN}/admin/`,
