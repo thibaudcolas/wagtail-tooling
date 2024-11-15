@@ -1,5 +1,9 @@
 # UI benchmarks with Lighthouse
 
+Set up for [Wagtail 6.3 Admin UI performance testing & benchmark #12241](https://github.com/wagtail/wagtail/issues/12241).
+
+## How to run
+
 ```bash
 export TEST_ORIGIN=https://static-wagtail-v5-1.netlify.app
 ./node_modules/.bin/lhci collect
@@ -15,3 +19,9 @@ perl -pi -e 's/"name":"https:\/\/static-wagtail-v[0-9]+-[0-9]+\.netlify\.app/"na
 perl -pi -e 's/,"https:\/\/static-wagtail-v[0-9]+-[0-9]+\.netlify\.app/,"https:\/\/wagtail.app/g' *.{json,html}
 perl -pi -e 's/wagtail\.io/wagtail.org/g' *.{json,html}
 ```
+
+## Results
+
+Results are published in [thibaudcolas/wagtail-tooling-artifacts](https://github.com/thibaudcolas/wagtail-tooling-artifacts).
+
+Here is a sample report: [Comparison the Wagtail styleguide page on Wagtail v6.2 and v6.3](https://googlechrome.github.io/lighthouse-ci/difftool/?baseReport=https://thibaudcolas.github.io/wagtail-tooling-artifacts/lighthouse-reports/static_wagtail_v6_2_netlify_app-_admin_styleguide_-2024_11_12_11_17_45.report.json&compareReport=https://thibaudcolas.github.io/wagtail-tooling-artifacts/lighthouse-reports/static_wagtail_v6_3_netlify_app-_admin_styleguide_-2024_11_12_11_27_27.report.json).
