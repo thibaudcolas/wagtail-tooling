@@ -25,3 +25,5 @@ perl -pi -e 's/wagtail\.io/wagtail.org/g' *.{json,html}
 Results are published in [thibaudcolas/wagtail-tooling-artifacts](https://github.com/thibaudcolas/wagtail-tooling-artifacts).
 
 Here is a sample report: [Comparison the Wagtail styleguide page on Wagtail v6.2 and v6.3](https://googlechrome.github.io/lighthouse-ci/difftool/?baseReport=https://thibaudcolas.github.io/wagtail-tooling-artifacts/lighthouse-reports/static_wagtail_v6_2_netlify_app-_admin_styleguide_-2024_11_12_11_17_45.report.json&compareReport=https://thibaudcolas.github.io/wagtail-tooling-artifacts/lighthouse-reports/static_wagtail_v6_3_netlify_app-_admin_styleguide_-2024_11_12_11_27_27.report.json).
+
+See [Wagtail 6.3 performance audit metrics](https://docs.google.com/spreadsheets/d/1oAPZFdAO4wlfp_knreriRrI5WhId6JCFV5hH-Uqj6IA/edit?gid=0#gid=0) for project metrics in particular.
