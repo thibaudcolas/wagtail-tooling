@@ -773,6 +773,36 @@ const guideScenarios = [
     ],
     viewports: [{ label: "800x800", width: 800, height: 800 }],
   },
+  {
+    label: "Locked pages report",
+    url: `${ORIGIN}/admin/reports/locked/`,
+    selectors: [".content"],
+  },
+  {
+    label: "Workflows report",
+    url: `${ORIGIN}/admin/reports/workflow/`,
+    selectors: [".content"],
+  },
+  {
+    label: "Workflow tasks report",
+    url: `${ORIGIN}/admin/reports/workflow_tasks/`,
+    selectors: [".content"],
+  },
+  {
+    label: "Site history report",
+    url: `${ORIGIN}/admin/reports/site-history/`,
+    selectors: [".content"],
+  },
+  {
+    label: "Aging pages report",
+    url: `${ORIGIN}/admin/reports/aging-pages/`,
+    selectors: [".content"],
+  },
+  {
+    label: "Search terms report",
+    url: `${ORIGIN}/admin/searchpicks/reports/search-terms/`,
+    selectors: [".content"],
+  },
 ];
 
 const scenarios = [
