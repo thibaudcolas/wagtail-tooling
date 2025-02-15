@@ -17,7 +17,6 @@ Thumbs.db
 logs
 *.log
 npm-debug.log*
-*.sql
 *.sqlite3
 
 # -------------------------------------------------

@@ -1,6 +1,6 @@
 # Wagtail tooling
 
-> QA tools for Wagtail core development, with a particular focus on UI.
+> Tools for Wagtail core development, with a particular focus on UI.
 
 This project contains a test suite for Wagtail, which generates:
 
