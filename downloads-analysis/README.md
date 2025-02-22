@@ -10,6 +10,9 @@ Produce [Wagtail release statistics](https://docs.google.com/spreadsheets/d/1eZ3
 # Update to use the desired version number, then dry run.
 cat release-candidate-downloads.sql | bq query --use_legacy_sql=false --dry_run 2>&1 | grep -o '[0-9]\+' | awk '{printf "%.2f GB\n", $1/1024/1024/1024}'
 cat release-candidate-downloads.sql | bq query --use_legacy_sql=false --format=csv > release-candidate-downloads.csv
+# Update to use the desired version number, then dry run.
+cat release-candidate-total.sql | bq query --use_legacy_sql=false --dry_run 2>&1 | grep -o '[0-9]\+' | awk '{printf "%.2f GB\n", $1/1024/1024/1024}'
+cat release-candidate-total.sql | bq query --use_legacy_sql=false --format=csv > release-candidate-total.csv
 ```
 
 ## New packages this week
