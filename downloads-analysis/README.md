@@ -22,3 +22,7 @@ Warning: expensive!
 ```bash
 cat new-packages-this-week.sql | bq query --max_rows 500 --use_legacy_sql=false --dry_run 2>&1 | grep -o '[0-9]\+' | awk '{printf "%.2f GB\n", $1/1024/1024/1024}'
 ```
+
+## Installer stats
+
+See [pip poetry uv for Wagtail - installer statistics](https://docs.google.com/spreadsheets/d/14fval60fdh9YJftg3ysPpCcpX44kvTsr0MBbuAFPKQ4/edit?usp=sharing)
