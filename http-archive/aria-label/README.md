@@ -1,6 +1,6 @@
 # aria-label analysis
 
-Looks for problem patterns in aria-label usage within HTML.
+Looks for problem patterns in aria-label usage within HTML. Published post: [aria-label is a letdown](https://wagtail.org/blog/aria-label-is-a-letdown/).
 
 The primary dataset is homepages of Wagtail websites, as determined in the HTTP Archive. However both the methodology and the results are likely to be generally relevant for any technology.
 
