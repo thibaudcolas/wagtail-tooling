@@ -2,6 +2,14 @@
 
 Tools related to analyzing Wagtail downloads. Dataset: [PyPI on BigQuery](https://cloud.google.com/blog/topics/developers-practitioners/analyzing-python-package-downloads-bigquery)
 
+## Release version numbers and dates
+
+```bash
+curl https://packages.ecosyste.ms/api/v1/registries/pypi.org/packages/wagtail/versions\?per_page\=500 > wagtail-versions.json
+# Only keep numbers and dates.
+cat wagtail-versions.json  | jq '.[] | "\(.number): \(.published_at)"' > wagtail-versions.txt
+```
+
 ## Release candidate downloads
 
 Produce [Wagtail release statistics](https://docs.google.com/spreadsheets/d/1eZ3OvpoHza1lSRzznZLh2qdbDE-RuhTmImndqg0Ugwk/edit) to understand usage patterns over time.
