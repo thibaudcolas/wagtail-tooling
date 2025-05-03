@@ -1,26 +1,28 @@
 #standardSQL
-# Lighthouse audit scores for Django projects
-# Note scores, weightings, groups and descriptions may be off in mixed months when new versions of Lighthouse roles out
-
-CREATE TEMPORARY FUNCTION getAudits(report STRING, category STRING)
+-- From https://github.com/HTTPArchive/almanac.httparchive.org/blob/main/sql/2024/accessibility/lighthouse_a11y_audits.sql
+# Get summary of all Lighthouse scores for a category
+CREATE TEMPORARY FUNCTION getAudits(report JSON, category STRING)
 RETURNS ARRAY<STRUCT<id STRING, weight INT64, audit_group STRING, title STRING, description STRING, score INT64>> LANGUAGE js AS '''
-var $ = JSON.parse(report);
-var auditrefs = $.categories[category].auditRefs;
-var audits = $.audits;
-$ = null;
-var results = [];
-for (auditref of auditrefs) {
-  results.push({
-    id: auditref.id,
-    weight: auditref.weight,
-    audit_group: auditref.group,
-    description: audits[auditref.id].description,
-    score: audits[auditref.id].score
-  });
+try {
+  var $ = report;
+  var auditrefs = $.categories[category].auditRefs;
+  var audits = $.audits;
+  $ = null;
+  var results = [];
+  for (auditref of auditrefs) {
+    results.push({
+      id: auditref.id,
+      weight: auditref.weight,
+      audit_group: auditref.group,
+      description: audits[auditref.id].description,
+      score: audits[auditref.id].score
+    });
+  }
+  return results;
+} catch (e) {
+  return [{}];
 }
-return results;
 ''';
-
 SELECT
   audits.id AS id,
   COUNTIF(audits.score > 0) AS num_pages,
@@ -32,11 +34,15 @@ SELECT
   MAX(audits.description) AS description
 FROM
   `wagtail-analysis.wagtail_httparchive.2025_04_01_django_wagtail_reports`,
-  UNNEST(getAudits(report, 'accessibility')) AS audits
+  UNNEST(getAudits(lighthouse, 'accessibility')) AS audits
 WHERE
-  LENGTH(report) < 20000000  # necessary to avoid out of memory issues. Excludes very large results
+  lighthouse IS NOT NULL
+  AND EXISTS (
+    SELECT 1 FROM UNNEST(technologies) AS tech
+    WHERE tech.technology = 'Wagtail'
+  )
 GROUP BY
   audits.id
 ORDER BY
   median_weight DESC,
-  id
+  audits.id;
