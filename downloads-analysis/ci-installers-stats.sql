@@ -1,5 +1,5 @@
 #standardSQL
--- BigQuery – downloads of the Wagtail project by installer
+-- BigQuery – downloads of the Wagtail project by installer, by "likely CI"
 -- Sample & docs: https://github.com/thibaudcolas/wagtail-tooling/tree/main/downloads-analysis
 WITH filtered_downloads AS (
   SELECT
