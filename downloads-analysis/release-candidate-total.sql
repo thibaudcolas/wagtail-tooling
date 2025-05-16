@@ -4,7 +4,7 @@ WITH downloads AS (
   FROM `bigquery-public-data.pypi.file_downloads` as dl
   WHERE dl.project = 'wagtail'
     -- 7.0
-    -- AND dl.timestamp BETWEEN TIMESTAMP('2025-04-24T21:07:38.000Z') AND TIMESTAMP('2025-05-06T23:59:59.000Z')
+    -- AND dl.timestamp BETWEEN TIMESTAMP('2025-04-24T21:07:38.000Z') AND TIMESTAMP('2025-05-06T15:41:29.000Z')
     -- 6.4
     -- AND dl.timestamp BETWEEN TIMESTAMP('2025-01-20T18:49:20.000Z') AND TIMESTAMP('2025-02-03T17:09:01.000Z')
     -- 6.3
