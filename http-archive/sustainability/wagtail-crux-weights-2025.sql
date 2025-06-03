@@ -8,8 +8,12 @@ SELECT
   ROUND(CAST(JSON_VALUE(summary, '$.bytesJS') AS INT64) / 1024, 2) AS js_kbytes,
   ROUND(CAST(JSON_VALUE(summary, '$.bytesCss') AS INT64) / 1024, 2) AS css_kbytes,
   ROUND(CAST(JSON_VALUE(summary, '$.bytesImg') AS INT64) / 1024, 2) AS img_kbytes,
-  ROUND(CAST(JSON_VALUE(summary, '$.bytesOther') AS INT64) / 1024, 2) AS other_kbytes,
-  ROUND(CAST(JSON_VALUE(summary, '$.bytesHtmlDoc') AS INT64) / 1024, 2) AS html_doc_kbytes,
+  ROUND(CAST(JSON_VALUE(summary, '$.bytesGif') AS INT64) / 1024, 2) AS gif_kbytes,
+  ROUND(CAST(JSON_VALUE(summary, '$.bytesPng') AS INT64) / 1024, 2) AS png_kbytes,
+  ROUND(CAST(JSON_VALUE(summary, '$.bytesJpg') AS INT64) / 1024, 2) AS jpg_kbytes,
+  ROUND(CAST(JSON_VALUE(summary, '$.bytesWebp') AS INT64) / 1024, 2) AS webp_kbytes,
+  ROUND(CAST(JSON_VALUE(summary, '$.bytesSvg') AS INT64) / 1024, 2) AS svg_kbytes,
+  ROUND(CAST(JSON_VALUE(summary, '$.bytesVideo') AS INT64) / 1024, 2) AS video_kbytes,
   ROUND(CAST(JSON_VALUE(summary, '$.bytesFont') AS INT64) / 1024, 2) AS font_kbytes
 FROM
   `wagtail_httparchive.2025_04_01_django_wagtail_reports`
