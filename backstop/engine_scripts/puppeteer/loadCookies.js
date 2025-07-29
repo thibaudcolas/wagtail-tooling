@@ -7,7 +7,7 @@ module.exports = async (page, scenario) => {
       path: "/",
       name: "sessionid",
       value: scenario.sessionid,
-      expirationDate: 1798790400,
+      expirationDate: new Date().getTime() / 1000 + 60 * 60 * 24 * 30, // 30 days
       hostOnly: false,
       httpOnly: false,
       secure: false,

@@ -78,7 +78,7 @@ const getAuthCookie = async (browser) => {
     domain: "localhost",
     path: "/",
     value: WAGTAIL_SESSIONID,
-    expirationDate: 1798790400,
+    expirationDate: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30, // 30 days
     hostOnly: false,
     httpOnly: false,
     secure: false,
