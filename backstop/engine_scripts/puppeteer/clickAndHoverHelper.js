@@ -33,7 +33,7 @@ module.exports = async (page, scenario) => {
     for (let i = 0; i < "Hello, ".length; i += 1) {
       await page.keyboard.press("ArrowLeft");
     }
-    await page.waitForTimeout(100);
+    await new Promise((r) => setTimeout(r, 100));
   }
 
   if (hoverSelector) {
@@ -58,7 +58,7 @@ module.exports = async (page, scenario) => {
   }
 
   if (postInteractionWait) {
-    await page.waitForTimeout(postInteractionWait);
+    await new Promise((r) => setTimeout(r, postInteractionWait));
   }
 
   if (scrollToSelector) {

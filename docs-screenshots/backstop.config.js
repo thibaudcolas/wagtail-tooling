@@ -5,7 +5,7 @@ process.setMaxListeners(0);
 
 const WAGTAIL_SESSIONID = process.env.WAGTAIL_SESSIONID;
 
-const ORIGIN = "http://localhost:8000";
+const ORIGIN = "http://localhost:8003";
 
 if (!WAGTAIL_SESSIONID) {
   throw new ReferenceError("WAGTAIL_SESSIONID is not defined.");
@@ -211,10 +211,10 @@ const guideScenarios = [
     url: `${ORIGIN}/admin/pages/69/edit/`,
     selectors: [".tab-content"],
     clickSelectors: [
-      "[data-streamfield-stream-container] > div:nth-child(3) [data-streamblock-menu-open]",
+      "[data-streamfield-stream-container] > div:nth-child(3) .c-sf-add-button",
     ],
     hoverSelectors: [
-      "[data-streamfield-stream-container] > div:nth-child(3) [data-streamblock-menu-open]",
+      "[data-streamfield-stream-container] > div:nth-child(3) .c-sf-add-button",
     ],
     removeSelectors: [
       "footer",
@@ -228,7 +228,6 @@ const guideScenarios = [
       "Close-up of a paragraph block, with block reodering, delete, duplicate controls visible to the right",
     url: `${ORIGIN}/admin/pages/69/edit/`,
     selectors: ["[data-streamfield-stream-container]"],
-    hoverSelectors: [".w-panel__controls-cue"],
     delay: 3000,
   },
   {
@@ -350,7 +349,7 @@ const guideScenarios = [
     url: `${ORIGIN}/admin/pages/68/edit/`,
     selectors: ["main"],
     clickSelector: '[data-side-panel-toggle="preview"]',
-    delay: 1000,
+    postInteractionWait: 2000,
   },
   {
     label:
@@ -499,6 +498,11 @@ const guideScenarios = [
     selectors: ["main"],
   },
   {
+    label: "Images listing, with header and images list",
+    url: `${ORIGIN}/admin/images/?layout=list`,
+    selectors: ["main"],
+  },
+  {
     label:
       "Image editing form for Olivia Ava image. To the right of the form is an image preview, focal point controls, and metadata about the image",
     url: `${ORIGIN}/admin/images/52/`,
@@ -579,6 +583,13 @@ const guideScenarios = [
     viewports: [{ label: "1280", width: 1280, height: 500 }],
   },
   {
+    label: "Generic settings with preview",
+    url: `${ORIGIN}/admin/settings/base/genericsettings/1/`,
+    selectors: ["main"],
+    clickSelector: '[data-side-panel-toggle="preview"]',
+    postInteractionWait: 1000,
+  },
+  {
     label:
       "Popular search terms modal dialog, with close button, search fields, and a table showing multiple terms with their respective Views",
     url: `${ORIGIN}/admin/searchpicks/4/`,
@@ -609,6 +620,19 @@ const guideScenarios = [
       '[data-streamfield-stream-container] > *:not([data-contentpath="2b9b59cb-4dd7-4ebf-ac66-1ed43471609b"])',
       '[aria-label="Minimap"]',
     ],
+    viewports: [{ label: "800x800", width: 800, height: 800 }],
+  },
+  {
+    label: "Collapsible block settings",
+    url: `${ORIGIN}/admin/pages/74/edit/`,
+    selectors: [".tab-content"],
+    removeSelectors: [
+      "footer",
+      ".w-form-width > .w-panel:not(#panel-child-content-body-section)",
+      '[data-streamfield-stream-container] > *:not([data-contentpath="244030ba-e734-4c10-a819-4abac3dfdd21"])',
+      '[aria-label="Minimap"]',
+    ],
+    hoverSelectors: ['[aria-controls="body-1-value-settings-content"]'],
     viewports: [{ label: "800x800", width: 800, height: 800 }],
   },
   {
@@ -686,7 +710,7 @@ const guideScenarios = [
   {
     label: "Wagtail dashboard with the skip link",
     url: `${ORIGIN}/admin/`,
-    focusSelector: '[data-controller="w-skip-link"]',
+    focusSelector: ".skiplink",
     viewports: [{ label: "1280", width: 1280, height: 500 }],
   },
   {

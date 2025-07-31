@@ -41,6 +41,18 @@ module.exports = async (page, scenario, viewport) => {
       .forEach((date) => {
         date.innerHTML = "24&nbsp;minutes ago";
       });
+
+    // Override version number in the dashboard.
+    Array.from(
+      document.querySelectorAll('[href="https://guide.wagtail.org/"]'),
+    ).forEach((link) => {
+      if (link.innerText.includes("editor guide")) {
+        link.innerHTML = link.innerHTML.replace(
+          /Wagtail [^\s]+ editor guide/,
+          "Wagtail editor guide",
+        );
+      }
+    });
   });
 
   // if (scenario.clickSelector) {
