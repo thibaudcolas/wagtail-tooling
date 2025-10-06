@@ -6,6 +6,7 @@ SELECT * FROM `httparchive.crawl.pages` TABLESAMPLE SYSTEM (0.0001 PERCENT) WHER
 
 ## References
 
+- 2025 spreadsheet: [Wagtail sites accessibility GAAD 2025](https://docs.google.com/spreadsheets/d/18tCgJWHodj5a8Pfe_m63E5PvxUwIXQuY30rUbizGtIU/edit)
 - 2024 spreadsheet: [Wagtail sites accessibility GAAD 2024](https://docs.google.com/spreadsheets/d/1hQXCSbvAtmdf7IArBT4RL3cvgldCUx1UPGzABC_g8Dc/edit)
 - 2023 spreadsheet: [Wagtail sites accessibility GAAD 2023](https://docs.google.com/spreadsheets/d/1dLpW6fbcl-AsVQNVhihzi1p-fY5gByZK_EQWt-EtCoM/edit)
 
