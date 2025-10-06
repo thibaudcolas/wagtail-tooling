@@ -37,9 +37,13 @@ See [pip poetry uv for Wagtail - installer statistics](https://docs.google.com/s
 
 ## CI installer stats
 
+⚠️ Experimental - data interpretation is unclear, see [uv overtakes pip in CI (for Wagtail users)](https://wagtail.org/blog/uv-overtakes-pip-in-ci/) for more information.
+
 See [pip poetry uv for Wagtail - installer statistics](https://docs.google.com/spreadsheets/d/14fval60fdh9YJftg3ysPpCcpX44kvTsr0MBbuAFPKQ4/edit?usp=sharing), and on the Python forum: [PyPI downloads statistics and continuous integration](https://discuss.python.org/t/pypi-downloads-statistics-and-continuous-integration/91810).
 
 ### What "CI" means
+
+The "CI" True/null metadata is only available with pip and uv. There is no opportunity to conclusively determine an install isn’t in CI, so any "CI = true" numbers are a likely lower bound.
 
 - It’s based on detect the following environment variables: `BUILD_BUILDID, BUILD_ID, CI, PIP_IS_CI`
 - Implementation in uv: [looks_like_ci in linehaul.rs](https://github.com/astral-sh/uv/blob/0.7.3/crates/uv-client/src/linehaul.rs#L66-L69)
