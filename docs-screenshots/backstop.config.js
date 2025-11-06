@@ -5,7 +5,7 @@ process.setMaxListeners(0);
 
 const WAGTAIL_SESSIONID = process.env.WAGTAIL_SESSIONID;
 
-const ORIGIN = "http://localhost:8003";
+const ORIGIN = "http://localhost:8000";
 
 if (!WAGTAIL_SESSIONID) {
   throw new ReferenceError("WAGTAIL_SESSIONID is not defined.");
@@ -345,6 +345,14 @@ const guideScenarios = [
   },
   {
     label:
+      'Page editor for "Bread and Circuses" page. The form to the left, and to the right the Checks side panel is expanded, showing different metrics about the page',
+    url: `${ORIGIN}/admin/pages/68/edit/`,
+    selectors: ["main"],
+    clickSelector: '[data-side-panel-toggle="checks"]',
+    postInteractionWait: 2000,
+  },
+  {
+    label:
       'Page editor for "Bread and Circuses" page. The form to the left, and to the right the Preview side panel is expanded, showing the page as it would appear to users on Mobile devices',
     url: `${ORIGIN}/admin/pages/68/edit/`,
     selectors: ["main"],
@@ -511,6 +519,18 @@ const guideScenarios = [
   {
     label: "screen33_snippet_menu",
     url: `${ORIGIN}/admin/snippets/`,
+    selectors: ["main"],
+    viewports: [{ label: "1280", width: 1280, height: 500 }],
+  },
+  {
+    label: "Snippets listing for countries",
+    url: `${ORIGIN}/admin/country/`,
+    selectors: ["main"],
+    viewports: [{ label: "1280", width: 1280, height: 500 }],
+  },
+  {
+    label: "Snippets listing for countries with manual reordering support",
+    url: `${ORIGIN}/admin/country/?ordering=sort_order`,
     selectors: ["main"],
     viewports: [{ label: "1280", width: 1280, height: 500 }],
   },
@@ -832,7 +852,27 @@ const guideScenarios = [
 const scenarios = [
   // ...tutorialScenarios,
   // ...extendingAdminViews,
-  ...guideScenarios,
+  // ...guideScenarios,
+  {
+    label:
+      'Page editor for "Bread and Circuses" page. The form to the left, and to the right the Checks side panel is expanded, showing different metrics about the page',
+    url: `${ORIGIN}/admin/pages/68/edit/`,
+    selectors: ["main"],
+    clickSelector: '[data-side-panel-toggle="checks"]',
+    postInteractionWait: 5000,
+  },
+  {
+    label: "Snippets listing for countries",
+    url: `${ORIGIN}/admin/country/`,
+    selectors: ["main"],
+    viewports: [{ label: "1280", width: 1280, height: 500 }],
+  },
+  {
+    label: "Snippets listing for countries with manual reordering support",
+    url: `${ORIGIN}/admin/country/?ordering=sort_order`,
+    selectors: ["main"],
+    viewports: [{ label: "1280", width: 1280, height: 500 }],
+  },
   // {
   //   label: "The account menu within the sidebar",
   //   url: `${ORIGIN}/admin/`,
@@ -848,7 +888,8 @@ const FILTER = null;
 
 const testScenarios = scenarios
   .map((s) => ({
-    sessionid: s.unauthenticated ? "invalid" : WAGTAIL_SESSIONID,
+    // sessionid: s.unauthenticated ? "invalid" : WAGTAIL_SESSIONID,
+    auto_login: s.unauthenticated ? null : "admin",
     emulateMediaFeatures: [{ name: "hover", value: "none" }],
     ...s,
   }))
