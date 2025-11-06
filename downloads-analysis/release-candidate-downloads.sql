@@ -5,8 +5,10 @@ WITH downloads AS (
   FROM `bigquery-public-data.pypi.file_downloads` as dl
   WHERE dl.project = 'wagtail'
     -- Bytes processed target per query: 0.5 - 1GB (latest: 627 MB). Dry-run estimate: 500 GB
+    -- 7.2
+    AND REGEXP_CONTAINS(dl.file.version, r'^(7\.2|7\.1($|\.))') AND dl.timestamp BETWEEN TIMESTAMP('2025-10-23T22:31:32.000Z') AND TIMESTAMP('2025-11-05T12:27:46.000Z')
     -- 7.1
-    AND REGEXP_CONTAINS(dl.file.version, r'^(7\.1|7\.0($|\.))') AND dl.timestamp BETWEEN TIMESTAMP('2025-07-24T14:50:46.000Z') AND TIMESTAMP('2025-08-04T15:25:15.000Z')
+    -- AND REGEXP_CONTAINS(dl.file.version, r'^(7\.1|7\.0($|\.))') AND dl.timestamp BETWEEN TIMESTAMP('2025-07-24T14:50:46.000Z') AND TIMESTAMP('2025-08-04T15:25:15.000Z')
     -- 7.0
     -- AND REGEXP_CONTAINS(dl.file.version, r'^(7\.0|6\.4($|\.))') AND dl.timestamp BETWEEN TIMESTAMP('2025-04-24T21:07:38.000Z') AND TIMESTAMP('2025-05-06T15:41:29.000Z')
     -- 6.4

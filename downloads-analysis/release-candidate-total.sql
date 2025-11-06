@@ -3,6 +3,8 @@ WITH downloads AS (
   SELECT *
   FROM `bigquery-public-data.pypi.file_downloads` as dl
   WHERE dl.project = 'wagtail'
+    -- 7.2
+    -- AND dl.timestamp BETWEEN TIMESTAMP('2025-10-23T22:31:32.000Z') AND TIMESTAMP('2025-11-05T12:27:46.000Z')
     -- 7.1
     -- AND dl.timestamp BETWEEN TIMESTAMP('2025-07-24T14:50:46.000Z') AND TIMESTAMP('2025-08-04T15:25:15.000Z')
     -- 7.0
@@ -43,6 +45,7 @@ WITH downloads AS (
     -- AND dl.timestamp BETWEEN TIMESTAMP('2021-01-18T18:00:30.000Z') AND TIMESTAMP('2021-02-02T16:47:42.000')
 )
 SELECT
+  -- "7.2" as pre_release,
   -- "7.1" as pre_release,
   -- "7.0" as pre_release,
   -- "6.4" as pre_release,
