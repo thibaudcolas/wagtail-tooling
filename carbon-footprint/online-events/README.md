@@ -2,6 +2,8 @@
 
 Based on data from Zoom Events analytics, focusing on information that is likely to be available in other platforms.
 
+[Online conference footprint: Wagtail Space 2025](https://wagtail.org/blog/online-conference-footprint-wagtail-space-2025/)
+
 ## Initial setup
 
 ```sql
