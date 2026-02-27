@@ -852,27 +852,7 @@ const guideScenarios = [
 const scenarios = [
   // ...tutorialScenarios,
   // ...extendingAdminViews,
-  // ...guideScenarios,
-  {
-    label:
-      'Page editor for "Bread and Circuses" page. The form to the left, and to the right the Checks side panel is expanded, showing different metrics about the page',
-    url: `${ORIGIN}/admin/pages/68/edit/`,
-    selectors: ["main"],
-    clickSelector: '[data-side-panel-toggle="checks"]',
-    postInteractionWait: 5000,
-  },
-  {
-    label: "Snippets listing for countries",
-    url: `${ORIGIN}/admin/country/`,
-    selectors: ["main"],
-    viewports: [{ label: "1280", width: 1280, height: 500 }],
-  },
-  {
-    label: "Snippets listing for countries with manual reordering support",
-    url: `${ORIGIN}/admin/country/?ordering=sort_order`,
-    selectors: ["main"],
-    viewports: [{ label: "1280", width: 1280, height: 500 }],
-  },
+  ...guideScenarios,
   // {
   //   label: "The account menu within the sidebar",
   //   url: `${ORIGIN}/admin/`,
