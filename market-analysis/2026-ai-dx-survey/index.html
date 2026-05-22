@@ -31,6 +31,9 @@
     margin: 1.75rem 0 0.1rem;
     font-weight: 600;
   }
+  a {
+    color: var(--brand);
+  }
   p.subtitle {
     color: var(--muted);
     font-size: 0.9rem;
@@ -54,12 +57,6 @@
     font-size: 0.95rem;
     margin: 0.75rem 0 0.25rem;
   }
-  .chart-data-link {
-    font-size: 0.85rem;
-    color: var(--muted);
-    margin: 0;
-  }
-  .chart-data-link a { color: var(--brand); }
 
   /* Section: executive summary at top */
   #exec-summary {
@@ -113,7 +110,7 @@
 <body>
 <a class="skip-link" href="#exec-summary">Skip to summary</a>
 <h1>2026 Wagtail DX with AI — survey results</h1>
-<p class="lede">Visualisations of the 2026 Wagtail DX with AI community survey (48 respondents). Each chart includes a text summary and a link to the underlying CSV. Data processing and analysis by <a href="https://thib.me/">Thibaud Colas</a> assisted by OpenCode w/ Kimi K2.6 (data processing, analysis, copywriting) and Claude Code w/ Opus 4.7 (dataviz, front-end dev, copywriting).</p>
+<p class="lede">Visualisations of the 2026 Wagtail DX with AI community survey (48 respondents). Each chart includes a text summary and a link to the underlying CSV. Data processing and analysis by <a href="https://thib.me/">Thibaud Colas</a> assisted by OpenCode w/ Kimi K2.6 (data processing, analysis, copywriting) and Claude Code w/ Opus 4.7 (dataviz, front-end dev, copywriting). View the <a href="https://github.com/thibaudcolas/wagtail-tooling/tree/main/market-analysis/2026-ai-dx-survey">data analysis and reporting code</a>.</p>
 
 <section id="exec-summary" aria-labelledby="exec-summary-title">
   <h2 id="exec-summary-title">Executive summary</h2>
@@ -333,14 +330,7 @@ function mount(id, question, fig, description, csvName) {
   desc.className = "chart-description";
   desc.textContent = description;
 
-  const dataLink = document.createElement("p");
-  dataLink.className = "chart-data-link";
-  const a = document.createElement("a");
-  a.href = `${OUT}/${csvName}.csv`;
-  a.textContent = `${csvName}.csv`;
-  dataLink.append("Underlying data: ", a);
-
-  el.append(h3, subtitle, fig, desc, dataLink);
+  el.append(h3, subtitle, fig, desc);
 }
 
 async function csv(name) {
