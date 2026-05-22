@@ -2,7 +2,7 @@
 
 Blog post: [Results of the 2026 Wagtail DX with AI survey](https://wagtail.org/blog/2026-ai-dx-survey/). Data analysis of the results of the [AI and Developer Experience: Wagtail community survey](https://wagtail.org/blog/ai-and-developer-experience-wagtail-community-survey/).
 
-See the [survey plan](./survey-plan.md) which also contains the survey questions.
+View the full [AI-generated survey report](https://wagtail-tooling.netlify.app/market-analysis/2026-ai-dx-survey/charts.html). See the [survey plan](./survey-plan.md) which also contains the survey questions.
 
 ## Workflow
 
@@ -67,6 +67,5 @@ After `./generate_markdown.py`, a single Markdown file collates every CSV into a
 
 ## Notes
 
-- `survey-responses.csv` is exported from the survey tool and contains some cells with internal newlines (free-text answers). `load_survey.py` handles this by reading the file with Python’s `csv` module (which respects quoted newlines) and inserting rows directly into DuckDB.
-- The exported CSV does **not** contain a `Your contact details` column, even though it was present in the survey form. `generate_queries.py` prints a warning for any expected column that is missing.
-- Every step is fully automated and deterministic. Start from a clean checkout, run the scripts above in order, and you will recreate the database, all output CSVs, and the Markdown report.
+- `survey-responses.csv` is exported from the survey tool.
+- The exported CSV does not contain free-form answers or contact information.
