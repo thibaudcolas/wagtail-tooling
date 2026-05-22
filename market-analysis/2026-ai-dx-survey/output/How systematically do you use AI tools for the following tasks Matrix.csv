@@ -1,0 +1,61 @@
+subtask,answer,count,percentage
+API design,0 (never),16,35.6
+API design,2,14,31.1
+API design,3 (always),8,17.8
+API design,1,7,15.6
+Accessibility checking,0 (never),22,47.8
+Accessibility checking,1,12,26.1
+Accessibility checking,3 (always),7,15.2
+Accessibility checking,2,5,10.9
+Architecture design,1,16,34.0
+Architecture design,0 (never),12,25.5
+Architecture design,2,10,21.3
+Architecture design,3 (always),9,19.1
+Code generation,3 (always),19,39.6
+Code generation,2,18,37.5
+Code generation,1,6,12.5
+Code generation,0 (never),5,10.4
+Code review,3 (always),14,29.2
+Code review,1,13,27.1
+Code review,0 (never),12,25.0
+Code review,2,9,18.8
+Data modelling,0 (never),14,31.8
+Data modelling,1,12,27.3
+Data modelling,2,9,20.5
+Data modelling,3 (always),9,20.5
+Debugging and troubleshooting,2,19,40.4
+Debugging and troubleshooting,3 (always),16,34.0
+Debugging and troubleshooting,0 (never),7,14.9
+Debugging and troubleshooting,1,5,10.6
+Documentation,3 (always),16,33.3
+Documentation,2,14,29.2
+Documentation,1,12,25.0
+Documentation,0 (never),6,12.5
+Documentation generation,3 (always),16,34.0
+Documentation generation,1,12,25.5
+Documentation generation,2,10,21.3
+Documentation generation,0 (never),9,19.1
+Drafting acceptance criteria,0 (never),15,32.6
+Drafting acceptance criteria,1,13,28.3
+Drafting acceptance criteria,2,10,21.7
+Drafting acceptance criteria,3 (always),8,17.4
+Performance optimisation,1,15,31.9
+Performance optimisation,0 (never),13,27.7
+Performance optimisation,3 (always),10,21.3
+Performance optimisation,2,9,19.1
+Refactoring,3 (always),17,37.0
+Refactoring,2,13,28.3
+Refactoring,1,10,21.7
+Refactoring,0 (never),6,13.0
+Requirements gathering,0 (never),16,35.6
+Requirements gathering,2,11,24.4
+Requirements gathering,3 (always),9,20.0
+Requirements gathering,1,9,20.0
+Security review,0 (never),19,39.6
+Security review,1,12,25.0
+Security review,3 (always),9,18.8
+Security review,2,8,16.7
+Test generation,3 (always),19,39.6
+Test generation,2,13,27.1
+Test generation,1,9,18.8
+Test generation,0 (never),7,14.6

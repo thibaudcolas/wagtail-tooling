@@ -1,0 +1,41 @@
+subtask,answer,count,percentage
+"CMS customizations (hooks, ViewSets, etc)",2,15,33.3
+"CMS customizations (hooks, ViewSets, etc)",0 (never),12,26.7
+"CMS customizations (hooks, ViewSets, etc)",3 (always),10,22.2
+"CMS customizations (hooks, ViewSets, etc)",1,8,17.8
+Content migration scripts,0 (never),14,31.8
+Content migration scripts,3 (always),12,27.3
+Content migration scripts,1,12,27.3
+Content migration scripts,2,6,13.6
+Debugging Wagtail-specific issues,3 (always),17,36.2
+Debugging Wagtail-specific issues,0 (never),12,25.5
+Debugging Wagtail-specific issues,2,11,23.4
+Debugging Wagtail-specific issues,1,7,14.9
+Exploring documentation or source code,0 (never),16,33.3
+Exploring documentation or source code,2,12,25.0
+Exploring documentation or source code,3 (always),12,25.0
+Exploring documentation or source code,1,8,16.7
+Front-end development,1,13,27.7
+Front-end development,2,13,27.7
+Front-end development,3 (always),12,25.5
+Front-end development,0 (never),9,19.1
+Generating StreamField block definitions,0 (never),17,36.2
+Generating StreamField block definitions,3 (always),12,25.5
+Generating StreamField block definitions,2,11,23.4
+Generating StreamField block definitions,1,7,14.9
+Generating page types or other models,3 (always),14,29.8
+Generating page types or other models,2,12,25.5
+Generating page types or other models,0 (never),12,25.5
+Generating page types or other models,1,9,19.1
+Wagtail API integrations,0 (never),16,36.4
+Wagtail API integrations,1,10,22.7
+Wagtail API integrations,3 (always),9,20.5
+Wagtail API integrations,2,9,20.5
+Wagtail/Django upgrades and migrations,0 (never),14,29.8
+Wagtail/Django upgrades and migrations,1,12,25.5
+Wagtail/Django upgrades and migrations,2,11,23.4
+Wagtail/Django upgrades and migrations,3 (always),10,21.3
+Wiring site data to Django templates,0 (never),14,29.8
+Wiring site data to Django templates,3 (always),12,25.5
+Wiring site data to Django templates,2,11,23.4
+Wiring site data to Django templates,1,10,21.3

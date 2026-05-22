@@ -1,0 +1,16 @@
+subtask,total_score,responses,avg_score
+Code generation,99,48,2.06
+Test generation,92,48,1.92
+Debugging and troubleshooting,91,47,1.94
+Documentation,88,48,1.83
+Refactoring,87,46,1.89
+Documentation generation,80,47,1.7
+Code review,73,48,1.52
+Performance optimisation,63,47,1.34
+Architecture design,63,47,1.34
+API design,59,45,1.31
+Requirements gathering,58,45,1.29
+Data modelling,57,44,1.3
+Drafting acceptance criteria,57,46,1.24
+Security review,55,48,1.15
+Accessibility checking,43,46,0.93

@@ -1,0 +1,32 @@
+subtask,answer,count,percentage
+Automated content personalization,1,17,40.5
+Automated content personalization,2,10,23.8
+Automated content personalization,0 (not helpful),9,21.4
+Automated content personalization,3 (very helpful),6,14.3
+Automated translations,3 (very helpful),17,40.5
+Automated translations,2,11,26.2
+Automated translations,1,9,21.4
+Automated translations,0 (not helpful),5,11.9
+Connector with existing AI agents and tools,3 (very helpful),16,37.2
+Connector with existing AI agents and tools,2,11,25.6
+Connector with existing AI agents and tools,0 (not helpful),9,20.9
+Connector with existing AI agents and tools,1,7,16.3
+"Editorial assistance (feedback, rewriting)",1,15,34.9
+"Editorial assistance (feedback, rewriting)",3 (very helpful),12,27.9
+"Editorial assistance (feedback, rewriting)",2,11,25.6
+"Editorial assistance (feedback, rewriting)",0 (not helpful),5,11.6
+First draft writing assistance,1,12,28.6
+First draft writing assistance,0 (not helpful),12,28.6
+First draft writing assistance,2,11,26.2
+First draft writing assistance,3 (very helpful),7,16.7
+Image alt text generation,3 (very helpful),23,56.1
+Image alt text generation,2,9,22.0
+Image alt text generation,1,9,22.0
+Natural language search,3 (very helpful),19,45.2
+Natural language search,2,13,31.0
+Natural language search,1,5,11.9
+Natural language search,0 (not helpful),5,11.9
+Structured data / metadata generation,3 (very helpful),15,36.6
+Structured data / metadata generation,2,15,36.6
+Structured data / metadata generation,1,8,19.5
+Structured data / metadata generation,0 (not helpful),3,7.3

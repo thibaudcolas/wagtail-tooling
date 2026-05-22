@@ -1,0 +1,16 @@
+response_id,answer
+2,"I also use AI for understanding unfamiliar codebases, summarizing large documentation or pull requests, and exploring different implementation approaches before deciding on a solution. It’s helpful for quickly comparing patterns, validating ideas, and speeding up initial exploration when working with new parts of a framework."
+7,"We don't use Wagtail AI, because when we tried it, it was hard to set up and its feature set was very limited (and still is to a degree, compares to more mainstream CMS)"
+8,This survey suggested to me ways I could be using AI in development that I hadn't thought of. Thanks for the tips.
+10,As a force multiplier AI is best used as a junior... don't trust it to go whole hog.  Not feeling the 'vibe' when my job could be on the line.
+15,"My favorite tooling is Codex and I use https://github.com/ChromeDevTools/chrome-devtools-mcp to let Codex access the browser.
+
+I disable Copilot most of the time (more in the way, than a help)
+
+I use ChatGPT for ideation, brainstorming, architecture."
+17,Not as such
+25,implement sometimes snippets of AI in interface
+28,AI is notoriously terrible with Wagtail imo. I have a separate project with a folder that's pure wagtail source code and custom Claude settings/rules to parse through it all just to figure out a solution. It burns A LOT of tokens but it works. 
+36,"I didn't know the upgrades agent skill existed. -- I also ask Claude what is the best practice way to do things, such as content modeling (reuse existing page type vs. creating new one)."
+38,I have just learned recently about llms.txt that Thibaud  presented in djangocon. I will try them and then update my response
+46,I think having something like Laravel Boost MCP would make the difference. Especialy something to search documentation. There is already django-ai-boost but it's missing skills and guidelines with AGENTS.MD + automatic setup with a script.

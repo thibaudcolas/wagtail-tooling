@@ -1,0 +1,13 @@
+subtask,total_score,responses,avg_score
+Official Wagtail rules / prompts / skills for AI assistants,89,44,2.02
+Type hints for Python code,87,45,1.93
+Better docs of Django capabilities on Wagtail projects,86,42,2.05
+Machine-readable API references and code examples,82,43,1.91
+Better docs of Wagtail capabilities,79,41,1.93
+Opinionated starter kits / project templates,69,43,1.6
+Official write API for programmatic content creation,69,41,1.68
+"Official CLI for common tasks (scaffolding, upgrades)",68,42,1.62
+Better inline code docs in Wagtail's source,66,43,1.53
+Better tutorial/cookbook-style content,62,41,1.51
+Official wagtail.org MCP server for docs and QA,61,42,1.45
+Official project-integrated MCP server for automation,56,41,1.37

@@ -1,0 +1,11 @@
+subtask,total_score,responses,avg_score
+Debugging Wagtail-specific issues,80,47,1.7
+Generating page types or other models,75,47,1.6
+Front-end development,75,47,1.6
+"CMS customizations (hooks, ViewSets, etc)",68,45,1.51
+Exploring documentation or source code,68,48,1.42
+Wiring site data to Django templates,68,47,1.45
+Generating StreamField block definitions,65,47,1.38
+Wagtail/Django upgrades and migrations,64,47,1.36
+Content migration scripts,60,44,1.36
+Wagtail API integrations,55,44,1.25

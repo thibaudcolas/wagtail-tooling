@@ -1,0 +1,25 @@
+response_id,answer
+2,"Implementing AI into systems should also focus on maintaining the correctness, consistency and alignment of generated content/code with the changing framework patterns through time; this is particularly relevant for reference projects because most patterns will be inherited by new developers through outdated methodologies if not maintained."
+4,"On ""Please rate which possible improvements you think would be most helpful for AI-assisted development"", outside of MCP stuff, all of the options would be useful for humans first"
+7,"Perhaps more in the way of content generation would be nice. Giving a model tools so that it can autonomously create stream fields, preview it's created page content, etc."
+10,How to preserve intellectual property.
+13,Appreciate you sharing mindful providers (such as scaleway)
+15,"I use AI for translating the po files. 
+---
+The importance the considerations for the team (company) is super low. Basically anythinh goes. The primary concern is to not fall behind. The rest is only a consideration if it is a consideration to our customers.
+---
+I don't like the devaluation of the software developer/engineer job. I'm offended that key people think that productivity must be boosted 3x by AI tooling. But that idea marginalizes the software engineer/development professions. As-if it is only about producing code.
+---
+"
+18,"There are so many things rapidly happening in AI, we can't rapidly support every changes, but there are some things which are gonna stay/sustain mostly, like editor suggestions, translation through llm, anyway of supporting the dev (code completion or etc), these things will stay forever we just have to provide a simple agnostic way to connect whatever model/ai they would prefer to use. So that it would be less of a headache. 
+
+And most AI produces code where are too old, not adaptable to the version that I use in the project, it is an headache, anyway we can let the AI to know what version I use in my project, maybe a way to let is access that code so the quality of the generated code will be good.
+
+finally a guadrail to verify things and switch back (undo) as needed (maybe)."
+20,"Any CMS features should be optional, preferably off by default and/or with a master kill switch setting. I have no intention of enabling any LLM-backed features in our deployment."
+36,As I’m new to Wagtail it’s not always clear to me what the best approach is for some things. It would be nice if this was documented in a way that the AI could pick up (like a skill that fires at the right time?)
+38,I am using wagtail localize so if the wagtail ai integrates with it it will be fine
+41,"Coding agents are susceptible to old examples in blog posts, stack overflow, older versions of the docs etc. and can produce code that uses outdated or deprecated methods and APIs. More code snippets and examples in the docs, or in machine-readable documentation, might help with this."
+42,"it's great that you're keeping it optional, please continue"
+43,I don't use AI so you can ignore the two previous questions for me
+46,Our company made a machine translator that uses AI to work with wagtail-localize. We also are looking for a solution to create knowledgebases with the content of the wagtail pages

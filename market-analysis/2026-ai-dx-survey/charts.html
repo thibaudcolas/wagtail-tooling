@@ -1,0 +1,705 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>2026 Wagtail DX with AI — survey results</title>
+<style>
+  :root {
+    --fg: #1a1a1a;
+    --muted: #555;
+    --bg: #fafafa;
+    --rule: #e5e5e5;
+    --brand: rgb(46, 31, 94);
+  }
+  html, body { background: var(--bg); color: var(--fg); }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    max-width: 920px;
+    margin: 2rem auto;
+    padding: 0 1.25rem;
+    line-height: 1.45;
+  }
+  h1 { font-size: 2rem; margin-bottom: 0.25rem; }
+  h2 {
+    font-size: 1.6rem;
+    margin-top: 3rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--rule);
+  }
+  h3 {
+    font-size: 1.15rem;
+    margin: 1.75rem 0 0.1rem;
+    font-weight: 600;
+  }
+  p.subtitle {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin: 0 0 0.75rem;
+  }
+  p.lede { color: var(--muted); margin-top: 0; }
+  .chart { margin: 0 0 2.5rem; }
+  .chart > figure { margin: 0; }
+  .note { color: var(--muted); font-size: 0.85rem; margin: 0.25rem 0 1rem; }
+  /* Bump Plot's defaults — out of the box Plot renders at ~10px which is
+     too small for printing/screenshots. */
+  .chart:not(.chart--long-labels) svg text { font-size: 15px; }
+  .chart.chart--long-labels svg text { font-size: 12px; }
+  .chart figure > figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 0.3rem; }
+  /* Plot's color legend swatches */
+  .chart figure > div[class*="-swatches"] { font-size: 14px; }
+
+  /* Per-chart text alternative, rendered visibly under the chart so it
+     doubles as a caption for sighted readers and a screen-reader description. */
+  .chart-description {
+    font-size: 0.95rem;
+    margin: 0.75rem 0 0.25rem;
+  }
+  .chart-data-link {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin: 0;
+  }
+  .chart-data-link a { color: var(--brand); }
+
+  /* Section: executive summary at top */
+  #exec-summary {
+    background: white;
+    border: 1px solid var(--rule);
+    border-left: 4px solid var(--brand);
+    padding: 1rem 1.25rem;
+    margin: 1.5rem 0 2rem;
+    border-radius: 4px;
+  }
+  #exec-summary h2 {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+    font-size: 1.4rem;
+  }
+  #exec-summary ul { padding-left: 1.25rem; }
+  #exec-summary li { margin-bottom: 0.4rem; }
+
+  /* Section: methodology at the bottom */
+  #methodology { color: var(--fg); }
+  #methodology h3 { font-size: 1.05rem; margin-top: 1.25rem; }
+  #methodology ul { padding-left: 1.25rem; }
+
+  /* Skip link for keyboard users (visible on focus) */
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    background: var(--brand);
+    color: white;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+  }
+  .skip-link:focus { left: 1rem; top: 1rem; z-index: 1000; }
+
+  /* Visually-hidden helper for screen-reader-only context */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#exec-summary">Skip to summary</a>
+<h1>2026 Wagtail DX with AI — survey results</h1>
+<p class="lede">Visualisations of the 2026 Wagtail DX with AI community survey (48 respondents). Each chart includes a text summary and a link to the underlying CSV. Data processing and analysis by <a href="https://thib.me/">Thibaud Colas</a> assisted by OpenCode w/ Kimi K2.6 (data processing, analysis, copywriting) and Claude Code w/ Opus 4.7 (dataviz, front-end dev, copywriting).</p>
+
+<section id="exec-summary" aria-labelledby="exec-summary-title">
+  <h2 id="exec-summary-title">Executive summary</h2>
+  <p>48 developers responded. Read <a href="https://wagtail.org/blog/2026-ai-dx-survey/">Results of the 2026 Wagtail DX with AI survey</a> for the key findings. Headline signals across the dataset:</p>
+  <ul>
+    <li><a href="#chart-frequency">AI use is mainstream in the community.</a> 52% use AI tools <em>daily</em> or <em>always</em> when working on Wagtail (Daily 31%, Always 21%), 71% at least weekly, and only 10% never.</li>
+    <li><a href="#chart-experience">Most respondents are already past the beginner stage.</a> 85% rate themselves Familiar, Confident, or Advanced with AI-assisted development.</li>
+    <li><a href="#chart-quality">Current Wagtail experience with AI is workable but not great.</a> 77% say tooling works "somewhat well" or "very well" on Wagtail projects; 10% say "poorly", 13% haven't tried.</li>
+    <li><a href="#chart-toolkinds">Most-used tool types:</a> Chat interfaces (69%), agentic coding CLIs (54%), IDE autocomplete (44%), agentic coding in IDE (40%).</li>
+    <li><a href="#systematic-ai-use-across-engineering-tasks">Top engineering tasks where AI is used systematically</a> (avg 0–3): Code generation 2.06, Debugging 1.94, Test generation 1.92, Refactoring 1.89. Lowest: Accessibility checking 0.93.</li>
+    <li><a href="#wagtail-specific-tasks">Top Wagtail-specific tasks:</a> Debugging Wagtail issues 1.70, Generating page types/models 1.60, Front-end development 1.60. Lowest: Wagtail API integrations 1.25.</li>
+    <li><a href="#possible-improvements">Most-wanted Wagtail improvements</a> for AI-assisted dev: Better Django capabilities docs on Wagtail (2.05), Official Wagtail rules/skills (2.02), Type hints (1.93). Lowest: Project-integrated MCP for automation (1.37).</li>
+    <li><a href="#cms-features-for-ai-assisted-editing">Most-wanted CMS-side AI features:</a> Image alt-text generation 2.34, Natural language search 2.10, Structured metadata generation 2.02. Lowest: First-draft writing assistance & content personalisation (1.31 each).</li>
+    <li><a href="#considerations-around-ai-adoption">Top adoption considerations</a> (importance, avg 0–3): Ethics and bias 2.20, Legal liability 2.13, Cost 2.11, IP/licensing 2.00. Environmental impact also rates 1.87.</li>
+    <li><a href="#existing-wagtail-ai-efforts">Existing Wagtail AI efforts have low adoption</a>: llms.txt for docs 21%, Wagtail AI 15%, Upgrades agent skill 13% — likely an awareness gap as much as a fit gap.</li>
+  </ul>
+</section>
+
+<section id="current-usage" aria-labelledby="current-usage-title">
+<h2 id="current-usage-title">Current usage</h2>
+<div id="chart-frequency" class="chart"></div>
+<div id="chart-experience" class="chart"></div>
+<div id="chart-quality" class="chart"></div>
+</section>
+
+<section id="tools-used-on-projects" aria-labelledby="tools-used-on-projects-title">
+<h2 id="tools-used-on-projects-title">Tools used on projects</h2>
+<div id="chart-toolkinds" class="chart"></div>
+</section>
+
+<section id="systematic-ai-use-across-engineering-tasks" aria-labelledby="systematic-ai-use-across-engineering-tasks-title">
+<h2 id="systematic-ai-use-across-engineering-tasks-title">Systematic AI use across engineering tasks</h2>
+<div id="chart-matrix-systematic" class="chart"></div>
+<div id="chart-matrix-systematic-full" class="chart"></div>
+<div id="chart-score-systematic" class="chart"></div>
+</section>
+
+<section id="wagtail-specific-tasks" aria-labelledby="wagtail-specific-tasks-title">
+<h2 id="wagtail-specific-tasks-title">Wagtail-specific tasks</h2>
+<div id="chart-matrix-wagtail" class="chart"></div>
+<div id="chart-matrix-wagtail-clipped" class="chart"></div>
+<div id="chart-matrix-wagtail-full" class="chart"></div>
+<div id="chart-score-wagtail" class="chart"></div>
+</section>
+
+<section id="possible-improvements" aria-labelledby="possible-improvements-title">
+<h2 id="possible-improvements-title">Possible improvements</h2>
+<div id="chart-matrix-improvements" class="chart chart--long-labels"></div>
+<div id="chart-matrix-improvements-full" class="chart chart--long-labels"></div>
+<div id="chart-score-improvements" class="chart chart--long-labels"></div>
+</section>
+
+<section id="cms-features-for-ai-assisted-editing" aria-labelledby="cms-features-for-ai-assisted-editing-title">
+<h2 id="cms-features-for-ai-assisted-editing-title">CMS features for AI-assisted editing</h2>
+<div id="chart-matrix-cms" class="chart"></div>
+<div id="chart-matrix-cms-full" class="chart"></div>
+<div id="chart-score-cms" class="chart"></div>
+</section>
+
+<section id="considerations-around-ai-adoption" aria-labelledby="considerations-around-ai-adoption-title">
+<h2 id="considerations-around-ai-adoption-title">Considerations around AI adoption</h2>
+<div id="chart-matrix-considerations" class="chart"></div>
+<div id="chart-matrix-considerations-clipped" class="chart"></div>
+<div id="chart-matrix-considerations-full" class="chart"></div>
+<div id="chart-score-considerations" class="chart"></div>
+</section>
+
+<section id="existing-wagtail-ai-efforts" aria-labelledby="existing-wagtail-ai-efforts-title">
+<h2 id="existing-wagtail-ai-efforts-title">Existing Wagtail AI efforts</h2>
+<div id="chart-existing" class="chart"></div>
+</section>
+
+<section id="methodology" aria-labelledby="methodology-title">
+  <h2 id="methodology-title">Methodology</h2>
+
+  <h3>Rationale</h3>
+  <p>The survey was run to better understand the Wagtail community's expectations around AI so the project can plan appropriate Developer Experience (DX) improvements. A wide spectrum of attitudes towards AI was expected — enthusiasts, sceptics, and everyone in between — and the survey was designed to capture that variety. Three explicit goals:</p>
+  <ul>
+    <li>Establish current levels of AI adoption among Wagtail developers.</li>
+    <li>Establish awareness of what the project has already done in this space (<a href="https://wagtail.org/wagtail-ai/">Wagtail AI</a>, <a href="https://wagtail.org/blog/llmstxt-preparing-wagtail-docs-for-ai-tools/">llms.txt for Wagtail docs</a>, <a href="https://wagtail.org/blog/an-agent-skill-to-upgrade-your-wagtail-site/">Upgrades agent skill</a>).</li>
+    <li>Float concrete improvements the team is interested in and gauge their helpfulness.</li>
+  </ul>
+  <p>Direction-setting will follow the <a href="https://wagtail.org/blog/ai-in-the-cms-steering-the-ecosystem/">Wagtail AI guiding principles</a>.</p>
+
+  <h3>Sample</h3>
+  <ul>
+    <li><strong>n = 48</strong> respondents. Self-selected via the public announcement; all questions optional.</li>
+    <li>Per-question response counts can be lower than 48 because optional questions or matrix rows could be skipped — percentages on this page are computed against the respondents who answered that specific question, not against the full 48.</li>
+    <li>The <em>Existing Wagtail AI efforts</em> chart uses a hard-coded denominator of 48 in the SQL, so its percentages are out of all respondents rather than out of those who answered the question.</li>
+  </ul>
+
+  <h3>Question structure</h3>
+  <p>The survey had two main sections:</p>
+  <ul>
+    <li><strong>Your current usage</strong> — how often AI is used, self-rated experience, kinds of tools, how well current AI tooling works on Wagtail, systematic use across engineering tasks (matrix), Wagtail-specific tasks (matrix), and use of existing Wagtail AI efforts.</li>
+    <li><strong>Our direction</strong> — importance of AI-adoption considerations (matrix), helpfulness of possible improvements to Wagtail and its ecosystem (matrix), and helpfulness of CMS-side features for editors working with AI (matrix).</li>
+  </ul>
+  <p>Two free-text questions are included in the underlying CSVs but not visualised on this page.</p>
+
+  <h3>Scale</h3>
+  <p>Matrix questions used a <strong>0–3 scale</strong>. The labelling differs per question:</p>
+  <ul>
+    <li>Engineering tasks / Wagtail tasks: <code>0 (never)</code> &hellip; <code>3 (always)</code>.</li>
+    <li>Possible improvements / CMS features: <code>0 (not helpful)</code> &hellip; <code>3 (very helpful)</code>.</li>
+    <li>Adoption considerations: <code>0 (not important)</code> &hellip; <code>3 (very important)</code>.</li>
+  </ul>
+  <p>The original survey plan referenced a 0–4 scale; the deployed form was actually 0–3. All charts here reflect the deployed 0–3 scale.</p>
+
+  <h3>Chart conventions</h3>
+  <ul>
+    <li>Each matrix question is shown three ways: (a) <em>strongest signal</em> — only the extreme ratings 0 and 3, x-axis clipped to ±50%; (b) <em>full distribution clipped</em> — all four ratings, x-axis at ±50% (some bars may extend past the visible area); (c) <em>full distribution autoscaled</em> — all four ratings without clipping. A fourth chart shows the average score per subtask.</li>
+    <li>Single-hue purple ramp from light to dark for the four ratings. This is intentionally a sequential rather than diverging palette — we did not want the visual encoding to suggest "no use is bad, heavy use is good".</li>
+    <li>Subtasks in each matrix and dot plot are ordered by average score, highest first.</li>
+  </ul>
+
+  <h3>Caveats</h3>
+  <ul>
+    <li>n = 48 is small and self-selected. Use the charts as a directional signal, not a statistical estimate.</li>
+    <li>Survey respondents skew towards Wagtail-engaged developers (the survey was distributed through Wagtail community channels), which likely biases adoption levels upwards relative to the broader Wagtail user base.</li>
+    <li>Free-text responses are not summarised on this page; see the corresponding CSVs in <code>output/</code> for the raw answers.</li>
+  </ul>
+
+  <h3>Reproducing this page</h3>
+  <ul>
+    <li>Underlying queries: <a href="queries.sql"><code>queries.sql</code></a> (DuckDB).</li>
+    <li>Data export: <a href="run_queries.py"><code>run_queries.py</code></a> — writes one CSV per query into <code>output/</code>.</li>
+    <li>Tabular results: <a href="output/results.md"><code>output/results.md</code></a>.</li>
+    <li>This page is a static HTML file using <a href="https://observablehq.com/plot/">Observable Plot</a> + <a href="https://d3js.org/">D3</a> from a CDN; serve <code>charts.html</code> over HTTP (e.g. <code>python3 -m http.server</code>) and the CSVs load via <code>fetch</code>.</li>
+  </ul>
+</section>
+
+<script type="module">
+import * as Plot from "https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6/+esm";
+import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+
+const OUT = "output";
+const SUBTITLE = "2026 Wagtail DX with AI survey, 48 responses, wagtail.org/blog/2026-ai-dx-survey";
+const BRAND = "rgb(46, 31, 94)";
+
+// 4:3 aspect ratio. Plot decides internal padding from width/height.
+const W = 800;
+const H = 600;
+// Base font for the SVG. Plot inlines its own 10px default on the SVG root,
+// so we set it via the `style` option on every plot to override it.
+const PLOT_STYLE = { fontSize: "15px" };
+const LABEL_SIZE = 15;
+
+// Sequential single-hue ramp (light → dark) for matrix distributions.
+// Avoids red/green good/bad encoding; communicates "more intense usage" via saturation.
+const RAMP_FULL = {
+  domain: ["0", "1", "2", "3"],
+  range: [
+    "rgb(220, 215, 232)",
+    "rgb(177, 168, 204)",
+    "rgb(108, 95, 145)",
+    "rgb(46, 31, 94)",
+  ],
+};
+const RAMP_EXTREMES = {
+  domain: ["0", "3"],
+  range: ["rgb(177, 168, 204)", "rgb(46, 31, 94)"],
+};
+
+const ORDER = {
+  frequency: ["Always", "Daily", "Weekly", "Occasionally", "Never", "No answer"],
+  // Experience labels are trimmed at " - " — see trimExperience below.
+  experience: ["No experience", "Beginner", "Familiar", "Confident", "Advanced", "No answer"],
+  quality: ["Very well", "Somewhat well", "Poorly", "I haven’t tried", "No answer"],
+};
+
+// "Beginner - starting to explore" → "Beginner". Mutates rows in place.
+function trimExperience(rows) {
+  for (const row of rows) {
+    if (typeof row.answer === "string") {
+      row.answer = row.answer.split(" - ")[0];
+    }
+  }
+  return rows;
+}
+
+// Renders a fully-described chart block: an h3 with the question text, a
+// gray subtitle with the survey-wide citation, the Plot figure (marked
+// aria-hidden because SVG content is not meaningfully readable by screen
+// readers), a prose text alternative, and a link to the underlying CSV.
+//
+// The wrapping element gets role="figure" with aria-labelledby/describedby
+// so assistive tech reads "figure: <question>. <description>" instead of
+// stumbling through bare SVG nodes.
+function mount(id, question, fig, description, csvName) {
+  const el = document.getElementById(id);
+  el.innerHTML = "";
+  el.setAttribute("role", "figure");
+  const titleId = `${id}-title`;
+  const descId = `${id}-desc`;
+  el.setAttribute("aria-labelledby", titleId);
+  el.setAttribute("aria-describedby", descId);
+
+  const h3 = document.createElement("h3");
+  h3.id = titleId;
+  h3.textContent = question;
+
+  const subtitle = document.createElement("p");
+  subtitle.className = "subtitle";
+  subtitle.textContent = SUBTITLE;
+
+  // Mark every SVG produced by Plot as aria-hidden — the description
+  // paragraph below carries the same information in prose. Without this,
+  // screen readers narrate every <text>/<rect> inside the chart, which is
+  // both verbose and not useful.
+  for (const svg of fig.tagName === "svg" ? [fig] : fig.querySelectorAll("svg")) {
+    svg.setAttribute("aria-hidden", "true");
+    svg.setAttribute("focusable", "false");
+  }
+
+  const desc = document.createElement("p");
+  desc.id = descId;
+  desc.className = "chart-description";
+  desc.textContent = description;
+
+  const dataLink = document.createElement("p");
+  dataLink.className = "chart-data-link";
+  const a = document.createElement("a");
+  a.href = `${OUT}/${csvName}.csv`;
+  a.textContent = `${csvName}.csv`;
+  dataLink.append("Underlying data: ", a);
+
+  el.append(h3, subtitle, fig, desc, dataLink);
+}
+
+async function csv(name) {
+  return d3.csv(`${OUT}/${name}.csv`, d3.autoType);
+}
+
+// Strip "(never) / (always) / (not helpful) / (very important) / ..." suffixes.
+// Matrix CSVs use varying parenthetical hints per question; we want a uniform
+// "0 / 1 / 2 / 3" key for color and ordering.
+function scoreKey(answer) {
+  const m = String(answer).match(/^\s*(\d)/);
+  return m ? m[1] : null;
+}
+
+// Each describe* helper generates a prose summary that screen readers (and
+// sighted skim-readers) can use in place of the chart. Pattern: shape +
+// notable highs + notable lows. Quoted strings let SR users follow option
+// labels without needing to parse a chart legend.
+
+function describeSingleSelect(data, order) {
+  const ordered = order
+    .map((l) => data.find((d) => d.answer === l))
+    .filter(Boolean);
+  const byCount = [...ordered].sort((a, b) => b.count - a.count);
+  if (!byCount.length) return "No data.";
+  const total = byCount.reduce((s, d) => s + d.count, 0);
+  const top = byCount[0];
+  const second = byCount[1];
+  const third = byCount[2];
+  let s = `${total} respondents. Most common answer: "${top.answer}" at ${top.percentage}% (${top.count}).`;
+  if (second) s += ` Then "${second.answer}" at ${second.percentage}%`;
+  if (third) s += `, "${third.answer}" at ${third.percentage}%`;
+  s += second ? "." : "";
+  return s;
+}
+
+function describeMultiSelect(data) {
+  const sorted = [...data].sort((a, b) => b.count - a.count);
+  if (!sorted.length) return "No data.";
+  const top = sorted.slice(0, 3);
+  const bottom = sorted[sorted.length - 1];
+  let s = `${sorted.length} distinct options picked. Top: ${top.map((d) => `"${d.answer}" (${d.percentage}%, ${d.count} respondents)`).join(", ")}.`;
+  if (bottom && bottom !== top[0]) {
+    s += ` Least picked: "${bottom.answer}" (${bottom.percentage}%).`;
+  }
+  return s;
+}
+
+function describeMatrixDist(rows, scoreRows, { onlyExtremes, clampTo }) {
+  const sortedByAvg = [...scoreRows].sort((a, b) => b.avg_score - a.avg_score);
+  if (!sortedByAvg.length) return "No data.";
+  const top = sortedByAvg[0];
+  const bottom = sortedByAvg[sortedByAvg.length - 1];
+  const topThree = rows.find((r) => r.subtask === top.subtask && scoreKey(r.answer) === "3");
+  const bottomZero = rows.find((r) => r.subtask === bottom.subtask && scoreKey(r.answer) === "0");
+  const variant = onlyExtremes
+    ? "showing only the extreme ratings (0 and 3)"
+    : clampTo
+      ? "showing the full 0–3 distribution clipped to ±50%"
+      : "showing the full 0–3 distribution at autoscale";
+  let s = `Diverging stacked bar ${variant}, with ${sortedByAvg.length} subtasks ordered by average score (highest first).`;
+  s += ` Highest average: "${top.subtask}" at ${top.avg_score.toFixed(2)} of 3`;
+  if (topThree) s += ` (${topThree.percentage}% rated it 3)`;
+  s += `. Lowest: "${bottom.subtask}" at ${bottom.avg_score.toFixed(2)}`;
+  if (bottomZero) s += ` (${bottomZero.percentage}% rated it 0)`;
+  s += ".";
+  return s;
+}
+
+function describeScore(scoreRows) {
+  const sorted = [...scoreRows].sort((a, b) => b.avg_score - a.avg_score);
+  if (!sorted.length) return "No data.";
+  const top = sorted[0];
+  const second = sorted[1];
+  const bottom = sorted[sorted.length - 1];
+  let s = `Average score (0–3) per subtask, ordered highest to lowest across ${sorted.length} subtasks.`;
+  s += ` Top: "${top.subtask}" at ${top.avg_score.toFixed(2)}`;
+  if (second) s += `, then "${second.subtask}" at ${second.avg_score.toFixed(2)}`;
+  s += `. Bottom: "${bottom.subtask}" at ${bottom.avg_score.toFixed(2)}.`;
+  return s;
+}
+
+function singleSelectBar(data, order) {
+  const ordered = order
+    .map((label) => data.find((d) => d.answer === label))
+    .filter(Boolean);
+  return Plot.plot({
+    style: PLOT_STYLE,
+    width: W,
+    height: H,
+    marginLeft: 280,
+    marginRight: 80,
+    marginBottom: 70,
+    x: {
+      label: "% of respondents",
+      domain: [0, 100],
+      grid: true,
+      labelOffset: 48,
+      tickFormat: (d) => `${d}%`,
+    },
+    y: { label: null, domain: order.filter((l) => ordered.find((d) => d.answer === l)) },
+    marks: [
+      Plot.barX(ordered, { y: "answer", x: "percentage", fill: BRAND }),
+      Plot.text(ordered, {
+        y: "answer",
+        x: "percentage",
+        text: (d) => `${d.percentage}%`,
+        dx: 8,
+        textAnchor: "start",
+        fontSize: LABEL_SIZE,
+        fill: "currentColor",
+      }),
+      Plot.ruleX([0]),
+    ],
+  });
+}
+
+function multiSelectBar(data, note) {
+  const sorted = [...data].sort((a, b) => b.count - a.count);
+  return Plot.plot({
+    caption: note,
+    style: PLOT_STYLE,
+    width: W,
+    height: H,
+    marginLeft: 320,
+    marginRight: 80,
+    marginBottom: 70,
+    x: {
+      label: "% of respondents (multi-select)",
+      domain: [0, 100],
+      grid: true,
+      labelOffset: 48,
+      tickFormat: (d) => `${d}%`,
+    },
+    y: { label: null, domain: sorted.map((d) => d.answer) },
+    marks: [
+      Plot.barX(sorted, { y: "answer", x: "percentage", fill: BRAND }),
+      Plot.text(sorted, {
+        y: "answer",
+        x: "percentage",
+        text: (d) => `${d.percentage}%`,
+        dx: 8,
+        textAnchor: "start",
+        fontSize: LABEL_SIZE,
+        fill: "currentColor",
+      }),
+      Plot.ruleX([0]),
+    ],
+  });
+}
+
+// Diverging stacked bar.
+//   onlyExtremes=true → 0 (left) + 3 (right) only
+//   onlyExtremes=false → full distribution 0/1/2/3
+//   clampTo=50 → x ∈ [-50, 50]; clampTo=null → autoscaled
+function divergingMatrix(rows, scoreRows, { onlyExtremes, clampTo }) {
+  const orderBySubtask = new Map(
+    [...scoreRows]
+      .sort((a, b) => b.avg_score - a.avg_score)
+      .map((d, i) => [d.subtask, i])
+  );
+
+  const tagged = rows
+    .filter((d) => orderBySubtask.has(d.subtask))
+    .map((d) => ({ ...d, score: scoreKey(d.answer) }))
+    .filter((d) => d.score !== null);
+
+  const filtered = onlyExtremes
+    ? tagged.filter((d) => d.score === "0" || d.score === "3")
+    : tagged;
+
+  // Negatives go left, positives go right. "0" and "1" are negative.
+  const signed = filtered.map((d) => ({
+    ...d,
+    signed: (d.score === "0" || d.score === "1") ? -d.percentage : d.percentage,
+  }));
+
+  const subtasks = [...orderBySubtask.keys()];
+  const ramp = onlyExtremes ? RAMP_EXTREMES : RAMP_FULL;
+  // Stack order is read by Plot from baseline outward (left for negative
+  // values, right for positive). To get 0 outermost-left, 1 next, 2 next,
+  // 3 outermost-right, the more-extreme rating on each side must sit
+  // further from zero — so for the negative side "1" is closer to baseline
+  // than "0", and for the positive side "2" is closer to baseline than "3".
+  const stackOrder = onlyExtremes ? ramp.domain : ["1", "0", "2", "3"];
+
+  return Plot.plot({
+    style: PLOT_STYLE,
+    width: W,
+    height: H,
+    marginLeft: 320,
+    marginRight: 50,
+    marginBottom: 70,
+    x: {
+      label: onlyExtremes
+        ? "← rated 0   |   rated 3 →"
+        : "← rated 0/1   |   rated 2/3 →",
+      domain: clampTo ? [-clampTo, clampTo] : undefined,
+      tickFormat: (d) => `${Math.abs(d)}%`,
+      labelOffset: 48,
+      grid: true,
+    },
+    y: { domain: subtasks, label: null },
+    color: { ...ramp, legend: true, label: "Rating" },
+    marks: [
+      Plot.barX(signed, {
+        y: "subtask",
+        x: "signed",
+        fill: "score",
+        order: stackOrder,
+        sort: { color: null },
+      }),
+      Plot.ruleX([0], { stroke: "#333" }),
+    ],
+  });
+}
+
+function scoreDotPlot(scoreRows) {
+  const sorted = [...scoreRows].sort((a, b) => b.avg_score - a.avg_score);
+  return Plot.plot({
+    style: PLOT_STYLE,
+    width: W,
+    height: H,
+    marginLeft: 320,
+    marginRight: 80,
+    marginBottom: 70,
+    x: { label: "Average score (0–3)", domain: [0, 3], grid: true, labelOffset: 48 },
+    y: { domain: sorted.map((d) => d.subtask), label: null },
+    marks: [
+      Plot.ruleY(sorted, { y: "subtask", x1: 0, x2: "avg_score", stroke: "#cdd" }),
+      Plot.dot(sorted, {
+        y: "subtask",
+        x: "avg_score",
+        r: 7,
+        fill: BRAND,
+        stroke: "white",
+      }),
+      Plot.text(sorted, {
+        y: "subtask",
+        x: "avg_score",
+        text: (d) => d.avg_score.toFixed(2),
+        dx: 14,
+        textAnchor: "start",
+        fontSize: LABEL_SIZE,
+        fill: "var(--muted)",
+      }),
+    ],
+  });
+}
+
+const FILES = {
+  frequency: "How often do you use AI tools when working on Wagtail projects Single select",
+  experience: "How would you describe your level of experience with AI-assisted development Single select",
+  quality: "How well does current AI tooling work on Wagtail projects Single select",
+  toolkinds: "What kinds of AI tools do you use on projects Multi select",
+  existing: "Do you use some of our existing efforts with AI in Wagtail Multi select",
+  mSystematic: "How systematically do you use AI tools for the following tasks Matrix",
+  sSystematic: "Score How systematically do you use AI tools for the following tasks Matrix",
+  mWagtail: "For which Wagtail-related tasks do you regularly use AI assistance Matrix",
+  sWagtail: "Score For which Wagtail-related tasks do you regularly use AI assistance Matrix",
+  mImprovements: "Please rate which possible improvements you think would be most helpful for AI-assisted development Matrix",
+  sImprovements: "Score Please rate which possible improvements you think would be most helpful for AI-assisted development Matrix",
+  mCms: "Please rate which content management features you think would be most helpful for CMS users working with AI Matrix",
+  sCms: "Score Please rate which content management features you think would be most helpful for CMS users working with AI Matrix",
+  mConsiderations: "Please rate the importance of the following considerations for your team around AI adoption Matrix",
+  sConsiderations: "Score Please rate the importance of the following considerations for your team around AI adoption Matrix",
+};
+
+const [
+  frequency, experience, quality,
+  toolkinds, existing,
+  mSystematic, sSystematic,
+  mWagtail, sWagtail,
+  mImprovements, sImprovements,
+  mCms, sCms,
+  mConsiderations, sConsiderations,
+] = await Promise.all(Object.values(FILES).map(csv));
+
+trimExperience(experience);
+
+const Q = {
+  frequency: "How often do you use AI tools when working on Wagtail projects?",
+  experience: "How would you describe your level of experience with AI-assisted development?",
+  quality: "How well does current AI tooling work on Wagtail projects?",
+  toolkinds: "What kinds of AI tools do you use on projects?",
+  existing: "Do you use some of our existing efforts with AI in Wagtail?",
+  systematic: "How systematically do you use AI tools for the following tasks?",
+  wagtail: "For which Wagtail-related tasks do you regularly use AI assistance?",
+  improvements: "Please rate which possible improvements you think would be most helpful for AI-assisted development",
+  cms: "Please rate which content management features you think would be most helpful for CMS users working with AI",
+  considerations: "Please rate the importance of the following considerations for your team around AI adoption",
+};
+
+mount(
+  "chart-frequency", Q.frequency,
+  singleSelectBar(frequency, ORDER.frequency),
+  describeSingleSelect(frequency, ORDER.frequency),
+  FILES.frequency,
+);
+mount(
+  "chart-experience", Q.experience,
+  singleSelectBar(experience, ORDER.experience),
+  describeSingleSelect(experience, ORDER.experience),
+  FILES.experience,
+);
+mount(
+  "chart-quality", Q.quality,
+  singleSelectBar(quality, ORDER.quality),
+  describeSingleSelect(quality, ORDER.quality),
+  FILES.quality,
+);
+
+mount(
+  "chart-toolkinds", Q.toolkinds,
+  multiSelectBar(toolkinds, "Bars are % of respondents who picked each option (totals exceed 100% — multi-select)"),
+  describeMultiSelect(toolkinds),
+  FILES.toolkinds,
+);
+
+function mountMatrix(prefix, rows, scoreRows, question, matrixCsv, scoreCsv, { skipClipped = false } = {}) {
+  const opts = [
+    { suffix: " — strongest signal (extremes only, ±50%)", id: `chart-matrix-${prefix}`, view: { onlyExtremes: true, clampTo: 50 } },
+    { suffix: "", id: `chart-matrix-${prefix}-full`, view: { onlyExtremes: false, clampTo: null } },
+  ];
+  for (const { suffix, id, view } of opts) {
+    mount(
+      id, `${question}${suffix}`,
+      divergingMatrix(rows, scoreRows, view),
+      describeMatrixDist(rows, scoreRows, view),
+      matrixCsv,
+    );
+  }
+  mount(
+    `chart-score-${prefix}`, `${question} — average score`,
+    scoreDotPlot(scoreRows),
+    describeScore(scoreRows),
+    scoreCsv,
+  );
+}
+
+// "None of these" is an opt-out option, not a real "consideration" — its
+// avg score (~0.19) sits an order of magnitude below the others and pulls
+// the visual scale of the chart. Drop it from every considerations view.
+const NONE_OF_THESE = "None of these";
+const mConsiderationsClean = mConsiderations.filter((r) => r.subtask !== NONE_OF_THESE);
+const sConsiderationsClean = sConsiderations.filter((r) => r.subtask !== NONE_OF_THESE);
+
+mountMatrix("systematic", mSystematic, sSystematic, Q.systematic, FILES.mSystematic, FILES.sSystematic, { skipClipped: true });
+mountMatrix("wagtail", mWagtail, sWagtail, Q.wagtail, FILES.mWagtail, FILES.sWagtail);
+mountMatrix("improvements", mImprovements, sImprovements, Q.improvements, FILES.mImprovements, FILES.sImprovements, { skipClipped: true });
+mountMatrix("cms", mCms, sCms, Q.cms, FILES.mCms, FILES.sCms, { skipClipped: true });
+mountMatrix("considerations", mConsiderationsClean, sConsiderationsClean, Q.considerations, FILES.mConsiderations, FILES.sConsiderations);
+
+mount(
+  "chart-existing", Q.existing,
+  multiSelectBar(existing, "Multi-select; denominator hard-coded to 48 in the SQL"),
+  describeMultiSelect(existing),
+  FILES.existing,
+);
+</script>
+</body>
+</html>

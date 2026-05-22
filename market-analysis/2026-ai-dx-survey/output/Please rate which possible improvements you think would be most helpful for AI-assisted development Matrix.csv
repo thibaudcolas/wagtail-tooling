@@ -1,0 +1,49 @@
+subtask,answer,count,percentage
+Better docs of Django capabilities on Wagtail projects,3 (very helpful),18,42.9
+Better docs of Django capabilities on Wagtail projects,2,12,28.6
+Better docs of Django capabilities on Wagtail projects,1,8,19.0
+Better docs of Django capabilities on Wagtail projects,0 (not helpful),4,9.5
+Better docs of Wagtail capabilities,3 (very helpful),15,36.6
+Better docs of Wagtail capabilities,2,12,29.3
+Better docs of Wagtail capabilities,1,10,24.4
+Better docs of Wagtail capabilities,0 (not helpful),4,9.8
+Better inline code docs in Wagtail's source,1,15,34.9
+Better inline code docs in Wagtail's source,2,12,27.9
+Better inline code docs in Wagtail's source,3 (very helpful),9,20.9
+Better inline code docs in Wagtail's source,0 (not helpful),7,16.3
+Better tutorial/cookbook-style content,1,14,34.1
+Better tutorial/cookbook-style content,2,12,29.3
+Better tutorial/cookbook-style content,3 (very helpful),8,19.5
+Better tutorial/cookbook-style content,0 (not helpful),7,17.1
+Machine-readable API references and code examples,3 (very helpful),17,39.5
+Machine-readable API references and code examples,2,11,25.6
+Machine-readable API references and code examples,1,9,20.9
+Machine-readable API references and code examples,0 (not helpful),6,14.0
+"Official CLI for common tasks (scaffolding, upgrades)",2,12,28.6
+"Official CLI for common tasks (scaffolding, upgrades)",1,11,26.2
+"Official CLI for common tasks (scaffolding, upgrades)",3 (very helpful),11,26.2
+"Official CLI for common tasks (scaffolding, upgrades)",0 (not helpful),8,19.0
+Official Wagtail rules / prompts / skills for AI assistants,3 (very helpful),20,45.5
+Official Wagtail rules / prompts / skills for AI assistants,2,11,25.0
+Official Wagtail rules / prompts / skills for AI assistants,1,7,15.9
+Official Wagtail rules / prompts / skills for AI assistants,0 (not helpful),6,13.6
+Official project-integrated MCP server for automation,0 (not helpful),12,29.3
+Official project-integrated MCP server for automation,1,12,29.3
+Official project-integrated MCP server for automation,3 (very helpful),10,24.4
+Official project-integrated MCP server for automation,2,7,17.1
+Official wagtail.org MCP server for docs and QA,0 (not helpful),12,28.6
+Official wagtail.org MCP server for docs and QA,3 (very helpful),12,28.6
+Official wagtail.org MCP server for docs and QA,1,11,26.2
+Official wagtail.org MCP server for docs and QA,2,7,16.7
+Official write API for programmatic content creation,3 (very helpful),15,36.6
+Official write API for programmatic content creation,0 (not helpful),10,24.4
+Official write API for programmatic content creation,1,8,19.5
+Official write API for programmatic content creation,2,8,19.5
+Opinionated starter kits / project templates,1,12,27.9
+Opinionated starter kits / project templates,2,12,27.9
+Opinionated starter kits / project templates,3 (very helpful),11,25.6
+Opinionated starter kits / project templates,0 (not helpful),8,18.6
+Type hints for Python code,3 (very helpful),18,40.0
+Type hints for Python code,1,15,33.3
+Type hints for Python code,2,9,20.0
+Type hints for Python code,0 (not helpful),3,6.7
